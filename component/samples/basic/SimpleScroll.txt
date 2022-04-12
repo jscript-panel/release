@@ -1,0 +1,38 @@
+// ==PREPROCESSOR==
+// @name "SimpleScroll"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+var layout = utils.CreateTextLayout(text, 'Segoe UI', 24);
+var offset = 0;
+var text_height = 0;
+
+var box = {
+	x : 50,
+	y : 50,
+	w : 0,
+	h : 0,
+}
+
+function on_paint(gr) {
+	gr.DrawRectangle(box.x, box.y, box.w, box.h, 1, RGB(255, 0, 0));
+	gr.WriteTextLayout(layout, RGB(0, 0, 0), box.x, box.y, box.w, box.h, offset);
+}
+
+function on_mouse_wheel(step) {
+	if (text_height < box.h) return;
+	offset += step * 60;
+	if (offset > 0) offset = 0;
+	else if (offset < box.h - text_height) offset = box.h - text_height;
+	window.Repaint();
+}
+
+function on_size() {
+	box.w = window.Width / 2;
+	box.h = window.Height / 2;
+	text_height = layout.CalcTextHeight(box.w);
+	if (text_height < box.h) offset = 0;
+	else if (offset < box.h - text_height) offset = box.h - text_height;
+}

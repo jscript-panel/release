@@ -1,0 +1,25 @@
+// ==PREPROCESSOR==
+// @name "JS Smooth Browser"
+// @version "2022-mod"
+// @author "Br3tt aka Falstaff"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\smooth\common.js"
+// @import "%fb2k_component_path%samples\smooth\filterbox.js"
+// @import "%fb2k_component_path%samples\smooth\inputbox.js"
+// @import "%fb2k_component_path%samples\smooth\scrollbar.js"
+// @import "%fb2k_component_path%samples\smooth\jssb.js"
+// ==/PREPROCESSOR==
+
+/*
+[Features]
+ * 3 column modes available: albums, artists, album artists.
+ * 4 display modes avaliable: column, column + album art, grid mode + bottom labels, grid mode + overlayed text.
+ * Filter box with full Media Library query support.
+ * Smooth scrolling.
+ * ... and more!
+
+[Tips]
+ * Change colours and fonts in foobar2000 Preferences > DefaultUI or ColumsUI or choose custom colours from the right click menu.
+ * CTRL + T to toggle the info bar
+ * CTRL + mouse wheel to zoom
+*/

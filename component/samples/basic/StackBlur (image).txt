@@ -1,0 +1,34 @@
+// ==PREPROCESSOR==
+// @name "StackBlur (image)"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var img = utils.LoadImage(fb.ComponentPath + 'samples\\images\\1.webp');
+var blur_img = null;
+var radius = 20;
+
+StackBlur(radius);
+
+function StackBlur(radius) {
+	if (blur_img) blur_img.Dispose();
+	blur_img = img.Clone();
+	blur_img.StackBlur(radius);
+}
+
+function on_paint(gr) {
+	gr.DrawImage(img, 0, 0, 550, 368, 0, 0, 550, 368);
+	gr.DrawImage(blur_img, 0, 368, 550, 368, 0, 0, 550, 368);
+	gr.FillRectangle(0, 0, window.Width, 24, RGB(0, 0, 0));
+	gr.WriteText('Scroll mouse to change radius: ' + radius, '', RGB(255, 255, 255), 0, 0, window.Width, 24, 2, 0);
+}
+
+function on_mouse_wheel(step) {
+	radius += step * 5;
+	if (radius < 2)
+		radius = 2;
+	if (radius > 254)
+		radius = 254;
+	StackBlur(radius);
+	window.Repaint();
+}

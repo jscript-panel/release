@@ -1,0 +1,90 @@
+// ==PREPROCESSOR==
+// @name "MainMenuManager"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var img = utils.LoadImage(fb.ComponentPath + 'samples\\images\\cog.png');
+
+function on_focus(is_focused) {
+	if (is_focused) {
+		// Ensure Edit menu commands are made available
+		plman.SetActivePlaylistContext();
+	}
+}
+
+function on_paint(gr) {
+	gr.DrawImage(img, 0, 0, img.Width, img.Height, 0, 0, img.Width, img.Height);
+}
+
+function on_mouse_lbtn_up(x, y) {
+	if (x > 0 && x < img.Width && y > 0 && y < img.Height) {
+		menu();
+	}
+}
+
+function dispose() {
+	for (var i = 0; i < arguments.length; i++) {
+		arguments[i].Dispose();
+	}
+}
+
+function menu(x, y, flags) {
+	var menu = window.CreatePopupMenu();
+	var popup_context = window.CreatePopupMenu();
+	var context = fb.CreateContextMenuManager();
+
+	var file = new main_menu_helper('File', 1000, menu);
+	var edit = new main_menu_helper('Edit', 2000, menu);
+	var view = new main_menu_helper('View', 3000, menu);
+	var playback = new main_menu_helper('Playback', 4000, menu);
+	var library = new main_menu_helper('Library', 5000, menu);
+	var help = new main_menu_helper('Help', 6000, menu);
+
+	if (fb.IsPlaying) {
+		menu.AppendMenuSeparator();
+		context.InitNowPlaying();
+		context.BuildMenu(popup_context, 7000);
+		popup_context.AppendTo(menu, MF_STRING, 'Now Playing');
+	}
+
+	var idx = menu.TrackPopupMenu(x, y, flags);
+	switch (true) {
+	case idx == 0:
+		break;
+	case idx < 2000:
+		file.mm.ExecuteByID(idx - 1000);
+		break;
+	case idx < 3000:
+		edit.mm.ExecuteByID(idx - 2000);
+		break;
+	case idx < 4000:
+		view.mm.ExecuteByID(idx - 3000);
+		break;
+	case idx < 5000:
+		playback.mm.ExecuteByID(idx - 4000);
+		break;
+	case idx < 6000:
+		library.mm.ExecuteByID(idx - 5000);
+		break;
+	case idx < 7000:
+		help.mm.ExecuteByID(idx - 6000);
+		break;
+	case idx < 8000:
+		context.ExecuteByID(idx - 7000);
+		break;
+	}
+	dispose(menu, file, edit, view, playback, library, help, popup_context, context);
+}
+
+function main_menu_helper(name, base_id, main_menu) {
+	this.Dispose = function () {
+		this.mm.Dispose();
+		this.popup.Dispose();
+	}
+
+	this.popup = window.CreatePopupMenu();
+	this.mm = fb.CreateMainMenuManager(name);
+	this.mm.BuildMenu(this.popup, base_id);
+	this.popup.AppendTo(main_menu, MF_STRING, name);
+}

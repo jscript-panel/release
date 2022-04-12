@@ -1,0 +1,47 @@
+// ==PREPROCESSOR==
+// @name "Menu Button"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\js\lodash.min.js"
+// @import "%fb2k_component_path%samples\js\common.js"
+// @import "%fb2k_component_path%samples\js\panel.js"
+// ==/PREPROCESSOR==
+
+var colours = {
+	buttons : RGB(255, 255, 255),
+	background : RGB(196, 30, 35)
+};
+
+var panel = new _panel();
+var buttons = new _buttons();
+buttons.buttons.menu = new _button(0, 0, 36, 36, { char : chars.menu, colour : colours.buttons }, null, function () { _menu(0, 36); }, 'Menu');
+
+function on_mouse_lbtn_up(x, y, mask) {
+	buttons.lbtn_up(x, y, mask);
+}
+
+function on_mouse_leave() {
+	buttons.leave();
+}
+
+function on_mouse_move(x, y) {
+	buttons.move(x, y);
+}
+
+function on_mouse_rbtn_up(x, y) {
+	if (buttons.buttons.menu.containsXY(x, y)) {
+		_help(0, 36);
+		return true;
+	} else {
+		return panel.rbtn_up(x, y);
+	}
+}
+
+function on_paint(gr) {
+	gr.FillRectangle(0, 0, panel.w, panel.h, colours.background);
+	buttons.paint(gr);
+}
+
+function on_size() {
+	panel.size();
+}

@@ -1,0 +1,83 @@
+// ==PREPROCESSOR==
+// @name "Text Display"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\js\lodash.min.js"
+// @import "%fb2k_component_path%samples\js\common.js"
+// @import "%fb2k_component_path%samples\js\panel.js"
+// @import "%fb2k_component_path%samples\js\text.js"
+// ==/PREPROCESSOR==
+
+var panel = new _panel();
+var text = new _text('text_display', LM, TM, 0, 0);
+
+panel.item_focus_change();
+
+function on_colours_changed() {
+	panel.colours_changed();
+	window.Repaint();
+}
+
+function on_font_changed() {
+	panel.font_changed();
+	window.Repaint();
+}
+
+function on_item_focus_change() {
+	panel.item_focus_change();
+}
+
+function on_key_down(k) {
+	text.key_down(k);
+}
+
+function on_metadb_changed() {
+	text.metadb_changed();
+}
+
+function on_mouse_lbtn_up(x, y) {
+	text.lbtn_up(x, y);
+}
+
+function on_mouse_move(x, y) {
+	text.move(x, y);
+}
+
+function on_mouse_rbtn_up(x, y) {
+	return panel.rbtn_up(x, y, text);
+}
+
+function on_mouse_wheel(s) {
+	text.wheel(s);
+}
+
+function on_paint(gr) {
+	panel.paint(gr);
+	panel.draw_header(gr, text.header_text());
+	text.paint(gr);
+}
+
+function on_playback_dynamic_info_track() {
+	panel.item_focus_change();
+}
+
+function on_playback_new_track() {
+	panel.item_focus_change();
+}
+
+function on_playback_stop(reason) {
+	if (reason != 2) {
+		panel.item_focus_change();
+	}
+}
+
+function on_playlist_switch() {
+	panel.item_focus_change();
+}
+
+function on_size() {
+	panel.size();
+	text.w = panel.w - (LM * 2);
+	text.h = panel.h - TM;
+	text.size();
+}

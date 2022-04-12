@@ -1,0 +1,15 @@
+// ==PREPROCESSOR==
+// @name "Rectangle + Ellipse"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var colour = RGB(255, 0, 0);
+
+function on_paint(gr) {
+	gr.DrawRectangle(0, 0, 200, 200, 1, colour);
+	gr.DrawEllipse(100, 100, 50, 50, 1, colour);
+	gr.FillEllipse(500, 100, 50, 50, colour);
+	gr.FillRoundedRectangle(0, window.Height - 201, 200, 200, 50, 50, colour);
+	gr.DrawRoundedRectangle(window.Width - 200, window.Height - 201, 200, 200, 50, 50, 1, colour);
+}

@@ -1,0 +1,50 @@
+// ==PREPROCESSOR==
+// @name "Volume + Text"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var g_drag = 0;
+var ww = 0, wh = 0;
+
+function on_size() {
+	ww = window.Width;
+	wh = window.Height;
+}
+
+function on_paint(gr) {
+	var volume = fb.Volume;
+	var pos = ww * vol2pos(volume);
+	var txt = volume.toFixed(2) + 'dB';
+	gr.FillGradientRectangle(0, 0, pos, wh, 0, RGB(240, 240, 240), RGB(100, 230, 100));
+	gr.FillGradientRectangle(pos, 0, ww - pos, wh, 0, RGB(240, 240, 240), RGB(190, 190, 190));
+	gr.WriteText(txt, '', RGB(64, 64, 128), 0, 0, ww, wh, 2, 2);
+	gr.DrawRectangle(0, 0, ww - 1, wh - 1, 1.0, RGB(150, 150, 150));
+}
+
+function on_mouse_lbtn_down(x, y) {
+	g_drag = 1;
+}
+
+function on_mouse_lbtn_up(x, y) {
+	on_mouse_move(x, y);
+	g_drag = 0;
+}
+
+function on_mouse_move(x, y) {
+	if (g_drag) {
+		var pos = x < 0 ? 0 : x > ww ? 1 : x / ww;
+		fb.Volume = pos2vol(pos);
+	}
+}
+
+function on_mouse_wheel(delta) {
+	if (delta > 0)
+		fb.VolumeUp();
+	else
+		fb.VolumeDown();
+}
+
+function on_volume_change(val) {
+	window.Repaint();
+}

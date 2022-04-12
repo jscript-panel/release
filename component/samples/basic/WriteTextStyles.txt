@@ -1,0 +1,49 @@
+// ==PREPROCESSOR==
+// @name "WriteTextStyles"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+/*
+This sample splits a string in to whole words and then randomly
+styles each one and updates itself twice a second. Every element
+of the array which is used for styling must have a valid
+start/length value. You can see how the start value is
+incremented for each word.
+*/
+
+var fonts = utils.ListFonts().toArray();
+var text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+var arr = text.split(' '); // split text in to whole words for styling
+var styles = [];
+
+refresh();
+
+window.SetInterval(function () {
+	refresh();
+	window.Repaint();
+}, 500);
+
+function refresh() {
+	styles = [];
+	var start = 0;
+	arr.forEach(function(item, i) {
+		styles.push({
+			// when using an array of styles, Start and Length are mandatory
+			Start : start,
+			Length : item.length + 1,
+			// the following are all optional and may be omitted. Segoe UI/16px will be used if Name/Size are not specified.
+			Name : fonts[Math.floor(Math.random() * fonts.length)],
+			Size : 12 + Math.floor(Math.random() * 20),
+			Weight : Math.round(Math.random() * 800) + 100, // values between 100-900
+			Underline : Math.random() < 0.1,
+			Strikethrough : Math.random() < 0.1,
+			Colour : RGB(Math.random() * 200, Math.random() * 200, Math.random() * 200),
+		});
+		start += item.length + 1;
+	});
+}
+
+function on_paint(gr) {
+	gr.WriteText(text, JSON.stringify(styles), 0, 10, 10, window.Width - 20, window.Height - 20);
+}

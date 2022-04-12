@@ -1,0 +1,94 @@
+// ==PREPROCESSOR==
+// @name "GetAlbumArtNew"
+// @author "marc2003"
+// ==/PREPROCESSOR==
+
+// Prefers now playing track if playing, follows playlist selection if not
+// Double click panel to view image in fb2k picture viewer
+
+var g_img = null;
+var g_metadb = null;
+var g_tooltip = window.CreateTooltip('Segoe UI', 16);
+g_tooltip.SetMaxWidth(600); // enable multi-line tooltips
+g_tooltip.Text = '';
+var g_info = '';
+
+var ww = 0, wh = 0;
+update_album_art();
+
+function update_album_art() {
+	if (g_img) g_img.Dispose();
+	g_img = null;
+	g_info = '';
+	g_metadb = fb.IsPlaying ? fb.GetNowPlaying() : fb.GetFocusItem();
+	if (g_metadb) {
+		g_img = g_metadb.GetAlbumArt(); // omitting the type defaults to front
+		if (g_img) {
+			var path = g_img.Path;
+			g_info = 'Original dimensions: ' + g_img.Width + 'x' + g_img.Height; // add image dimensions to tooltip
+			if (path.length) g_info += '\nPath: ' + path; // add path on new line if present
+		}
+	}
+	window.Repaint();
+}
+
+function on_colours_changed() {
+	window.Repaint();
+}
+
+function on_item_focus_change() {
+	if (!fb.IsPlaying) update_album_art();
+}
+
+function on_mouse_lbtn_dblclk() {
+	if (g_metadb) g_metadb.ShowAlbumArtViewer(0);
+}
+
+function on_mouse_move(x, y) {
+	if (g_info.length && g_tooltip.Text != g_info) {
+		g_tooltip.Text = g_info;
+		g_tooltip.Activate();
+	}
+}
+
+function on_paint(gr) {
+	var bg = window.IsDefaultUI ? window.GetColourDUI(1) : window.GetColourCUI(3);
+	gr.FillRectangle(0, 0, ww, wh, bg);
+	if (g_img) {
+		// Keep aspect ratio
+		var scale_w = ww / g_img.Width;
+		var scale_h = wh / g_img.Height;
+		var scale = Math.min(scale_w, scale_h);
+		var pos_x = 0, pos_y = 0;
+		if (scale_w < scale_h)
+			pos_y = (wh - g_img.height * scale) / 2;
+		else if (scale_w > scale_h)
+			pos_x = (ww - g_img.Width * scale) / 2;
+		gr.DrawImage(g_img, pos_x, pos_y, g_img.Width * scale, g_img.Height * scale, 0, 0, g_img.Width, g_img.Height);
+	}
+}
+
+function on_size() {
+	ww = window.Width;
+	wh = window.Height;
+}
+
+// get notified of album art changes when listening to a supported stream
+function on_playback_dynamic_info_track(type) {
+	if (type == 1) update_album_art();
+	// type 0 is metadata which we're not interested in
+}
+
+function on_playback_new_track() {
+	update_album_art();
+}
+
+function on_playback_stop(reason) {
+	if (reason != 2) {
+		update_album_art();
+	}
+}
+
+function on_playlist_switch() {
+	if (!fb.IsPlaying) update_album_art();
+}

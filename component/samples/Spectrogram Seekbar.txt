@@ -1,0 +1,100 @@
+// ==PREPROCESSOR==
+// @name "Spectrogram Seekbar"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\js\lodash.min.js"
+// @import "%fb2k_component_path%samples\js\common.js"
+// @import "%fb2k_component_path%samples\js\panel.js"
+// @import "%fb2k_component_path%samples\js\seekbar.js"
+// ==/PREPROCESSOR==
+
+/*
+Limitations:
+Since the script passes the filename to ffmpeg for decoding and generating the spectrogram
+image, your input components are irrelevant.
+
+It only works on local files with a known length and cue sheets/files with chapters are not supported.
+
+There seems to be a maxiumum length limit and during my own testing, a 53m track was fine
+but my next longest track at 57m was not. YMMV.
+
+---
+
+You can download ffmpeg from here:
+
+https://www.gyan.dev/ffmpeg/builds/
+
+If you use a special build with libfdk-aac support, images can be generated when files encoded
+with exhale are played. See here:
+
+https://hydrogenaud.io/index.php?topic=118888.msg1006624#msg1006624
+
+The script automatically handles the differing command line arguments.
+
+Edit the executable path below if required.
+
+See here for available options which can be set via the right click menu.
+
+https://ffmpeg.org/ffmpeg-filters.html#showspectrumpic
+
+Do not set "legend" as that is already disabled.
+*/
+
+var ffmpeg_exe = fb.ProfilePath + 'ffmpeg.exe'; // if you edit this, directory separators must be escaped like "d:\\audio\\tools\\ffmpeg.exe"
+var spectrogram_cache = folders.data + 'spectrogram_cache\\'; // if you edit this, you must ensure the folder already exists
+
+var panel = new _panel();
+var seekbar = new _seekbar(0, 0, 0, 0, true);
+if (fb.IsPlaying) on_playback_new_track();
+else on_item_focus_change();
+
+function on_item_focus_change() {
+	seekbar.item_focus_change();
+}
+
+function on_mouse_lbtn_down(x, y) {
+	seekbar.lbtn_down(x, y);
+}
+
+function on_mouse_lbtn_up(x, y) {
+	seekbar.lbtn_up(x, y);
+}
+
+function on_mouse_move(x, y) {
+	seekbar.move(x, y);
+}
+
+function on_mouse_rbtn_up(x, y) {
+	return panel.rbtn_up(x, y, seekbar);
+}
+
+function on_mouse_wheel(s) {
+	seekbar.wheel(s);
+}
+
+function on_paint(gr) {
+	gr.FillRectangle(0, 0, panel.w, panel.h, RGB(0, 0, 0));
+	seekbar.paint(gr);
+}
+
+function on_playback_new_track() {
+	seekbar.playback_new_track();
+}
+
+function on_playback_seek() {
+	seekbar.playback_seek();
+}
+
+function on_playback_stop(reason) {
+	seekbar.playback_stop(reason);
+}
+
+function on_playlist_switch() {
+	seekbar.item_focus_change();
+}
+
+function on_size() {
+	panel.size();
+	seekbar.w = window.Width;
+	seekbar.h = window.Height;
+}

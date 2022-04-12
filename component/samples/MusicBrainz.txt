@@ -1,0 +1,89 @@
+// ==PREPROCESSOR==
+// @name "MusicBrainz"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\js\lodash.min.js"
+// @import "%fb2k_component_path%samples\js\common.js"
+// @import "%fb2k_component_path%samples\js\panel.js"
+// @import "%fb2k_component_path%samples\js\list.js"
+// ==/PREPROCESSOR==
+
+// This script requires "musicbrainz_artistid" or "musicbrainz artist id" tags present in your files.
+
+var panel = new _panel();
+var list = new _list('musicbrainz', LM, TM, 0, 0);
+
+panel.item_focus_change();
+
+function on_colours_changed() {
+	panel.colours_changed();
+	window.Repaint();
+}
+
+function on_font_changed() {
+	panel.font_changed();
+	window.Repaint();
+}
+
+function on_http_request_done(task_id, success, content) {
+	list.http_request_done(task_id, success, content);
+}
+
+function on_item_focus_change() {
+	panel.item_focus_change();
+}
+
+function on_key_down(k) {
+	list.key_down(k);
+}
+
+function on_metadb_changed() {
+	list.metadb_changed();
+}
+
+function on_mouse_lbtn_up(x, y) {
+	list.lbtn_up(x, y);
+}
+
+function on_mouse_move(x, y) {
+	list.move(x, y);
+}
+
+function on_mouse_rbtn_up(x, y) {
+	return panel.rbtn_up(x, y, list);
+}
+
+function on_mouse_wheel(s) {
+	list.wheel(s);
+}
+
+function on_paint(gr) {
+	panel.paint(gr);
+	panel.draw_header(gr, list.header_text());
+	list.paint(gr);
+}
+
+function on_playback_dynamic_info_track() {
+	panel.item_focus_change();
+}
+
+function on_playback_new_track() {
+	panel.item_focus_change();
+}
+
+function on_playback_stop(reason) {
+	if (reason != 2) {
+		panel.item_focus_change();
+	}
+}
+
+function on_playlist_switch() {
+	panel.item_focus_change();
+}
+
+function on_size() {
+	panel.size();
+	list.w = panel.w - (LM * 2);
+	list.h = panel.h - TM;
+	list.size();
+}

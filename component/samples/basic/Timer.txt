@@ -1,0 +1,39 @@
+// ==PREPROCESSOR==
+// @name "Timer"
+// @author "T.P Wang"
+// ==/PREPROCESSOR==
+
+// This sample create two timers.
+// Click the window to start the timer and see the result after the Console is shown.
+// Click the window again to kill all timers.
+
+var g_timer_started = false;
+var g_count = 0;
+var g_timer_interval, g_timeout;
+
+function on_mouse_lbtn_up() {
+	if (!g_timer_started) {
+		// Timers are created here
+		// Timeout happens once after 2000 ms.
+		g_timeout = window.SetTimeout(function() {
+			// Open console window
+			fb.ShowConsole();
+			console.log("g_timeout: Show console now.");
+		}, 2000);
+
+		// Set timer interval, happens every 500 ms.
+		g_timer_interval = window.SetInterval(function() {
+			g_count++;
+			console.log("g_timer_interval: " + g_count + " time(s).");
+		}, 500);
+
+		g_timer_started = true;
+	} else {
+		// Kill all timers
+		window.ClearTimeout(g_timeout);
+		window.ClearInterval(g_timer_interval);
+		g_timer_started = false;
+		g_count = 0;
+		console.log("Timers stopped.");
+	}
+}

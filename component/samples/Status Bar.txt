@@ -1,0 +1,178 @@
+// ==PREPROCESSOR==
+// @name "Status Bar"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\js\lodash.min.js"
+// @import "%fb2k_component_path%samples\js\common.js"
+// @import "%fb2k_component_path%samples\js\volume.js"
+// ==/PREPROCESSOR==
+
+var tfo = fb.TitleFormat('%__bitrate% kbps %codec% [%codec_profile% ][%__tool% ][%__tagtype% ]');
+
+var properties = {
+	name : new _p('2K3.STATUS.SHOW.NAME', true),
+	count : new _p('2K3.STATUS.SHOW.COUNT', true),
+	duration : new _p('2K3.STATUS.SHOW.DURATION', true),
+	size : new _p('2K3.STATUS.SHOW.SIZE', true),
+	background : new _p('2K3.STATUS.BACKGROUND', RGB(240, 240, 240)),
+	text : new _p('2K3.STATUS.TEXT', RGB(0, 0, 0))
+};
+
+var ww = 0;
+var wh = 0;
+var right_text = '';
+var right_text_width = 0;
+var font = JSON.stringify({Size:16});
+
+refresh();
+
+function refresh() {
+	var ap = plman.ActivePlaylist;
+	var items = plman.GetPlaylistItems(ap);
+	var count = items.Count;
+	var tmp = [];
+	if (properties.name.enabled) {
+		var str = plman.IsPlaylistLocked(ap) ? '🔒' : '';
+		str += plman.GetPlaylistName(ap);
+		tmp.push(str);
+	}
+	if (properties.count.enabled) {
+		tmp.push(count + (count == 1 ? ' track' : ' tracks'));
+	}
+	if (properties.duration.enabled) {
+		tmp.push(utils.FormatDuration(items.CalcTotalDuration()));
+	}
+	if (properties.size.enabled) {
+		tmp.push(utils.FormatFileSize(items.CalcTotalSize()));
+	}
+	right_text = tmp.join(' :: ');
+	window.Repaint();
+	_dispose(items);
+}
+
+function on_mouse_lbtn_dblclk() {
+	fb.RunMainMenuCommand('View/Show now playing in playlist');
+}
+
+function on_mouse_rbtn_up(x, y) {
+	var m = window.CreatePopupMenu();
+	var s = window.CreatePopupMenu();
+	var c = fb.CreateContextMenuManager();
+	var col = window.CreatePopupMenu();
+	if (fb.IsPlaying) {
+		c.InitNowPlaying();
+		c.BuildMenu(s, 1);
+		s.AppendTo(m, MF_STRING, 'Now playing');
+		m.AppendMenuSeparator();
+	}
+	m.AppendMenuItem(MF_STRING, 10000, 'Show playlist name');
+	m.CheckMenuItem(10000, properties.name.enabled);
+	m.AppendMenuItem(MF_STRING, 10001, 'Show playlist item count');
+	m.CheckMenuItem(10001, properties.count.enabled);
+	m.AppendMenuItem(MF_STRING, 10002, 'Show playlist duration');
+	m.CheckMenuItem(10002, properties.duration.enabled);
+	m.AppendMenuItem(MF_STRING, 10003, 'Show playlist size');
+	m.CheckMenuItem(10003, properties.size.enabled);
+	m.AppendMenuSeparator();
+	col.AppendMenuItem(MF_STRING, 10004, 'Background...');
+	col.AppendMenuItem(MF_STRING, 10005, 'Text...');
+	col.AppendTo(m, MF_STRING, 'Colours');
+	m.AppendMenuSeparator();
+	m.AppendMenuItem(MF_STRING, 10010, 'Configure...');
+	var idx = m.TrackPopupMenu(x, y);
+	switch (idx) {
+	case 0:
+		break;
+	case 10000:
+		properties.name.toggle();
+		refresh();
+		break;
+	case 10001:
+		properties.count.toggle();
+		refresh();
+		break;
+	case 10002:
+		properties.duration.toggle();
+		refresh();
+		break;
+	case 10003:
+		properties.size.toggle();
+		refresh();
+		break;
+	case 10004:
+		properties.background.value = utils.ColourPicker(properties.background.value);
+		window.Repaint();
+		break;
+	case 10005:
+		properties.text.value = utils.ColourPicker(properties.text.value);
+		window.Repaint();
+		break;
+	case 10010:
+		window.ShowConfigure();
+		break;
+	default:
+		c.ExecuteByID(idx - 1);
+		break;
+	}
+	_dispose(m, s, c, col);
+	return true;
+}
+
+function on_mouse_wheel(s) {
+	if (s < 0)	fb.VolumeDown();
+	else fb.VolumeUp();
+}
+
+function on_paint(gr) {
+	gr.FillRectangle(0, 0, ww, wh, properties.background.value);
+	if (fb.IsPlaying) {
+		gr.WriteText(tfo.Eval(), font, this.properties.text.value, 5, 0, ww - 400, 21, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_NEAR, DWRITE_WORD_WRAPPING_NO_WRAP);
+	}
+	if (plman.ActivePlaylist > -1 && plman.ActivePlaylist < plman.PlaylistCount) {
+		gr.WriteText(right_text, font, this.properties.text.value, 0, 0, ww - 130, 21, DWRITE_TEXT_ALIGNMENT_TRAILING);
+	}
+	gr.WriteText(fb.Volume.toFixed(2) + ' dB', font, this.properties.text.value, 0, 0, ww - 5, 21, DWRITE_TEXT_ALIGNMENT_TRAILING);
+}
+
+function on_playback_new_track() {
+	window.Repaint();
+}
+
+function on_playback_stop() {
+	window.Repaint();
+}
+
+function on_playback_time() {
+	window.Repaint();
+}
+
+function on_playlist_items_added(p) {
+	if (p == plman.ActivePlaylist) {
+		refresh();
+	}
+}
+
+function on_playlist_items_removed(p) {
+	if (p == plman.ActivePlaylist) {
+		refresh();
+	}
+}
+
+function on_playlist_switch() {
+	refresh();
+}
+
+function on_playlists_changed() {
+	if (properties.name.enabled) {
+		refresh();
+	}
+}
+
+function on_size() {
+	ww = window.Width;
+	wh = window.Height;
+}
+
+function on_volume_change() {
+	window.Repaint();
+}

@@ -1,0 +1,27 @@
+// ==PREPROCESSOR==
+// @name "FillGradientRectangleAdvanced (Linear)"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var brush = {
+	start : [0, 0], // x and y values
+	end : [0, 0], // x and y values
+	stops: [
+		[ 0.0, RGB(227, 9, 64, 1) ],
+		[ 0.33, RGB(231, 215, 2) ],
+		[ 0.66, RGB(15, 168, 149) ],
+		[ 1.0, RGB(19, 115, 232) ]
+	]
+};
+
+function on_paint(gr) {
+	// Vertical effect
+	brush.end = [0, window.Height];
+
+	// If you wanted a horizontal effect, you'd use
+	// brush.end = [window.Width, 0]
+
+	var str = JSON.stringify(brush);
+	gr.FillGradientRectangleAdvanced(0, 0, window.Width, window.Height, str);
+}

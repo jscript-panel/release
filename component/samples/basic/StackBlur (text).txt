@@ -1,0 +1,26 @@
+// ==PREPROCESSOR==
+// @name "StackBlur (text)"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var g_font = JSON.stringify({
+	Name : "Segoe UI",
+	Size : 32,
+	Weight : 700,
+});
+
+var text_to_draw = 'StackBlur Sample';
+
+var img_to_blur = utils.CreateImage(300, 300);
+var g = img_to_blur.GetGraphics();
+g.WriteText(text_to_draw, g_font, RGB(0, 0, 255), 0, 0, 300, 300, 2, 2);
+img_to_blur.ReleaseGraphics();
+img_to_blur.StackBlur(30);
+
+function on_paint(gr) {
+	var x = (window.Width - 300) / 2;
+	var y = (window.Height - 300) / 2
+	gr.DrawImage(img_to_blur, x, y, 300, 300, 0, 0, 300, 300);
+	gr.WriteText(text_to_draw, g_font, RGB(0, 0, 255), x, y, 300, 300, 2, 2);
+}

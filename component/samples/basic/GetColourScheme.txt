@@ -1,0 +1,41 @@
+// ==PREPROCESSOR==
+// @name "GetColourScheme"
+// @author "marc2003"
+// ==/PREPROCESSOR==
+
+// Tracks playlist selection
+
+var img = null;
+var arr = [];
+on_item_focus_change();
+
+function on_item_focus_change() {
+	if (img) {
+		img.Dispose();
+		img = null;
+	}
+
+	arr = [];
+	var metadb = fb.GetFocusItem();
+	if (metadb) {
+		img = metadb.GetAlbumArt(); // omitting the type defaults to front
+
+		if (img) {
+			arr = img.GetColourScheme(10).toArray();
+		}
+	}
+	window.Repaint();
+}
+
+function on_paint(gr) {
+	if (img && arr.length) {
+		gr.DrawImage(img, 0, 0, 300, 300, 0, 0, img.Width, img.Height);
+		for (var i = 0; i < arr.length; i++) {
+			gr.FillRectangle(300, i * 30, window.Width - 300, 30, arr[i]);
+		}
+	}
+}
+
+function on_playlist_switch() {
+	on_item_focus_change();
+}

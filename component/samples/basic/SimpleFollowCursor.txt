@@ -1,0 +1,26 @@
+// ==PREPROCESSOR==
+// @name "SimpleFollowCursor"
+// @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
+// ==/PREPROCESSOR==
+
+var handle = fb.GetFocusItem();
+var tfo = fb.TitleFormat('%title%[ - %artist%]');
+
+function on_item_focus_change() {
+	handle = fb.GetFocusItem();
+	window.Repaint();
+}
+
+function on_playlist_switch() {
+	//because on_item_focus_change isn't called when the user switches playlists
+	//we must invoke it manually inside this callback
+	on_item_focus_change();
+}
+
+function on_paint(gr) {
+	if (handle) {
+		// empty font, defaults of Segoe UI, 16px will be used
+		gr.WriteText(tfo.EvalWithMetadb(handle), '', RGB(0, 0, 0), 0, 0, window.Width, window.Height, 2, 2);
+	}
+}

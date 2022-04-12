@@ -1,0 +1,26 @@
+// ==PREPROCESSOR==
+// @name "JS Smooth Playlist"
+// @version "2022-mod"
+// @author "Br3tt aka Falstaff"
+// @import "%fb2k_component_path%helpers.txt"
+// @import "%fb2k_component_path%samples\smooth\common.js"
+// @import "%fb2k_component_path%samples\smooth\inputbox.js"
+// @import "%fb2k_component_path%samples\smooth\scrollbar.js"
+// @import "%fb2k_component_path%samples\smooth\jssp.js"
+// ==/PREPROCESSOR==
+
+/*
+[Features]
+ * Customisable group headers with album art, expand/collapse, etc.
+ * Clickable RATING stars. Uses foo_playcount if present, writes RATING tags if not.
+ * Smooth scrolling.
+ * Cover art or custom image as background supported (including a blur effect).
+ * ... and more!
+
+[Tips]
+ * Change colours and fonts in foobar2000 Preferences > DefaultUI or ColumsUI or choose custom colours from the right click menu.
+ * CTRL + T to toggle the info bar.
+ * CTRL + mouse wheel to zoom.
+ * CTRL + C, CTRL + X, CTRL + V to copy/cut/paste using the Windows Clipboard. Clipboard contents can now be pasted in Windows Explorer.
+ * CTRL + Z, CTRL + Y to undo/redo.
+*/

@@ -1,0 +1,79 @@
+site_name: JScript Panel 3
+remote_branch: site
+copyright: Copyright &copy; 2022 marc2003
+theme:
+  name: material
+  icon:
+    logo: material/language-javascript
+  custom_dir: overrides
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+  palette:
+    - scheme: default
+      primary: pink
+      accent: pink
+      toggle:
+        icon: material/lightbulb-outline
+        name: "Switch to dark mode"
+    - scheme: slate
+      primary: pink
+      accent: pink
+      toggle:
+        icon: material/lightbulb
+        name: "Switch to light mode"
+markdown_extensions:
+  - admonition
+  - attr_list
+  - meta
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji 
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.keys
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: "#"
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/marc2k3
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Overview: index.md
+  - Gallery: gallery.md
+  - Docs:
+    - Requirements & Installation: docs/index.md
+    - Configuration Window: docs/configuration-window.md
+    - Changes: docs/changes.md
+    - Tips: docs/tips.md
+    - Preprocessors: docs/preprocessors.md
+    - Flags: docs/flags.md
+    - Callbacks: docs/callbacks.md
+    - Interfaces:
+      - IContextMenuManager: docs/interfaces/IContextMenuManager.md
+      - IDropAction: docs/interfaces/IDropAction.md
+      - IFileInfo: docs/interfaces/IFileInfo.md
+      - IJSGraphics: docs/interfaces/IJSGraphics.md
+      - IJSImage: docs/interfaces/IJSImage.md
+      - IMainMenuManager: docs/interfaces/IMainMenuManager.md
+      - IMenuObj: docs/interfaces/IMenuObj.md
+      - IMetadbHandle: docs/interfaces/IMetadbHandle.md
+      - IMetadbHandleList: docs/interfaces/IMetadbHandleList.md
+      - IPlayingItemLocation: docs/interfaces/IPlayingItemLocation.md
+      - IProfiler: docs/interfaces/IProfiler.md
+      - ISelectionHolder: docs/interfaces/ISelectionHolder.md
+      - ITextLayout: docs/interfaces/ITextLayout.md
+      - IThemeManager: docs/interfaces/IThemeManager.md
+      - ITitleFormat: docs/interfaces/ITitleFormat.md
+      - ITooltip: docs/interfaces/ITooltip.md
+    - Namespaces:
+      - console: docs/namespaces/console.md
+      - fb: docs/namespaces/fb.md
+      - plman: docs/namespaces/plman.md
+      - utils: docs/namespaces/utils.md
+      - window: docs/namespaces/window.md

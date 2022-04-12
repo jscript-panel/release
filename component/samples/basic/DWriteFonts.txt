@@ -1,0 +1,68 @@
+// ==PREPROCESSOR==
+// @name "DWriteFonts"
+// @author "marc2003"
+// @import "%fb2k_component_path%samples\js\lodash.min.js"
+// @import "%fb2k_component_path%samples\js\helpers.js"
+// @import "%fb2k_component_path%samples\js\panel.js"
+// @import "%fb2k_component_path%samples\js\list.js"
+// ==/PREPROCESSOR==
+
+var panel = new _panel();
+var list = new _list('DWriteFonts', LM, TM, 0, 0);
+
+list.update = function () {
+	this.data = [];
+	var fonts = utils.ListFonts().toArray();
+	fonts.forEach((function (name) {
+		this.data.push({
+			name : name,
+		});
+	}).bind(this));
+
+	this.items = this.data.length;
+}
+
+list.paint = function (gr) {
+	for (var i = 0; i < Math.min(this.items, this.rows); i++) {
+		var name = this.data[i + this.offset].name;
+		gr.WriteText(name, '', panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.column_width, panel.row_height, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP);
+		gr.WriteText(name, JSON.stringify({Name:name}), panel.colours.text, this.x + this.column_width, this.y + _scale(12) + (i * panel.row_height), this.w, panel.row_height, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP)
+	}
+	this.up_btn.paint(gr, panel.colours.text);
+	this.down_btn.paint(gr, panel.colours.text);
+}
+
+list.update();
+
+function on_colours_changed() {
+	panel.colours_changed();
+	window.Repaint();
+}
+
+function on_mouse_move(x, y) {
+	list.move(x, y);
+}
+
+function on_mouse_rbtn_up(x, y) {
+	return panel.rbtn_up(x, y, list);
+}
+
+function on_mouse_wheel(s) {
+	list.wheel(s);
+}
+
+function on_paint(gr) {
+	panel.paint(gr);
+	gr.WriteText('Name', JSON.stringify({font_weight:700}), panel.colours.highlight, LM, 0, list.column_width, TM, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP);
+	gr.WriteText('WriteText', JSON.stringify({font_weight:700}), panel.colours.highlight, LM + list.column_width, 0, list.column_width, TM, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP);
+	gr.DrawLine(LM, TM + 1, panel.w - (LM * 2), TM + 1, 1, panel.colours.highlight);
+	list.paint(gr);
+}
+
+function on_size() {
+	panel.size();
+	list.w = panel.w - (TM * 2);
+	list.h = panel.h - TM;
+	list.size();
+	list.column_width = list.w / 2;
+}
