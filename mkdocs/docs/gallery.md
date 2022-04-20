@@ -42,7 +42,7 @@ From left to right: `JS Smooth Browser`, `JS Smooth Playlist Manager`, `JS Smoot
 
 ![specctrogram seekbar](../images/spectrogram_seekbar.png)
 
-## Track Info + Seekbar + buttons
+## Track Info + Seekbar + Buttons
 
 ![track info seekbar buttons](../images/track_info_seekbar_buttons.png)
 
