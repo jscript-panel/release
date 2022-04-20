@@ -19,16 +19,6 @@ function oPlaylist(idx, rowId, name) {
 }
 
 function oBrowser() {
-	this.rows = [];
-	this.scrollbar = new oScrollbar();
-	this.inputbox = null;
-	this.inputboxID = -1;
-	this.selectedRow = plman.ActivePlaylist;
-
-	window.SetTimeout(function () {
-		brw.populate();
-	}, 250);
-
 	this.repaint = function () {
 		need_repaint = true;
 	}
@@ -498,28 +488,7 @@ function oBrowser() {
 			plman.ActivePlaylist = id + 1;
 			break;
 		case idx == 4:
-			// set rename it
-			var rh = ppt.rowHeight - 10;
-			var tw = this.w - rh - 100;
-			this.inputbox = new oInputbox(tw, rh, plman.GetPlaylistName(id), "", g_color_normal_txt, g_color_normal_bg, RGB(0, 0, 0), g_color_selected_bg, "renamePlaylist()");
-			this.inputbox.setSize(tw, rh, g_fsize); // set font_size
-			this.inputboxID = id;
-			// activate inputbox for edit
-			this.inputbox.on_focus(true);
-			this.inputbox.edit = true;
-			this.inputbox.Cpos = this.inputbox.text.length;
-			this.inputbox.anchor = this.inputbox.Cpos;
-			this.inputbox.SelBegin = this.inputbox.Cpos;
-			this.inputbox.SelEnd = this.inputbox.Cpos;
-			if (!cInputbox.timer_cursor) {
-				this.inputbox.resetCursorTimer();
-			}
-			this.inputbox.dblclk = true;
-			this.inputbox.SelBegin = 0;
-			this.inputbox.SelEnd = this.inputbox.text.length;
-			this.inputbox.text_selected = this.inputbox.text;
-			this.inputbox.select = true;
-			this.repaint();
+			this.edit_playlist(id);
 			break;
 		case idx == 5:
 			plman.RemovePlaylistSwitch(id);
@@ -549,57 +518,15 @@ function oBrowser() {
 			fb.LoadPlaylist();
 			break;
 		case idx == 101:
-			var pl = plman.CreatePlaylist();
-			plman.ActivePlaylist = pl;
-			// set rename it
-			var rh = ppt.rowHeight - 10;
-			var tw = this.w - rh - 100;
-			this.inputbox = new oInputbox(tw, rh, plman.GetPlaylistName(pl), "", g_color_normal_txt, g_color_normal_bg, RGB(0, 0, 0), g_color_selected_bg, "renamePlaylist()");
-			this.inputbox.setSize(tw, rh, g_fsize); // set font_size
-			this.inputboxID = pl;
-			// activate inputbox for edit
-			this.inputbox.on_focus(true);
-			this.inputbox.edit = true;
-			this.inputbox.Cpos = this.inputbox.text.length;
-			this.inputbox.anchor = this.inputbox.Cpos;
-			this.inputbox.SelBegin = this.inputbox.Cpos;
-			this.inputbox.SelEnd = this.inputbox.Cpos;
-			if (!cInputbox.timer_cursor) {
-				this.inputbox.resetCursorTimer();
-			}
-			this.inputbox.dblclk = true;
-			this.inputbox.SelBegin = 0;
-			this.inputbox.SelEnd = this.inputbox.text.length;
-			this.inputbox.text_selected = this.inputbox.text;
-			this.inputbox.select = true;
-			this.repaint();
+			var p = plman.CreatePlaylist();
+			plman.ActivePlaylist = p;
+			this.edit_playlist(p);
 			break;
 		case idx == 102:
 			var p = plman.CreateAutoPlaylist(plman.PlaylistCount, "", "enter your query here");
 			plman.ActivePlaylist = p;
 			plman.ShowAutoPlaylistUI(p);
-			// set rename it
-			var rh = ppt.rowHeight - 10;
-			var tw = this.w - rh - 100;
-			this.inputbox = new oInputbox(tw, rh, plman.GetPlaylistName(p), "", g_color_normal_txt, g_color_normal_bg, RGB(0, 0, 0), g_color_selected_bg, "renamePlaylist()");
-			this.inputbox.setSize(tw, rh, g_fsize); // set font_size
-			this.inputboxID = p;
-			// activate inputbox for edit
-			this.inputbox.on_focus(true);
-			this.inputbox.edit = true;
-			this.inputbox.Cpos = this.inputbox.text.length;
-			this.inputbox.anchor = this.inputbox.Cpos;
-			this.inputbox.SelBegin = this.inputbox.Cpos;
-			this.inputbox.SelEnd = this.inputbox.Cpos;
-			if (!cInputbox.timer_cursor) {
-				this.inputbox.resetCursorTimer();
-			}
-			this.inputbox.dblclk = true;
-			this.inputbox.SelBegin = 0;
-			this.inputbox.SelEnd = this.inputbox.text.length;
-			this.inputbox.text_selected = this.inputbox.text;
-			this.inputbox.select = true;
-			this.repaint();
+			this.edit_playlist(p);
 			break;
 		case idx == 200:
 			plman.ActivePlaylist = plman.CreateAutoPlaylist(plman.PlaylistCount, "Media Library", "ALL", ppt.autoplaylist_sort_pattern);
@@ -635,6 +562,29 @@ function oBrowser() {
 		_menu.Dispose();
 		this.repaint();
 		return true;
+	}
+
+	this.edit_playlist = function (p) {
+		var rh = ppt.rowHeight - 10;
+		var tw = this.w - rh - 100;
+		this.inputbox = new oInputbox(tw, rh, plman.GetPlaylistName(p), "", g_color_normal_txt, g_color_normal_bg, RGB(0, 0, 0), g_color_selected_bg, "renamePlaylist()");
+		this.inputbox.setSize(tw, rh, g_fsize);
+		this.inputboxID = p;
+		this.inputbox.on_focus(true);
+		this.inputbox.edit = true;
+		this.inputbox.Cpos = this.inputbox.text.length;
+		this.inputbox.anchor = this.inputbox.Cpos;
+		this.inputbox.SelBegin = this.inputbox.Cpos;
+		this.inputbox.SelEnd = this.inputbox.Cpos;
+		if (!cInputbox.timer_cursor) {
+			this.inputbox.resetCursorTimer();
+		}
+		this.inputbox.dblclk = true;
+		this.inputbox.SelBegin = 0;
+		this.inputbox.SelEnd = this.inputbox.text.length;
+		this.inputbox.text_selected = this.inputbox.text;
+		this.inputbox.select = true;
+		this.repaint();
 	}
 
 	this.settings_context_menu = function (x, y) {
@@ -734,6 +684,16 @@ function oBrowser() {
 		_menu.Dispose();
 		return true;
 	}
+
+	window.SetTimeout(function () {
+		brw.populate();
+	}, 100);
+
+	this.rows = [];
+	this.scrollbar = new oScrollbar();
+	this.inputbox = null;
+	this.inputboxID = -1;
+	this.selectedRow = plman.ActivePlaylist;
 }
 
 function on_size() {
@@ -748,7 +708,7 @@ function on_paint(gr) {
 		drawImage(gr, g_wallpaperImg, brw.x, brw.y, brw.w, brw.h, true, null, ppt.wallpaperopacity);
 	}
 
-	if (brw) brw.draw(gr);
+	brw.draw(gr);
 }
 
 function on_mouse_lbtn_down(x, y) {
@@ -907,11 +867,12 @@ function get_metrics() {
 	} else {
 		ppt.headerBarHeight = 0;
 	}
+
 	ppt.rowHeight = scale(ppt.defaultRowHeight);
 	cScrollBar.width = scale(cScrollBar.defaultWidth);
 	cScrollBar.minCursorHeight = scale(cScrollBar.defaultMinCursorHeight);
 
-	if (brw) brw.setSize();
+	brw.setSize();
 }
 
 function on_key_up(vkey) {
@@ -935,35 +896,14 @@ function on_key_down(vkey) {
 			brw.inputbox.on_key_down(vkey);
 		}
 	} else {
+		var rowId = brw.selectedRow;
 		var mask = GetKeyboardMask();
+
 		if (mask == KMask.none) {
 			switch (vkey) {
 			case VK_F2:
-				// set rename it
-				var rowId = brw.selectedRow;
 				if (rowId > -1 && playlist_can_rename(rowId)) {
-					var rh = ppt.rowHeight - 10;
-					var tw = brw.w - rh - 100;
-
-					brw.inputbox = new oInputbox(tw, rh, plman.GetPlaylistName(brw.rows[rowId].idx), "", g_color_normal_txt, g_color_normal_bg, RGB(0, 0, 0), g_color_selected_bg, "renamePlaylist()");
-					brw.inputbox.setSize(tw, rh, g_fsize); // set font_size
-					brw.inputboxID = rowId;
-					// activate inputbox for edit
-					brw.inputbox.on_focus(true);
-					brw.inputbox.edit = true;
-					brw.inputbox.Cpos = brw.inputbox.text.length;
-					brw.inputbox.anchor = brw.inputbox.Cpos;
-					brw.inputbox.SelBegin = brw.inputbox.Cpos;
-					brw.inputbox.SelEnd = brw.inputbox.Cpos;
-					if (!cInputbox.timer_cursor) {
-						brw.inputbox.resetCursorTimer();
-					}
-					brw.inputbox.dblclk = true;
-					brw.inputbox.SelBegin = 0;
-					brw.inputbox.SelEnd = brw.inputbox.text.length;
-					brw.inputbox.text_selected = brw.inputbox.text;
-					brw.inputbox.select = true;
-					brw.repaint();
+					brw.edit_playlist(brw.rows[rowId].idx);
 				}
 				break;
 			case VK_F3:
@@ -974,33 +914,27 @@ function on_key_down(vkey) {
 				brw.inputboxID = -1;
 				break;
 			case VK_UP:
-				if (brw.rows.length > 0) {
-					var rowId = brw.selectedRow;
-					if (rowId > 0) {
-						if (brw.inputboxID > -1)
-							brw.inputboxID = -1;
-						brw.repaint();
-						brw.selectedRow--;
-						if (brw.selectedRow < 0)
-							brw.selectedRow = 0;
-						brw.showSelectedPlaylist();
-						brw.repaint();
-					}
+				if (brw.rows.length > 0 && rowId > 0) {
+					if (brw.inputboxID > -1)
+						brw.inputboxID = -1;
+					brw.repaint();
+					brw.selectedRow--;
+					if (brw.selectedRow < 0)
+						brw.selectedRow = 0;
+					brw.showSelectedPlaylist();
+					brw.repaint();
 				}
 				break;
 			case VK_DOWN:
-				if (brw.rows.length > 0) {
-					var rowId = brw.selectedRow;
-					if (rowId < brw.rows.length - 1) {
-						if (brw.inputboxID > -1)
-							brw.inputboxID = -1;
-						brw.repaint();
-						brw.selectedRow++;
-						if (brw.selectedRow > brw.rows.length - 1)
-							brw.selectedRow = brw.rows.length - 1;
-						brw.showSelectedPlaylist();
-						brw.repaint();
-					}
+				if (brw.rows.length > 0 && rowId < brw.rows.length - 1) {
+					if (brw.inputboxID > -1)
+						brw.inputboxID = -1;
+					brw.repaint();
+					brw.selectedRow++;
+					if (brw.selectedRow > brw.rows.length - 1)
+						brw.selectedRow = brw.rows.length - 1;
+					brw.showSelectedPlaylist();
+					brw.repaint();
 				}
 				break;
 			case VK_RETURN:
@@ -1217,10 +1151,7 @@ var blink = {
 
 var g_drag_drop_active;
 var g_drag_drop_target_id = -1;
+var brw = new oBrowser();
 
-get_font();
-get_colors();
 get_metrics();
 setWallpaperImg();
-
-var brw = new oBrowser();

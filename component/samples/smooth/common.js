@@ -33,6 +33,26 @@ function get_images() {
 	gb.FillRectangle(0, 0, cover_size, cover_size, g_color_normal_txt & 0x10ffffff);
 	gb.WriteText("ALL\nITEMS", g_font_cover, blendColours(g_color_normal_txt, g_color_normal_bg, 0.30), 1, 1, cover_size, cover_size, 2, 2);
 	images.all.ReleaseGraphics();
+
+	var size = 48;
+	var icon_size = scale(20);
+
+	images.magnify = utils.CreateImage(size, size);
+	gb = images.magnify.GetGraphics();
+	gb.WriteText(chars.search, g_font_awesome_40, g_color_normal_txt, 0, 0, size, size, 2, 2);
+	images.magnify.ReleaseGraphics();
+
+	images.reset = utils.CreateImage(size, size);
+	gb = images.reset.GetGraphics();
+	gb.WriteText(chars.close, g_font_awesome_40, blendColours(g_color_normal_txt, g_color_normal_bg, 0.35), 0, 0, size, size, 2, 2);
+	images.reset.ReleaseGraphics();
+	images.reset.Resize(icon_size, icon_size);
+
+	images.reset_hover = utils.CreateImage(size, size);
+	gb = images.reset_hover.GetGraphics();
+	gb.WriteText(chars.close, g_font_awesome_40, RGB(255, 50, 50), 0, 0, size, size, 2, 2);
+	images.reset_hover.ReleaseGraphics();
+	images.reset_hover.Resize(icon_size, icon_size);
 }
 
 function validate_indexes(playlist, item) {
@@ -318,12 +338,14 @@ function on_font_changed() {
 function on_colours_changed() {
 	get_colors();
 	get_images();
-	if (brw)
-		brw.scrollbar.setNewColours();
-	if (g_filterbox) { // only exists in Smooth Browser
-		g_filterbox.getImages();
-		g_filterbox.reset_colors();
+
+	// Browser only
+	if (brw.inputbox) {
+		brw.inputbox.textcolor = g_color_normal_txt;
+		brw.inputbox.backselectioncolor = g_color_selected_bg;
 	}
+
+	brw.scrollbar.setNewColours();
 	brw.repaint();
 }
 
@@ -409,7 +431,7 @@ var g_font_group1 = "";
 var g_font_group2 = "";
 var g_font_awesome = "";
 var g_font_awesome_40 = "";
-var g_fsize = 0;
+var g_fsize = 16;
 
 var g_color_normal_txt = 0;
 var g_color_normal_bg = 0;
@@ -420,10 +442,12 @@ var g_rating_width = 0;
 
 var g_filter_text = "";
 var g_wallpaperImg = null;
-var g_filterbox = null; // Smooth Browser only but var must exist here
 var isScrolling = false;
 var need_repaint = false;
 var g_start_ = 0, g_end_ = 0;
 var m_x = 0, m_y = 0;
 var scroll_ = 0, scroll = 0, scroll_prev = 0;
 var ww = 0, wh = 0;
+
+get_font();
+get_colors();

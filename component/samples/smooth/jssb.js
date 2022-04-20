@@ -22,15 +22,6 @@ var tfo = {
 	crc_path : fb.TitleFormat("$crc32(%path%)"),
 };
 
-var cFilterBox = {
-	default_w: 300,
-	default_h: 20,
-	x: 5,
-	y: 2,
-	w: 300,
-	h: 20
-}
-
 function oGroup(index, start, metadb, groupkey) {
 	this.index = index;
 	this.start = start;
@@ -67,15 +58,6 @@ function oGroup(index, start, metadb, groupkey) {
 }
 
 function oBrowser() {
-	this.groups = [];
-	this.rowsCount = 0;
-	this.scrollbar = new oScrollbar();
-	this.selectedIndex = -1;
-
-	window.SetTimeout(function () {
-		brw.populate();
-	}, 250);
-
 	this.repaint = function () {
 		need_repaint = true;
 	}
@@ -118,9 +100,9 @@ function oBrowser() {
 		this.totalRows = Math.ceil(this.h / this.rowHeight);
 		this.totalRowsVis = Math.floor(this.h / this.rowHeight);
 
-		g_filterbox.setSize(cFilterBox.w, cFilterBox.h + 2, g_fsize + 2);
-
+		this.inputbox.setSize(ww * 0.6, scale(20), g_fsize + 2);
 		this.scrollbar.setSize();
+		this.reset_bt = new button(images.reset, images.reset_hover, images.reset_hover);
 
 		scroll = Math.round(scroll / this.rowHeight) * this.rowHeight;
 		scroll = check_scroll(scroll);
@@ -381,7 +363,7 @@ function oBrowser() {
 		}
 
 		// draw scrollbar
-		if (this.scrollbar) this.scrollbar.draw(gr);
+		this.scrollbar.draw(gr);
 
 		// draw top header bar
 		if (ppt.showHeaderBar) {
@@ -428,7 +410,7 @@ function oBrowser() {
 		case "rbtn_up":
 			if (this.ishover && this.activeIndex > -1) {
 				this.context_menu(x, y, this.activeIndex);
-			} else if (!g_filterbox.inputbox.hover) {
+			} else if (!this.inputbox.hover) {
 				this.settings_context_menu(x, y);
 			}
 			break;
@@ -440,7 +422,19 @@ function oBrowser() {
 		}
 
 		if (ppt.showHeaderBar) {
-			g_filterbox.on_mouse(event, x, y);
+			this.inputbox.check(event, x, y);
+
+			if (this.inputbox.text.length > 0) {
+				if (event == "lbtn_down" || event == "move") {
+					this.reset_bt.checkstate(event, x, y);
+				} else if (event == "lbtn_up") {
+					if (this.reset_bt.checkstate("lbtn_up", x, y) == ButtonStates.hover) {
+						this.inputbox.text = "";
+						this.inputbox.offset = 0;
+						g_sendResponse();
+					}
+				}
+			}
 		}
 
 		if (cScrollBar.visible) {
@@ -633,6 +627,17 @@ function oBrowser() {
 		_menu.Dispose();
 		return true;
 	}
+
+	window.SetTimeout(function () {
+		brw.populate();
+	}, 100);
+
+	this.groups = [];
+	this.rowsCount = 0;
+	this.scrollbar = new oScrollbar();
+	this.selectedIndex = -1;
+	this.inputbox = new oInputbox(300, scale(20), "", "Filter", g_color_normal_txt, 0, 0, g_color_selected_bg, g_sendResponse);
+	this.inputbox.autovalidation = true;
 }
 
 function on_size() {
@@ -649,7 +654,16 @@ function on_paint(gr) {
 	brw.draw(gr);
 
 	if (ppt.showHeaderBar) {
-		g_filterbox.draw(gr, 5, 2);
+		var size = scale(20);
+
+		if (brw.inputbox.text.length > 0) {
+			brw.reset_bt.draw(gr, 5, 2);
+		} else {
+			gr.DrawImage(images.magnify, 5, 2, size - 1, size - 1, 0, 0, images.magnify.Width, images.magnify.Height);
+		}
+
+		brw.inputbox.draw(gr, 8 + size, 2);
+		gr.FillRectangle(scale(22) + brw.inputbox.w, 4, 1, size - 3, g_color_normal_txt & 0x22ffffff);
 	}
 }
 
@@ -820,10 +834,7 @@ function get_metrics() {
 	cScrollBar.width = scale(cScrollBar.defaultWidth);
 	cScrollBar.minCursorHeight = scale(cScrollBar.defaultMinCursorHeight);
 
-	cFilterBox.w = scale(cFilterBox.default_w);
-	cFilterBox.h = scale(cFilterBox.default_h);
-
-	if (brw) brw.setSize();
+	brw.setSize();
 }
 
 function on_key_up(vkey) {
@@ -837,7 +848,7 @@ function on_key_up(vkey) {
 
 function on_key_down(vkey) {
 	if (ppt.showHeaderBar) {
-		g_filterbox.inputbox.on_key_down(vkey);
+		brw.inputbox.on_key_down(vkey);
 	}
 
 	if (GetKeyboardMask() == KMask.ctrl) {
@@ -861,8 +872,8 @@ function on_key_down(vkey) {
 }
 
 function on_char(code) {
-	if (ppt.showHeaderBar && g_filterbox.inputbox.edit) {
-		g_filterbox.inputbox.on_char(code);
+	if (ppt.showHeaderBar && brw.inputbox.edit) {
+		brw.inputbox.on_char(code);
 	}
 }
 
@@ -900,18 +911,15 @@ function check_scroll(scroll___) {
 }
 
 function g_sendResponse() {
-	if (g_filterbox.inputbox.text.length == 0) {
+	if (brw.inputbox.text.length == 0) {
 		g_filter_text = "";
 	} else {
-		g_filter_text = g_filterbox.inputbox.text;
+		g_filter_text = brw.inputbox.text;
 	}
 	brw.populate();
 }
 
-get_font();
-get_colors();
-get_metrics();
-
 var g_selHolder = fb.AcquireSelectionHolder();
 var brw = new oBrowser();
-g_filterbox = new oFilterBox();
+
+get_metrics();

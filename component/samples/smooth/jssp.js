@@ -50,20 +50,6 @@ function oGroup(index, start, handle, groupkey) {
 }
 
 function oBrowser() {
-	this.groups = [];
-	this.rows = [];
-	this.SHIFT_start_id = null;
-	this.SHIFT_count = 0;
-	this.scrollbar = new oScrollbar();
-	this.keypressed = false;
-	this.playlist_info = "";
-	this.list = fb.CreateHandleList();
-
-	window.SetTimeout(function () {
-		brw.populate();
-		brw.showFocusedItem();
-	}, 250);
-
 	this.repaint = function () {
 		need_repaint = true;
 	}
@@ -955,6 +941,20 @@ function oBrowser() {
 		_menu.Dispose();
 		return true;
 	}
+
+	window.SetTimeout(function () {
+		brw.populate();
+		brw.showFocusedItem();
+	}, 100);
+
+	this.groups = [];
+	this.rows = [];
+	this.SHIFT_start_id = null;
+	this.SHIFT_count = 0;
+	this.scrollbar = new oScrollbar();
+	this.keypressed = false;
+	this.playlist_info = "";
+	this.list = fb.CreateHandleList();
 }
 
 function on_size() {
@@ -1132,10 +1132,8 @@ function get_metrics() {
 	cScrollBar.width = scale(cScrollBar.defaultWidth);
 	cScrollBar.minCursorHeight = scale(cScrollBar.defaultMinCursorHeight);
 
-	if (brw) {
-		brw.setSize();
-		brw.setList();
-	}
+	brw.setSize();
+	brw.setList();
 }
 
 function kill_scrollbar_timer() {
@@ -1702,6 +1700,12 @@ function on_drag_drop(action, x, y, mask) {
 	}
 }
 
+var foo_playcount = utils.CheckComponent("foo_playcount");
+
+var g_active_playlist = plman.ActivePlaylist;
+var g_focus_id = getFocusId();
+var g_focus_row = 0;
+var g_focus_album_id = -1;
 var g_seconds = 0;
 var g_time_remaining = 0;
 var g_radio_title = tfo.title.Eval();
@@ -1709,19 +1713,9 @@ var g_radio_artist = tfo.artist.Eval();
 
 var g_selHolder = fb.AcquireSelectionHolder();
 g_selHolder.SetPlaylistSelectionTracking();
-var foo_playcount = utils.CheckComponent("foo_playcount");
-
-var g_focus_row = 0;
-var g_focus_album_id = -1;
-
 plman.SetActivePlaylistContext();
 
-var g_active_playlist = plman.ActivePlaylist;
-var g_focus_id = getFocusId();
+var brw = new oBrowser();
 
-get_font();
-get_colors();
 get_metrics();
 setWallpaperImg();
-
-var brw = new oBrowser();
