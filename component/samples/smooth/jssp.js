@@ -1,5 +1,4 @@
 ppt.groupkey_tf = window.GetProperty("SMOOTH.GROUPKEY", "$if2(%album%,$if(%length%,'('Singles')',%title%)) ^^ $if2(%album artist%,$if(%length%,%directory%,Stream)) ^^ [%date%] ^^ [%genre%]")
-ppt.autocollapse = window.GetProperty("SMOOTH.AUTO.COLLAPSE", false);
 ppt.doubleRowPixelAdds = 3;
 ppt.doubleRowText = window.GetProperty("SMOOTH.DOUBLE.ROW.TEXT", true);
 ppt.groupHeaderRowsNumber = window.GetProperty("SMOOTH.HEADER.ROWS", 2);
@@ -31,7 +30,6 @@ function oGroup(index, start, handle, groupkey) {
 	this.cachekey = tfo.crc_path.EvalWithMetadb(handle);
 	this.cover_image = null;
 	this.image_requested = false;
-	this.collapsed = ppt.autocollapse;
 
 	var arr = this.groupkey.split(" ^^ ");
 	this.top_left = arr[0] || "";
@@ -41,11 +39,6 @@ function oGroup(index, start, handle, groupkey) {
 
 	this.finalise = function (count) {
 		this.count = count;
-
-		if (this.collapsed && g_focus_id >= this.start && g_focus_id < this.start + count) { // expand this group if collapsed and focused track is in it
-			this.collapsed = false;
-			g_group_id_focused = this.index;
-		}
 	}
 }
 
@@ -71,16 +64,6 @@ function oBrowser() {
 		this.scrollbar.updateScrollbar();
 	}
 
-	this.collapseAll = function (bool) {
-		var end = this.groups.length;
-		for (i = 0; i < end; i++) {
-			this.groups[i].collapsed = bool;
-		}
-		this.setList();
-		this.showFocusedItem();
-		this.repaint();
-	}
-
 	this.setList = function () {
 		this.rows = [];
 		var r = 0;
@@ -88,46 +71,30 @@ function oBrowser() {
 		for (var i = 0; i < this.groups.length; i++) {
 			var s = this.groups[i].start;
 
-			if (this.groups[i].collapsed) {
-				if (ppt.showGroupHeaders) {
-					this.groups[i].rowId = r;
-					for (var k = 0; k < ppt.groupHeaderRowsNumber; k++) {
-						this.rows[r] = new Object();
-						this.rows[r].type = k + 1; // 1st line of group header
-						this.rows[r].metadb = this.groups[i].metadb;
-						this.rows[r].albumId = i;
-						this.rows[r].albumTrackId = 0;
-						this.rows[r].playlistTrackId = s;
-						this.rows[r].groupkey = this.groups[i].groupkey;
-						r++;
-					}
-				}
-			} else {
-				if (ppt.showGroupHeaders) {
-					this.groups[i].rowId = r;
-					for (var k = 0; k < ppt.groupHeaderRowsNumber; k++) {
-						this.rows[r] = new Object();
-						this.rows[r].type = k + 1; // 1st line of group header
-						this.rows[r].metadb = this.groups[i].metadb;
-						this.rows[r].albumId = i;
-						this.rows[r].albumTrackId = 0;
-						this.rows[r].playlistTrackId = s;
-						this.rows[r].groupkey = this.groups[i].groupkey;
-						r++;
-					}
-				}
-				// tracks
-				var m = this.groups[i].count;
-				for (var j = 0; j < m; j++) {
+			if (ppt.showGroupHeaders) {
+				this.groups[i].rowId = r;
+				for (var k = 0; k < ppt.groupHeaderRowsNumber; k++) {
 					this.rows[r] = new Object();
-					this.rows[r].type = 0; // track
-					this.rows[r].metadb = this.list.GetItem(s + j);
+					this.rows[r].type = k + 1; // 1st line of group header
+					this.rows[r].metadb = this.groups[i].metadb;
 					this.rows[r].albumId = i;
-					this.rows[r].albumTrackId = j;
-					this.rows[r].playlistTrackId = s + j;
+					this.rows[r].albumTrackId = 0;
+					this.rows[r].playlistTrackId = s;
 					this.rows[r].groupkey = this.groups[i].groupkey;
 					r++;
 				}
+			}
+
+			var m = this.groups[i].count;
+			for (var j = 0; j < m; j++) {
+				this.rows[r] = new Object();
+				this.rows[r].type = 0; // track
+				this.rows[r].metadb = this.list.GetItem(s + j);
+				this.rows[r].albumId = i;
+				this.rows[r].albumTrackId = j;
+				this.rows[r].playlistTrackId = s + j;
+				this.rows[r].groupkey = this.groups[i].groupkey;
+				r++;
 			}
 		}
 	}
@@ -204,12 +171,8 @@ function oBrowser() {
 				g_focus_album_id = this.getAlbumIdfromTrackId(fid);
 				for (i = 0; i < this.rows.length; i++) {
 					if (this.rows[i].type != 0 && this.rows[i].albumId == g_focus_album_id) {
-						if (this.groups[g_focus_album_id].collapsed) {
-							row_idx = i;
-						} else {
-							var albumTrackId = g_focus_id - this.groups[g_focus_album_id].start;
-							row_idx = i + ppt.groupHeaderRowsNumber + albumTrackId;
-						}
+						var albumTrackId = g_focus_id - this.groups[g_focus_album_id].start;
+						row_idx = i + ppt.groupHeaderRowsNumber + albumTrackId;
 						break;
 					}
 				}
@@ -485,7 +448,6 @@ function oBrowser() {
 
 					switch (true) {
 					case rowType > 0: // ----------------> group header row
-						;
 						if (utils.IsKeyPressed(VK_SHIFT)) {
 							if (g_focus_id != playlistTrackId) {
 								if (this.SHIFT_start_id != null) {
@@ -499,9 +461,7 @@ function oBrowser() {
 							this.SHIFT_start_id = null;
 						} else {
 							plman.ClearPlaylistSelection(g_active_playlist);
-							if (!(ppt.autocollapse && this.groups[this.rows[this.activeRow].albumId].collapsed)) {
-								this.selectGroupTracks(this.rows[this.activeRow].albumId);
-							}
+							this.selectGroupTracks(this.rows[this.activeRow].albumId);
 							this.SHIFT_start_id = null;
 						}
 						plman.SetPlaylistFocusItem(g_active_playlist, playlistTrackId);
@@ -582,17 +542,8 @@ function oBrowser() {
 			if (y < this.y && ppt.wallpapermode == 1 && fb.IsPlaying) {
 				fb.GetNowPlaying().ShowAlbumArtViewer();
 			} else if (y > this.y && !rating_hover && this.ishover && this.activeRow > -1 && Math.abs(scroll - scroll_) < 2) {
-				var rowType = this.rows[this.activeRow].type;
-				switch (true) {
-				case rowType > 0: // group header
-					this.groups[this.rows[this.activeRow].albumId].collapsed = !this.groups[this.rows[this.activeRow].albumId].collapsed;
-					this.setList();
-					this.showFocusedItem();
-					this.repaint();
-					break;
-				case rowType == 0: // track
+				if (this.rows[this.activeRow].type == 0) { // track
 					play(g_active_playlist, this.rows[this.activeRow].playlistTrackId);
-					break;
 				}
 				this.repaint();
 			}
@@ -788,21 +739,14 @@ function oBrowser() {
 		_menu2.CheckMenuItem(10, ppt.wallpaperblurred);
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 
-		_menu3.AppendMenuItem(!ppt.autocollapse ? MF_STRING : MF_GRAYED, 11, "Enable");
+		_menu3.AppendMenuItem(MF_STRING, 15, "Enable");
 		_menu3.CheckMenuItem(11, ppt.showGroupHeaders);
 		_menu3.AppendMenuSeparator();
 		_menu3.AppendMenuItem(MF_GRAYED, 0, "Rows");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 12, "1");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 13, "2");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 14, "3");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 15, "4");
-		_menu3.CheckMenuRadioItem(12, 15, ppt.groupHeaderRowsNumber + 11);
-		_menu3.AppendMenuSeparator();
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 16, "Autocollapse");
-		_menu3.AppendMenuSeparator();
-		_menu3.CheckMenuItem(16, ppt.autocollapse);
-		_menu3.AppendMenuItem(ppt.showGroupHeaders && !ppt.autocollapse ? MF_STRING : MF_GRAYED, 17, "Collapse All");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders && !ppt.autocollapse ? MF_STRING : MF_GRAYED, 18, "Expand All");
+		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 11, "1");
+		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 12, "2");
+		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 13, "3");
+		_menu3.CheckMenuRadioItem(11, 13, ppt.groupHeaderRowsNumber + 10);
 		_menu3.AppendMenuSeparator();
 		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 19, "Album Art: Auto-fill");
 		_menu3.CheckMenuItem(19, ppt.autoFill);
@@ -874,34 +818,17 @@ function oBrowser() {
 			this.repaint();
 			break;
 		case 11:
-			ppt.showGroupHeaders = !ppt.showGroupHeaders;
-			window.SetProperty("SMOOTH.SHOW.GROUP.HEADERS", ppt.showGroupHeaders);
-			if (!ppt.showGroupHeaders)
-				this.collapseAll(false);
-			get_metrics();
-			this.repaint();
-			break;
 		case 12:
 		case 13:
-		case 14:
-		case 15:
-			ppt.groupHeaderRowsNumber = idx - 11;
+			ppt.groupHeaderRowsNumber = idx - 10;
 			window.SetProperty("SMOOTH.HEADER.ROWS", ppt.groupHeaderRowsNumber);
 			this.populate();
 			break;
-		case 16:
-			ppt.autocollapse = !ppt.autocollapse;
-			window.SetProperty("SMOOTH.AUTO.COLLAPSE", ppt.autocollapse);
-			this.populate();
-			this.showFocusedItem();
-			break;
-		case 17:
-			this.collapseAll(true);
-			this.showFocusedItem();
-			break;
-		case 18:
-			this.collapseAll(false);
-			this.showFocusedItem();
+		case 15:
+			ppt.showGroupHeaders = !ppt.showGroupHeaders;
+			window.SetProperty("SMOOTH.SHOW.GROUP.HEADERS", ppt.showGroupHeaders);
+			get_metrics();
+			this.repaint();
 			break;
 		case 19:
 			ppt.autoFill = !ppt.autoFill;
@@ -1157,28 +1084,20 @@ function on_key_up(vkey) {
 
 function vk_up() {
 	var scrollstep = 1;
-	var new_focus_id = 0,
-	new_row = 0;
+	var new_focus_id = 0;
+	var new_row = 0;
 
 	new_row = g_focus_row - scrollstep;
 	if (new_row < 0) {
-		if (brw.groups[0].collapsed) {
-			new_row = 0;
+		if (ppt.showGroupHeaders) {
+			new_row = ppt.groupHeaderRowsNumber;
 		} else {
-			if (ppt.showGroupHeaders) {
-				new_row = ppt.groupHeaderRowsNumber;
-			} else {
-				new_row = 0;
-			}
+			new_row = 0;
 		}
 		kill_scrollbar_timer();
 	} else {
 		if (brw.rows[new_row].type != 0) { // group row
-			if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-				new_row -= ppt.groupHeaderRowsNumber - 1;
-			} else {
-				new_row -= ppt.groupHeaderRowsNumber;
-			}
+			new_row -= ppt.groupHeaderRowsNumber;
 		}
 	}
 	if (new_row >= 0) {
@@ -1193,36 +1112,17 @@ function vk_up() {
 
 function vk_down() {
 	var scrollstep = 1;
-	var new_focus_id = 0,
-	new_row = 0;
+	var new_focus_id = 0;
+	var new_row = 0;
 
 	new_row = g_focus_row + scrollstep;
 	if (new_row > brw.rows.length - 1) {
 		new_row = brw.rows.length - 1;
-		if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-			new_row -= (ppt.groupHeaderRowsNumber - 1);
-		}
 		kill_scrollbar_timer();
 	} else {
 		if (brw.rows[new_row].type != 0) { // group row
-			if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-				if (brw.rows[new_row].type > 1) { // if not 1st row of the group header
-					new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
-					if (new_row > brw.rows.length - 1) {
-						new_row = brw.rows.length - 1;
-						if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-							new_row -= (ppt.groupHeaderRowsNumber - 1);
-						}
-					} else {
-						if (!brw.groups[brw.rows[new_row].albumId].collapsed) {
-							new_row += ppt.groupHeaderRowsNumber;
-						}
-					}
-				}
-			} else {
-				if (brw.rows[new_row].type <= 1) {
-					new_row += ppt.groupHeaderRowsNumber;
-				}
+			if (brw.rows[new_row].type <= 1) {
+				new_row += ppt.groupHeaderRowsNumber;
 			}
 		}
 	}
@@ -1238,28 +1138,16 @@ function vk_down() {
 
 function vk_pgup() {
 	var scrollstep = brw.totalRowsVis;
-	var new_focus_id = 0,
-	new_row = 0;
+	var new_focus_id = 0;
+	var new_row = 0;
 
 	new_row = g_focus_row - scrollstep;
 	if (new_row < 0) {
-		if (brw.groups[0].collapsed) {
-			new_row = 0;
-		} else {
-			new_row = ppt.groupHeaderRowsNumber;
-		}
+		new_row = ppt.groupHeaderRowsNumber;
 		kill_scrollbar_timer();
 	} else {
 		if (brw.rows[new_row].type != 0) { // group row
-			if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-				if (brw.rows[new_row].type > 1) { // if not 1st row of the group header
-					new_row -= (brw.rows[new_row].type - 1);
-				} else {
-					// RAS
-				}
-			} else {
-				new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
-			}
+			new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
 		}
 	}
 	if (new_row >= 0) {
@@ -1280,20 +1168,9 @@ function vk_pgdn() {
 	new_row = g_focus_row + scrollstep;
 	if (new_row > brw.rows.length - 1) {
 		new_row = brw.rows.length - 1;
-		if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-			new_row -= (ppt.groupHeaderRowsNumber - 1);
-		}
 	} else {
 		if (brw.rows[new_row].type != 0) { // group row
-			if (brw.groups[brw.rows[new_row].albumId].collapsed) {
-				if (brw.rows[new_row].type > 1) { // if not 1st row of the group header
-					new_row -= (brw.rows[new_row].type - 1);
-				} else {
-					// RAS
-				}
-			} else {
-				new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
-			}
+			new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
 		}
 	}
 	if (new_row < brw.rows.length) {
@@ -1591,30 +1468,6 @@ function on_item_focus_change(playlist, from, to) {
 	g_focus_id = to;
 
 	if (playlist == g_active_playlist) {
-		// Autocollapse handle
-		if (ppt.autocollapse) { // && !center_focus_item
-			if (from > -1 && from < brw.list.Count) {
-				var old_focused_group_id = brw.getAlbumIdfromTrackId(from);
-			} else {
-				var old_focused_group_id = -1;
-			}
-			if (to > -1 && to < brw.list.Count) {
-				var new_focused_group_id = brw.getAlbumIdfromTrackId(to);
-			} else {
-				var old_focused_group_id = -1;
-			}
-			if (new_focused_group_id != old_focused_group_id) {
-				if (old_focused_group_id > -1) {
-					brw.groups[old_focused_group_id].collapsed = true;
-				}
-				if (new_focused_group_id > -1) {
-					brw.groups[new_focused_group_id].collapsed = false;
-				}
-				brw.setList();
-				brw.scrollbar.updateScrollbar();
-			}
-		}
-
 		g_focus_row = brw.getOffsetFocusItem(g_focus_id);
 		if (g_focus_row < scroll / ppt.rowHeight || g_focus_row > scroll / ppt.rowHeight + brw.totalRowsVis - 0.1) {
 			var old = scroll;

@@ -116,3 +116,4 @@ now take a title format pattern as a `string`.
 - The `Album Art` sample no longer has a `CD Jewel Case` option.
 - `JS Smooth Browser` no longer creates playlists on selection changes. To send tracks to the `Library selection` playlist, a group has to be double clicked. The destination playlist name can be changed via the panel properties. As before, groups can be added to existing playlists using the right click>`Add to...` option.
 - The default view in `JS Smooth Browser` has been changed to `Column + Album Art` with extra group count and group length info. All previous options are still available via the right click menu.
+- The group headers in `JS Smooth Playlist` are no longer collapsable.
