@@ -8,7 +8,6 @@ theme:
   custom_dir: overrides
   features:
     - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.sections
   palette:
     - scheme: default
