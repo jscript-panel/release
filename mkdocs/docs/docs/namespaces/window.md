@@ -5,7 +5,7 @@
 |window.DPI|`number`|read|This value is fixed when [foobar2000](https://foobar2000.org) starts. It will not change even if Windows display settings are updated.
 |window.Height|`number`|read|
 |window.ID|`number`|read|Unique identifier for the panel. Use in various `async` methods.|
-|window.IsDark|`boolean`|read|
+|window.IsDark|`boolean`|read|Can only be true if `Dark Mode` is enabled in `Columns UI v2.0.0` and later.
 |window.IsDefaultUI|`boolean`|read|
 |window.IsVisible|`boolean`|read|
 |window.MaxHeight|`number`|read, write|

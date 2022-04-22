@@ -107,6 +107,7 @@ now take a title format pattern as a `string`.
 - [utils.GetLastModified](../namespaces/utils/#utilsgetlastmodifiedpath)
 - [utils.MessageBox](../namespaces/utils/#utilsmessageboxprompt-title-flags)
 - [utils.RemovePath](../namespaces/utils/#utilsremovepathpath)
+- [window.IsDark](../namespaces/window/)
 - [gr.FillGradientRectangleAdvanced](../interfaces/IJSGraphics/#fillgradientrectangleadvancedx-y-w-h-str) (allows you to create `D2D` [Linear](https://docs.microsoft.com/en-us/windows/win32/direct2d/direct2d-brushes-overview#using-linear-gradient-brushes) and [Radial](https://docs.microsoft.com/en-us/windows/win32/direct2d/direct2d-brushes-overview#using-radial-gradient-brushes) brushes.)
 - [gr.WriteText](../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping) (supports coloured emoji, styling ranges of text)
 
