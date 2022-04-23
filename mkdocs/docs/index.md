@@ -2,10 +2,6 @@
 hide: navigation
 ---
 
-!!! note
-	This is not available yet. I'm just putting the docs online so
-	people can take a peek at the changes.
-
 This component for [foobar2000](https://foobar2000.org) is based on [WSH Panel Mod](https://code.google.com/archive/p/foo-wsh-panel-mod/).
 
 It allows the creation of customisable panels that can be written with `JavaScript` rather than the `C++` required by the [foobar2000 SDK](https://www.foobar2000.org/SDK).

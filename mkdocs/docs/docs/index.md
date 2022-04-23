@@ -22,6 +22,8 @@ Both `Default UI` and [Columns UI](https://yuo.be/columns-ui) are supported.
 
 ## Installation
 
+[Download :material-download:](https://github.com/marc2k3/jscript-panel/releases){ .md-button }
+
 [https://wiki.hydrogenaud.io/index.php?title=Foobar2000:How_to_install_a_component](https://wiki.hydrogenaud.io/index.php?title=Foobar2000:How_to_install_a_component)
 
 It is assumed you know how to add panels to your layout. Basic guides
