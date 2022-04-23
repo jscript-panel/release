@@ -9,6 +9,8 @@
 	The biggest change is the reworking of all graphics and image
 	handling which are detailed on the [changes](changes) page.
 
+	`JScript Panel v2` is still available for download [here](https://github.com/marc2k3/foo_jscript_panel/releases).
+
 ## Minimum requirements
 
 `Windows 7` is the current minimum requirement. The minimum requirement
