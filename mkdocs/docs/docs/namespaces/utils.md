@@ -503,14 +503,14 @@ Returns a `boolean` value.
 Returns a `string`.
 
 !!! example
-	=== "Default"
+	=== "Legacy"
 		```js
 		var chars = '"\\\/*|:<>?';
 		console.log(utils.ReplaceIllegalChars(chars, false));
 		```
 
-		```markdown title="Output"
-		''⧵⁄∗∣∶˂˃？
+		``` markdown title="Output"
+		''--x_-__
 		```
 
 	=== "Modern"
@@ -519,8 +519,8 @@ Returns a `string`.
 		console.log(utils.ReplaceIllegalChars(chars, true));
 		```
 
-		``` markdown title="Output"
-		''--x_-__
+		```markdown title="Output"
+		''⧵⁄∗∣∶˂˃？
 		```
 
 !!! note
