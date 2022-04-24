@@ -155,15 +155,15 @@ This is useful for creating an `Album List` like script in
 `folder structure` mode where you'd like the monitored music
 folder removed from the path of each handle list item.
 
-If the [foobar2000](https://foobar2000.org) Media Library is
-configured to watch `D:\Music\` and the path of
-the first item in the handle list is
-
-`D:\Music\Albums\Artist\Some Album\Some Song.flac`
-
-then...
-
 !!! example
+	If the [foobar2000](https://foobar2000.org) Media Library is
+	configured to watch `D:\Music\` and the path of
+	the first item in the handle list is
+
+	`D:\Music\Albums\Artist\Some Album\Some Song.flac`
+
+	then...
+
 	```js
 	var handle_list = fb.GetLibraryItems();
 	handle_list.SortByRelativePath();
@@ -233,7 +233,7 @@ No return value.
 !!! example
 	```js
 	var handle = ...
-	handle_list.InsertItem(handle_list.Count, handle);
+	handle_list.InsertItem(0, handle);
 	```
 
 ## `InsertItems(index, handle_list)`
