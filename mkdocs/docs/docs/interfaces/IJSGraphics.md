@@ -52,12 +52,13 @@ No return value.
 |srcW|`number`|
 |srcH|`number`|
 |opacity|`number`|Floating point number between `0` and `1`. Default `1`.|
+|angle|`number`|Default `0`.|
 
 No return value.
 
 !!! note
-	Unlike previous versions, there is no `angle` option and `alpha` has been replaced
-	with `opacity`.
+	This differs from previous versions where `alpha` has been replaced
+	with `opacity`. Also, `angle` is now the last argument.
 
 ## `DrawLine(x1, y1, x2, y2, line_width, colour)`
 |Arguments|||

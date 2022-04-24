@@ -47,7 +47,7 @@ last 2 are `opacity` and `angle`. They were/are always optional
 so may be omitted.
 
 ```js
-//old
+// old
 gr.DrawImage(img, dstx, dsty, dstw, dsth, srcx, srcy, srcw, srch[, angle, alpha])
 
 // new
