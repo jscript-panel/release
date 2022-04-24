@@ -20,7 +20,7 @@ can be installed via the `Windows Store` on `Windows 10/11`.
 There is no longer a `gdi` namespace. Those methods have
 been replaced as follows:
 
-|Old|New
+|Removed|Replacement
 |---|---|
 |gdi.CreateImage|[utils.CreateImage](../namespaces/utils/#utilscreateimagewidth-height)|
 |gdi.Font|Stringified `JSON`|
@@ -30,10 +30,34 @@ been replaced as follows:
 ### Removal of `IGdiGraphics`
 
 The replacement is [IJSGraphics](../interfaces/IJSGraphics) which uses `DirectWrite` instead
-of `Gdiplus`. This means pretty much every method has changed.
+of `Gdiplus`. The most commonly used methods have changed as follows:
 
-Since `GdiDrawText` and `DrawString` no longer exist, the new method that needs the most
-attention is [WriteText](../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping).
+|Removed|Replacement|Notes
+|---|---|---|
+|gr.DrawRect|gr.DrawRectangle|No changes in usage.|
+|gr.FillSolidRect|gr.FillRectangle|No changes in usage.|
+|gr.DrawString, gr.GdiDrawText|[gr.WriteText](../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping)
+
+Special care has to be taken with all other methods as their behaviour
+has changed.
+
+The most commonly used method will be `gr.DrawImage` which
+used to take `angle` and `alpha` as the last 2 arguments. Now the
+last 2 are `opacity` and `angle`. They were/are always optional
+so may be omitted.
+
+```js
+//old
+gr.DrawImage(img, dstx, dsty, dstw, dsth, srcx, srcy, srcw, srch[, angle, alpha])
+
+// new
+gr.DrawImage(img, dstx, dsty, dstw, dsth, srcx, srcy, srcw, srch[, opacity, angle])
+```
+
+Unlike `alpha` which accepted values between `0-255`, `opacity` takes
+a floating point number between `0-1`.
+
+`gr.DrawPolygon` and `gr.FillPolygon` no longer exist at all.
 
 ### Removal of `IGdiBitmap`
 
@@ -76,8 +100,6 @@ This list may be incomplete.
 
 ### Methods with changed behaviour
 
-- [gr.DrawImage](../interfaces/IJSGraphics/#drawimageimage-dstx-dsty-dstw-dsth-srcx-srcy-srcw-srch-opacity) (no `angle` parameter, `alpha` has been replaced by `opacity` which
-takes values between `0` and `1`).
 - [fb.CreateMainMenuManager](../namespaces/fb/#fbcreatemainmenumanagerroot_name) now takes a `name` parameter for `File`, `Edit`, `View` etc
 and the returned `IMainMenuManager` object no longer has an `Init` method.
 - [IMetadbHandleList RemoveDuplicatesByFormat](../interfaces/IMetadbhandleList/#removeduplicatesbyformatpattern) and [IMetadbHandleList SortByFormat](../interfaces/IMetadbhandleList/#sortbyformatpattern-direction)
