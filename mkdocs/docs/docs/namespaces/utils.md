@@ -519,7 +519,7 @@ Returns a `string`.
 		console.log(utils.ReplaceIllegalChars(chars, true));
 		```
 
-		```markdown title="Output"
+		``` markdown title="Output"
 		''⧵⁄∗∣∶˂˃？
 		```
 
