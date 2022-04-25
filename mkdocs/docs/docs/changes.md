@@ -127,6 +127,7 @@ now take a title format pattern as a `string`.
 - [utils.CreateTextLayout](../namespaces/utils/#utilscreatetextlayouttext-font_name-font_size-font_size-font_style-font_stretch-text_aligment-paragraph_aligment-word_wrapping), [gr.WriteTextLayout](../interfaces/IJSGraphics/#writetextlayouttext_layout-colour-x-y-w-h-vertical_offset)
 - [utils.GetClipboardText](../namespaces/utils/#utilsgetclipboardtext), [utils.SetClipboardText](../namespaces/utils/#utilssetclipboardtexttext)
 - [utils.GetLastModified](../namespaces/utils/#utilsgetlastmodifiedpath)
+- [utils.LoadSVG](../namespaces/utils/#utilsloadsvgpath-max_width)
 - [utils.MessageBox](../namespaces/utils/#utilsmessageboxprompt-title-flags)
 - [utils.RemovePath](../namespaces/utils/#utilsremovepathpath)
 - [window.IsDark](../namespaces/window/)
