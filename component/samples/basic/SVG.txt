@@ -1,0 +1,9 @@
+var svg_file = fb.ComponentPath + "samples\\svg\\android.svg";
+
+var original = utils.LoadSVG(svg_file);
+var large = utils.LoadSVG(svg_file, 512); // set optional max_width
+
+function on_paint(gr) {
+	gr.DrawImage(original, 0, 0, original.Width, original.Height, 0, 0, original.Width, original.Height);
+	gr.DrawImage(large, original.Width, 0, large.Width, large.Height, 0, 0, large.Width, large.Height);
+}
