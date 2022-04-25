@@ -401,6 +401,29 @@ No return value.
 
 Use in conjunction with [on_load_image_done](../../callbacks/#on_load_image_doneimage_path-image).
 
+## `utils.LoadSVG(path[, max_width])`
+|Arguments|||
+|---|---|---|
+|path|`string`|
+|max_width|`number`|Default `0`. Original size is used if zero.|
+
+Returns an [IJSImage](../../interfaces/IJSImage) instance or `null` on failure.
+
+!!! example
+	![SVG](../../images/android_svg.png)
+
+	```js
+	var svg_file = fb.ComponentPath + "samples\\svg\\android.svg";
+
+	var original = utils.LoadSVG(svg_file);
+	var large = utils.LoadSVG(svg_file, 512);
+
+	function on_paint(gr) {
+		gr.DrawImage(original, 0, 0, original.Width, original.Height, 0, 0, original.Width, original.Height);
+		gr.DrawImage(large, original.Width, 0, large.Width, large.Height, 0, 0, large.Width, large.Height);
+	}
+	```
+
 ## `utils.MessageBox(prompt, title, flags)`
 |Arguments|||
 |---|---|---|
