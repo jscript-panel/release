@@ -13,7 +13,7 @@ function _artistFolder(artist) {
 function _button(x, y, w, h, normal, hover, fn, tiptext) {
 	this.paint = function (gr) {
 		if (this.current) {
-			gr.WriteText(this.current.char, JSON.stringify({Name:'FontAwesome',Size:this.h - _scale(10)}), this.current.colour, this.x, this.y, this.w, this.h, 2, 2);
+			gr.WriteText(this.current.char, this.font, this.current.colour, this.x, this.y, this.w, this.h, 2, 2);
 		}
 	}
 
@@ -46,6 +46,7 @@ function _button(x, y, w, h, normal, hover, fn, tiptext) {
 	this.normal = normal;
 	this.hover = hover || normal;
 	this.current = normal;
+	this.font = JSON.stringify({Name:'FontAwesome',Size:this.h - _scale(10)});
 }
 
 function _buttons() {
@@ -340,10 +341,10 @@ function _save(file, value) {
 	return false;
 }
 
-function _sb(t, x, y, w, h, v, fn) {
+function _sb(ch, x, y, w, h, v, fn) {
 	this.paint = function (gr, colour) {
 		if (this.v()) {
-			gr.WriteText(this.t, JSON.stringify({Name:'FontAwesome',Size:this.h}), colour, this.x, this.y, this.w, this.h, 2, 2);
+			gr.WriteText(this.ch, this.font, colour, this.x, this.y, this.w, this.h, 2, 2);
 		}
 	}
 
@@ -371,13 +372,14 @@ function _sb(t, x, y, w, h, v, fn) {
 		return false;
 	}
 
-	this.t = t;
+	this.ch = ch;
 	this.x = x;
 	this.y = y;
 	this.w = w;
 	this.h = h;
 	this.v = v;
 	this.fn = fn;
+	this.font = JSON.stringify({Name:'FontAwesome',Size:h});
 }
 
 function _scale(size) {
