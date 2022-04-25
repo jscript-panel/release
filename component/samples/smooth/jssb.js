@@ -294,7 +294,7 @@ function oBrowser() {
 					} else {
 						gr.WriteText(group.album, g_font_bold, normal_text, ax + text_left, ay + fh, text_width, fh, 0, 2, 1);
 						gr.WriteText(group.artist, g_font, fader_txt, ax + text_left, ay + (fh * 2), text_width, fh, 0, 2, 1);
-						gr.WriteText(group.count + " tracks. " + group.duration + ".", g_font, fader_txt, ax + text_left, ay + (fh * 3) - 2, text_width, fh, 0, 2, 1);
+						gr.WriteText(group.count + (group.count > 1 ? " tracks. " : " track. ") + group.duration + ".", g_font, fader_txt, ax + text_left, ay + (fh * 3) - 2, text_width, fh, 0, 2, 1);
 					}
 				} else { // artist/album artist, 1 line
 					gr.WriteText(group.artist, g_font, normal_text, ax + text_left, ay, text_width, ah, 0, 2, 1);

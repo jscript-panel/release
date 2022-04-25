@@ -248,7 +248,7 @@ function oBrowser() {
 		if (g_active_playlist > -1) {
 			this.playlist_info = plman.GetPlaylistName(g_active_playlist);
 			var duration = this.list.CalcTotalDuration();
-			this.playlist_info += ", " + this.list.count + " tracks" + (duration > 0 ? ", " + utils.FormatDuration(duration) : "");
+			this.playlist_info += ", " + this.list.count + (this.list.count == 1 ? " track" : " tracks") + (duration > 0 ? ", " + utils.FormatDuration(duration) : "");
 		}
 	}
 
