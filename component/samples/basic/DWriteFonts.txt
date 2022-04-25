@@ -1,8 +1,9 @@
 // ==PREPROCESSOR==
 // @name "DWriteFonts"
 // @author "marc2003"
+// @import "%fb2k_component_path%helpers.txt"
 // @import "%fb2k_component_path%samples\js\lodash.min.js"
-// @import "%fb2k_component_path%samples\js\helpers.js"
+// @import "%fb2k_component_path%samples\js\common.js"
 // @import "%fb2k_component_path%samples\js\panel.js"
 // @import "%fb2k_component_path%samples\js\list.js"
 // ==/PREPROCESSOR==
