@@ -1,5 +1,26 @@
 ## v3.0.0
 
+### New additions
+
+- [utils.CreateFolder](../namespaces/utils/#utilscreatefolderpath) (creates all parent folders if necessary)
+- [utils.CreateTextLayout](../namespaces/utils/#utilscreatetextlayouttext-font_name-font_size-font_size-font_style-font_stretch-text_aligment-paragraph_aligment-word_wrapping), [gr.WriteTextLayout](../interfaces/IJSGraphics/#writetextlayouttext_layout-colour-x-y-w-h-vertical_offset)
+- [utils.GetClipboardText](../namespaces/utils/#utilsgetclipboardtext), [utils.SetClipboardText](../namespaces/utils/#utilssetclipboardtexttext)
+- [utils.GetLastModified](../namespaces/utils/#utilsgetlastmodifiedpath)
+- [utils.LoadSVG](../namespaces/utils/#utilsloadsvgpath-max_width)
+- [utils.MessageBox](../namespaces/utils/#utilsmessageboxprompt-title-flags)
+- [utils.RemovePath](../namespaces/utils/#utilsremovepathpath)
+- [window.IsDark](../namespaces/window/)
+- [gr.FillGradientRectangleAdvanced](../interfaces/IJSGraphics/#fillgradientrectangleadvancedx-y-w-h-str) (allows you to create `D2D` [Linear](https://docs.microsoft.com/en-us/windows/win32/direct2d/direct2d-brushes-overview#using-linear-gradient-brushes) and [Radial](https://docs.microsoft.com/en-us/windows/win32/direct2d/direct2d-brushes-overview#using-radial-gradient-brushes) brushes.)
+- [gr.WriteText](../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping) (supports coloured emoji, styling ranges of text)
+
+### Sample changes
+
+- The `Queue Viewer` and `Playback Buttons` samples have been removed.
+- The `Album Art` sample no longer has a `CD Jewel Case` option.
+- `JS Smooth Browser` no longer creates playlists on selection changes. To send tracks to the `Library selection` playlist, a group has to be double clicked. The destination playlist name can be changed via the panel properties. As before, groups can be added to existing playlists using the right click>`Add to...` option.
+- The default view in `JS Smooth Browser` has been changed to `Column + Album Art` with extra group count and group length info. All previous options are still available via the right click menu.
+- The group headers in `JS Smooth Playlist` are no longer collapsable.
+
 ### Removed features
 
 - There is no longer a playback stats database.
@@ -120,24 +141,3 @@ now take a title format pattern as a `string`.
 - IMetadbHandleList BSearch
 - on_main_menu
 - on_playlist_item_ensure_visible
-
-### New additions
-
-- [utils.CreateFolder](../namespaces/utils/#utilscreatefolderpath) (creates all parent folders if necessary)
-- [utils.CreateTextLayout](../namespaces/utils/#utilscreatetextlayouttext-font_name-font_size-font_size-font_style-font_stretch-text_aligment-paragraph_aligment-word_wrapping), [gr.WriteTextLayout](../interfaces/IJSGraphics/#writetextlayouttext_layout-colour-x-y-w-h-vertical_offset)
-- [utils.GetClipboardText](../namespaces/utils/#utilsgetclipboardtext), [utils.SetClipboardText](../namespaces/utils/#utilssetclipboardtexttext)
-- [utils.GetLastModified](../namespaces/utils/#utilsgetlastmodifiedpath)
-- [utils.LoadSVG](../namespaces/utils/#utilsloadsvgpath-max_width)
-- [utils.MessageBox](../namespaces/utils/#utilsmessageboxprompt-title-flags)
-- [utils.RemovePath](../namespaces/utils/#utilsremovepathpath)
-- [window.IsDark](../namespaces/window/)
-- [gr.FillGradientRectangleAdvanced](../interfaces/IJSGraphics/#fillgradientrectangleadvancedx-y-w-h-str) (allows you to create `D2D` [Linear](https://docs.microsoft.com/en-us/windows/win32/direct2d/direct2d-brushes-overview#using-linear-gradient-brushes) and [Radial](https://docs.microsoft.com/en-us/windows/win32/direct2d/direct2d-brushes-overview#using-radial-gradient-brushes) brushes.)
-- [gr.WriteText](../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping) (supports coloured emoji, styling ranges of text)
-
-### Sample changes
-
-- The `Queue Viewer` and `Playback Buttons` samples have been removed.
-- The `Album Art` sample no longer has a `CD Jewel Case` option.
-- `JS Smooth Browser` no longer creates playlists on selection changes. To send tracks to the `Library selection` playlist, a group has to be double clicked. The destination playlist name can be changed via the panel properties. As before, groups can be added to existing playlists using the right click>`Add to...` option.
-- The default view in `JS Smooth Browser` has been changed to `Column + Album Art` with extra group count and group length info. All previous options are still available via the right click menu.
-- The group headers in `JS Smooth Playlist` are no longer collapsable.
