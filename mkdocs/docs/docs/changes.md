@@ -23,8 +23,11 @@
 
 ### Removed features
 
+!!! note
+	`Edge Style` for `Columns UI` was removed in `Beta.1` but restored in `Beta.4`.
+
 - There is no longer a playback stats database.
-- There are no edge style or pseudo transparent options in `Columns UI`.
+- There is no pseudo transparent option in `Columns UI`.
 - Panels cannot be added as toolbars in `Columns UI`.
 - Support for `WebP` images is no longer baked in to the component. Now
 it relies on the `Windows Imaging Component`. `Windows 10/11` users
