@@ -401,10 +401,10 @@ No return value.
 
 Use in conjunction with [on_load_image_done](../../callbacks/#on_load_image_doneimage_path-image).
 
-## `utils.LoadSVG(path[, max_width])`
+## `utils.LoadSVG(path_or_xml[, max_width])`
 |Arguments|||
 |---|---|---|
-|path|`string`|
+|path_or_xml|`string`|
 |max_width|`number`|Default `0`. Original size is used if zero.|
 
 Returns an [IJSImage](../../interfaces/IJSImage) instance or `null` on failure.
@@ -414,9 +414,12 @@ Returns an [IJSImage](../../interfaces/IJSImage) instance or `null` on failure.
 
 	```js
 	var svg_file = fb.ComponentPath + "samples\\svg\\android.svg";
+	var svg_content = utils.ReadUTF8(svg_file);
 
 	var original = utils.LoadSVG(svg_file);
-	var large = utils.LoadSVG(svg_file, 512);
+
+	// Maybe manipulate the XML??? That's for others, not me!!
+	var large = utils.LoadSVG(svg_content, 512);
 
 	function on_paint(gr) {
 		gr.DrawImage(original, 0, 0, original.Width, original.Height, 0, 0, original.Width, original.Height);
