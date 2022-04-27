@@ -3,7 +3,7 @@
 |||||
 |---|---|---|---|
 |Height|`number`|read|
-|Path|`string`|read|This will the source path of the image when created from the various album art methods and [utils.LoadImage](../../namespaces/utils/#utilsloadimagepath). Will be empty if image is cloned or created with [utils.CreateImage](../../namespaces/utils/#utilscreateimagewidth-height).|
+|Path|`string`|read|This will the source path of the image when created from the various album art methods and [utils.LoadImage](../../namespaces/utils/#utilsloadimagepath). Will be empty if image is cloned or created with [utils.CreateImage](../../namespaces/utils/#utilscreateimagewidth-height) or [utils.LoadSVG](../../namespaces/utils/#utilsloadsvgpath_or_xml-max_width).|
 |Width|`number`|read|
 
 **Methods**
