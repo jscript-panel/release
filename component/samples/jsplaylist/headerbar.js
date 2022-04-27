@@ -101,9 +101,9 @@ function oHeaderBar() {
 
 	this.setSize = function (x, y, w, h) {
 		this.x = x;
-		this.y = y;
+		this.y = y + 1;
 		this.w = w - cScrollBar.width;
-		this.h = cHeaderBar.height;
+		this.h = cHeaderBar.height - 1;
 		this.setButtons();
 		this.borderWidth = cHeaderBar.borderWidth;
 	}
