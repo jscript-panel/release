@@ -38,7 +38,7 @@ This example covers a few of the more basic ellipse/rounded rectangle methods wh
 
 No return value.
 
-## `DrawImage(image, dstX, dstY, dstW, dstH, srcX, srcY, srcW, srcH[, opacity])`
+## `DrawImage(image, dstX, dstY, dstW, dstH, srcX, srcY, srcW, srcH[, opacity, angle])`
 
 |Arguments|||
 |---|---|---|
