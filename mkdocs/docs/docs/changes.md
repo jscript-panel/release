@@ -91,6 +91,33 @@ image handling. I've managed to transfer most but not all previous functionality
 The main omission is `ApplyMask` which I've not been able to rewrite. See
 [IJSImage](../interfaces/IJSImage) for full details.
 
+### Callback changes
+
+`on_main_menu` and `on_playlist_item_ensure_visible` have been removed entirely.
+
+`on_get_album_art_done` no longer receives `image_path` because it's now a
+property of the image.
+
+!!! example
+	```js
+	function on_get_album_art_done(handle, art_id, image)
+	{
+		if (image) g_img_path = image.Path;
+	}
+	```
+
+`on_load_image_done` has different arguments where the `image_path` supplied
+to `utils.LoadImageAsync` is now the identifier instead of a `task_id`.
+
+!!! example
+	```js
+	function on_load_image_done(image_path, image) {
+		if (image) { // could be null if supplied path was bad
+			// do something
+		}
+	}
+	```
+
 ### Renamed/moved methods
 
 This list may be incomplete.
@@ -142,5 +169,3 @@ now take a title format pattern as a `string`.
 - utils.PathWildcardMatch
 - window.IsTransparent
 - IMetadbHandleList BSearch
-- on_main_menu
-- on_playlist_item_ensure_visible
