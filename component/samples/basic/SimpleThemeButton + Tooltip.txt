@@ -4,7 +4,7 @@
 // @import "%fb2k_component_path%helpers.txt"
 // ==/PREPROCESSOR==
 
-function SimpleButton(x, y, w, h, text, tooltip_text, fonClick, state) {
+function SimpleButton(x, y, w, h, text, tooltip_text, func, state) {
 	this.state = state ? state : ButtonStates.normal;
 	this.x = x;
 	this.y = y;
@@ -12,10 +12,10 @@ function SimpleButton(x, y, w, h, text, tooltip_text, fonClick, state) {
 	this.h = h;
 	this.text = text;
 	this.tooltip_text = tooltip_text;
-	this.fonClick = fonClick;
+	this.func = func;
 
 	this.containXY = function (x, y) {
-		return (this.x <= x) && (x <= this.x + this.w) && (this.y <= y) && (y <= this.y + this.h);
+		return this.x <= x && x <= this.x + this.w && this.y <= y && y <= this.y + this.h;
 	}
 
 	this.changeState = function (state) {
@@ -25,31 +25,22 @@ function SimpleButton(x, y, w, h, text, tooltip_text, fonClick, state) {
 	}
 
 	this.draw = function (gr) {
-		if (this.state == ButtonStates.hide) return;
-
 		switch (this.state) {
-		case ButtonStates.normal:
-			g_theme.SetPartAndStateId(1, 1);
-			break;
-
-		case ButtonStates.hover:
-			g_theme.SetPartAndStateId(1, 2);
-			break;
-
-		case ButtonStates.down:
-			g_theme.SetPartAndStateId(1, 3);
-			break;
-
 		case ButtonStates.hide:
 			return;
+		case ButtonStates.normal:
+			g_theme.SetPartAndStateID(1, 1);
+			break;
+		case ButtonStates.hover:
+			g_theme.SetPartAndStateID(1, 2);
+			break;
+		case ButtonStates.down:
+			g_theme.SetPartAndStateID(1, 3);
+			break;
 		}
 
 		g_theme.DrawThemeBackground(gr, this.x, this.y, this.w, this.h);
 		gr.WriteText(this.text, g_font, g_theme.GetThemeColour(TMT_TEXTCOLOR), this.x, this.y, this.w, this.h, DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-	}
-
-	this.onClick = function () {
-		this.fonClick && this.fonClick();
 	}
 }
 
@@ -91,8 +82,8 @@ function on_mouse_move(x, y) {
 		return;
 	}
 
-	old && old.changeState(ButtonStates.normal);
-	cur_btn && cur_btn.changeState(ButtonStates.hover);
+	if (old) old.changeState(ButtonStates.normal);
+	if (cur_btn) cur_btn.changeState(ButtonStates.hover);
 	window.Repaint();
 }
 
@@ -118,7 +109,7 @@ function on_mouse_lbtn_up(x, y) {
 	g_down = false;
 
 	if (cur_btn) {
-		cur_btn.onClick();
+		if (cur_btn.func) cur_btn.func();
 		cur_btn.changeState(ButtonStates.hover);
 		window.Repaint();
 	}
