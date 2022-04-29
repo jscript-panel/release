@@ -975,11 +975,13 @@ function _list(mode, x, y, w, h) {
 				this.data.push({ name : '', value : '' });
 			}
 
-			this.properties = {
-				meta : new _p('2K3.LIST.PROPERTIES.META', true),
-				location : new _p('2K3.LIST.PROPERTIES.LOCATION', true),
-				tech : new _p('2K3.LIST.PROPERTIES.TECH', true),
-			};
+			if (this.mode == 'properties') {
+				this.properties = {
+					meta : new _p('2K3.LIST.PROPERTIES.META', true),
+					location : new _p('2K3.LIST.PROPERTIES.LOCATION', true),
+					tech : new _p('2K3.LIST.PROPERTIES.TECH', true),
+				};
+			}
 			break;
 		}
 	}
