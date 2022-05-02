@@ -39,7 +39,6 @@ This example covers a few of the more basic ellipse/rounded rectangle methods wh
 No return value.
 
 ## `DrawImage(image, dstX, dstY, dstW, dstH, srcX, srcY, srcW, srcH[, opacity, angle])`
-
 |Arguments|||
 |---|---|---|
 |image|[IJSImage](../IJSImage)|
@@ -59,6 +58,87 @@ No return value.
 !!! note
 	This differs from previous versions where `alpha` has been replaced
 	with `opacity`. Also, `angle` is now the last argument.
+
+## `DrawImageWithMask(image, mask_image, x, y, w, h)`
+|Arguments|||
+|---|---|---|
+|image|[IJSImage](../IJSImage)|
+|mask_image|[IJSImage](../IJSImage)|
+|x|`number`|
+|y|`number`|
+|w|`number`|
+|h|`number`|
+
+!!! example
+	Because this method does not support src co-ords,
+	this sample makes the original image square first which is more
+	suitable for a circular mask. Also included is a text mask example.
+
+	Unlike the previous `ApplyMask`, there should be no white background.
+	Just draw black for where you want to keep.
+
+	Mask images don't have to have the same width/height.
+
+	```js
+
+	// ==PREPROCESSOR==
+	// @name "DrawImageWithMask"
+	// @author "marc2003"
+	// @import "%fb2k_component_path%helpers.txt"
+	// ==/PREPROCESSOR==
+
+	var temp_gr;
+
+	var circular_mask = utils.CreateImage(512, 512);
+	temp_gr = circular_mask.GetGraphics();
+	temp_gr.FillEllipse(256, 256, 256, 256, RGB(0, 0, 0));
+	circular_mask.ReleaseGraphics();
+	temp_gr = null;
+
+	var text_mask = utils.CreateImage(512, 512);
+	temp_gr = text_mask.GetGraphics();
+	temp_gr.DrawRectangle(0, 0, 512, 512, 10, RGB(0, 0, 0));
+	temp_gr.WriteText("MASK", JSON.stringify({Size:160,Weight:900}), RGB(0, 0, 0), 0, 0, 512, 512, 2, 2);
+	text_mask.ReleaseGraphics();
+	temp_gr = null;
+
+	var img = utils.LoadImage(fb.ComponentPath + 'samples\\images\\1.webp');
+	var square = make_square(img, 300);
+
+	function make_square(img, size) {
+		if (!img) return null;
+
+		if (img.Width / img.Height < 1) {
+			var src_x = 0;
+			var src_w = img.Width;
+			var src_h = Math.round(size * img.Width / size);
+			var src_y = Math.round((img.Height - src_h) / 4);
+		} else {
+			var src_y = 0;
+			var src_w = Math.round(size * img.Height / size);
+			var src_h = img.Height;
+			var src_x = Math.round((img.Width - src_w) / 2);
+		}
+
+		var square = utils.CreateImage(size, size);
+		var temp_gr = square.GetGraphics();
+		temp_gr.DrawImage(img, 0, 0, size, size, src_x, src_y, src_w, src_h);
+		square.ReleaseGraphics();
+		return square;
+	}
+
+	function on_paint(gr) {
+		gr.FillRectangle(0, 0, window.Width, window.Height, RGB(255, 0, 0));
+		// original image as-is
+		gr.DrawImage(img, 0, 0, img.Width, img.Height, 0, 0, img.Width, img.Height);
+		// squared image, no mask
+		gr.DrawImage(square, 0, img.Height, square.Width, square.Height, 0, 0, square.Width, square.Height)
+		// squared image, circular mask
+		gr.DrawImageWithMask(square, circular_mask, 300, img.Height, square.Width, square.Height);
+		// squared image, text mask
+		gr.DrawImageWithMask(square, text_mask, 600, img.Height, square.Width, square.Height);
+	}
+	```
 
 ## `DrawLine(x1, y1, x2, y2, line_width, colour)`
 |Arguments|||

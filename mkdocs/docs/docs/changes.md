@@ -88,8 +88,10 @@ a floating point number between `0-1`.
 Since `Gdiplus` is no longer used, the `Windows Imaging Component` is used for all
 image handling. I've managed to transfer most but not all previous functionality.
 
-The main omission is `ApplyMask` which I've not been able to rewrite. See
-[IJSImage](../interfaces/IJSImage) for full details.
+`ApplyMask` and `InvertColours` no longer exist but similar functionality
+can be replicated with new methods.
+
+See [IJSImage](../interfaces/IJSImage) for full details.
 
 ### Callback changes
 
