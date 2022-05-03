@@ -108,14 +108,14 @@ No return value.
 	function make_square(img, size) {
 		if (!img) return null;
 
-		if (img.Width / img.Height < 1) {
+		if (img.Width < img.Height) {
 			var src_x = 0;
 			var src_w = img.Width;
-			var src_h = Math.round(size * img.Width / size);
+			var src_h = img.Width;
 			var src_y = Math.round((img.Height - src_h) / 4);
 		} else {
 			var src_y = 0;
-			var src_w = Math.round(size * img.Height / size);
+			var src_w = img.Height;
 			var src_h = img.Height;
 			var src_x = Math.round((img.Width - src_w) / 2);
 		}
