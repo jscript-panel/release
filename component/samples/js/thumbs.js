@@ -21,17 +21,22 @@ function _thumbs() {
 			}
 			this.rows = Math.ceil(this.h / this.properties.px.value);
 			this.columns = Math.floor(this.w / this.properties.px.value);
-			this.img_rows = Math.ceil(this.images.length / this.columns);
-			if (this.nc && this.images.length) {
+			this.img_rows = Math.ceil(this.thumbs.length / this.columns);
+			if (this.nc && this.thumbs.length) {
 				this.nc = false;
 				_dispose(this.img);
 				this.img = null;
-				this.img = utils.CreateImage(Math.min(this.columns, this.images.length) * this.properties.px.value, this.img_rows * this.properties.px.value);
+				this.img = utils.CreateImage(Math.min(this.columns, this.thumbs.length) * this.properties.px.value, this.img_rows * this.properties.px.value);
 				var temp_gr = this.img.GetGraphics();
 				var ci = 0;
 				for (var row = 0; row < this.img_rows; row++) {
 					for (var col = 0; col < this.columns; col++) {
-						_drawImage(temp_gr, this.images[ci], col * this.properties.px.value, row * this.properties.px.value, this.properties.px.value, this.properties.px.value, image.crop_top);
+						if (!this.thumbs[ci]) continue;
+						if (this.properties.circular.enabled) {
+							temp_gr.DrawImageWithMask(this.thumbs[ci], this.circular_mask, col * this.properties.px.value, row * this.properties.px.value, this.properties.px.value, this.properties.px.value);
+						} else {
+							_drawImage(temp_gr, this.thumbs[ci], col * this.properties.px.value, row * this.properties.px.value, this.properties.px.value, this.properties.px.value, image.crop_top);
+						}
 						ci++;
 					}
 				}
@@ -46,14 +51,18 @@ function _thumbs() {
 			this.w = this.properties.px.value;
 			this.h = panel.h;
 			this.rows = Math.ceil(this.h / this.properties.px.value);
-			if (this.nc && this.images.length) {
+			if (this.nc && this.thumbs.length) {
 				this.nc = false;
 				_dispose(this.img);
 				this.img = null;
-				this.img = utils.CreateImage(this.properties.px.value, this.properties.px.value * this.images.length);
+				this.img = utils.CreateImage(this.properties.px.value, this.properties.px.value * this.thumbs.length);
 				var temp_gr = this.img.GetGraphics();
-				_.forEach(this.images, function (item, i) {
-					_drawImage(temp_gr, item, 0, i * this.properties.px.value, this.properties.px.value, this.properties.px.value, image.crop_top);
+				_.forEach(this.thumbs, function (item, i) {
+					if (this.properties.circular.enabled) {
+						temp_gr.DrawImageWithMask(item, this.circular_mask, 0, i * this.properties.px.value, this.properties.px.value, this.properties.px.value)
+					} else {
+						_drawImage(temp_gr, item, 0, i * this.properties.px.value, this.properties.px.value, this.properties.px.value, image.crop_top);
+					}
 				}, this);
 				this.img.ReleaseGraphics();
 				temp_gr = null;
@@ -66,14 +75,18 @@ function _thumbs() {
 			this.w = panel.w;
 			this.h = this.properties.px.value;
 			this.columns = Math.ceil(this.w / this.properties.px.value);
-			if (this.nc && this.images.length) {
+			if (this.nc && this.thumbs.length) {
 				this.nc = false;
 				_dispose(this.img);
 				this.img = null;
-				this.img = utils.CreateImage(this.properties.px.value * this.images.length, this.properties.px.value);
+				this.img = utils.CreateImage(this.properties.px.value * this.thumbs.length, this.properties.px.value);
 				var temp_gr = this.img.GetGraphics();
-				_.forEach(this.images, function (item, i) {
-					_drawImage(temp_gr, item, i * this.properties.px.value, 0, this.properties.px.value, this.properties.px.value, image.crop_top);
+				_.forEach(this.thumbs, function (item, i) {
+					if (this.properties.circular.enabled) {
+						temp_gr.DrawImageWithMask(item, this.circular_mask, i * this.properties.px.value, 0, this.properties.px.value, this.properties.px.value);
+					} else {
+						_drawImage(temp_gr, item, i * this.properties.px.value, 0, this.properties.px.value, this.properties.px.value, image.crop_top);
+					}
 				}, this);
 				this.img.ReleaseGraphics();
 				temp_gr = null;
@@ -340,6 +353,8 @@ function _thumbs() {
 				panel.s11.AppendMenuItem(flag, item + 1000, item + 'px');
 			});
 			panel.s11.CheckMenuRadioItem(_.first(this.pxs) + 1000, _.last(this.pxs) + 1000, this.properties.px.value + 1000);
+			panel.s11.AppendMenuSeparator();
+			panel.s11.AppendMenuItem(flag, 1399, 'Circular');
 			panel.s11.AppendTo(panel.m, MF_STRING, 'Thumbs');
 			panel.m.AppendMenuSeparator();
 		}
@@ -417,7 +432,12 @@ function _thumbs() {
 		case 1250:
 		case 1300:
 			this.properties.px.value = idx - 1000;
-			this.size(true);
+			this.update();
+			window.Repaint();
+			break;
+		case 1399:
+			this.properties.circular.toggle();
+			this.update();
 			window.Repaint();
 			break;
 		case 1400:
@@ -474,10 +494,34 @@ function _thumbs() {
 		}
 	}
 
+	this.make_thumb = function (img) {
+		var size = this.properties.px.value;
+
+		if (img.Width < img.Height) {
+			var src_x = 0;
+			var src_w = img.Width;
+			var src_h = img.Width;
+			var src_y = Math.round((img.Height - src_h) / 4);
+		} else {
+			var src_y = 0;
+			var src_w = img.Height;
+			var src_h = img.Height;
+			var src_x = Math.round((img.Width - src_w) / 2);
+		}
+
+		var square = utils.CreateImage(size, size);
+		var temp_gr = square.GetGraphics();
+		temp_gr.DrawImage(img, 0, 0, size, size, src_x, src_y, src_w, src_h);
+		square.ReleaseGraphics();
+		return square;
+	}
+
 	this.update = function () {
 		this.image = 0;
 		_dispose.apply(null, this.images);
+		_dispose.apply(null, this.thumbs);
 		this.images = [];
+		this.thumbs = [];
 
 		var files = _getFiles(this.folder, this.exts);
 		if (this.properties.source.value == 1 && files.length > 1) {
@@ -493,8 +537,17 @@ function _thumbs() {
 			var image = utils.LoadImage(item);
 			if (image) {
 				this.images.push(image);
+				this.thumbs.push(this.make_thumb(image));
 			}
 		}).bind(this));
+
+		if (this.circular_mask) this.circular_mask.Dispose();
+		this.circular_mask = utils.CreateImage(512, 512);
+		temp_gr = this.circular_mask.GetGraphics();
+		temp_gr.FillEllipse(256, 256, 256, 256, RGB(0, 0, 0));
+		this.circular_mask.ReleaseGraphics();
+		temp_gr = null;
+
 		this.size(true);
 		window.Repaint();
 	}
@@ -558,6 +611,7 @@ function _thumbs() {
 	this.mx = 0;
 	this.my = 0;
 	this.images = [];
+	this.thumbs = [];
 	this.limits = [1, 3, 5, 10, 15, 20];
 	this.modes = ['grid', 'left', 'right', 'top', 'bottom', 'off'];
 	this.pxs = [75, 100, 150, 200, 250, 300];
@@ -575,6 +629,7 @@ function _thumbs() {
 	this.index = 0;
 	this.time = 0;
 	this.counter = 0;
+	this.circular_mask = null;
 	this.properties = {
 		mode : new _p('2K3.THUMBS.MODE', 4), // 0 grid 1 left 2 right 3 top 4 bottom 5 off
 		source : new _p('2K3.THUMBS.SOURCE', 0), // 0 custom folder 1 last.fm
@@ -584,6 +639,7 @@ function _thumbs() {
 		cycle : new _p('2K3.THUMBS.CYCLE', 0),
 		aspect : new _p('2K3.THUMBS.ASPECT', image.crop_top),
 		auto_download : new _p('2K3.THUMBS.AUTO.DOWNLOAD', false),
+		circular : new _p('2K3.THUMBS.CIRCULAR', false),
 	};
 	this.close_btn = new _sb(chars.close, 0, 0, _scale(12), _scale(12), _.bind(function () { return this.properties.mode.value == 0 && this.overlay; }, this), _.bind(function () { this.enable_overlay(false); }, this));
 	window.SetInterval(this.interval_func, 1000);
