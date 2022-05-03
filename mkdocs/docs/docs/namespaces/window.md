@@ -74,7 +74,7 @@ Returns a `number` which can used as the `colour` in many methods.
 |---|---|---|
 |type|[FontTypeCUI](../../flags/#fonttypecui)|
 
-Returns a `string` which can be passed directly to [IJSGraphics WriteText](../../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping).
+Returns a `string` which can be passed directly to [IJSGraphics WriteText](../../interfaces/IJSGraphics/#writetexttext-font-colour-x-y-w-h-text_alignment-paragraph_alignment-word_wrapping-trimming_granularity).
 
 !!! example
 	```js

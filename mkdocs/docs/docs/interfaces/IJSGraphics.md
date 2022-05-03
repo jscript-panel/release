@@ -303,7 +303,7 @@ No return value.
 
 No return value.
 
-## `WriteText(text, font, colour, x, y, w, h[, text_alignment, paragraph_alignment, word_wrapping])`
+## `WriteText(text, font, colour, x, y, w, h[, text_alignment, paragraph_alignment, word_wrapping, trimming_granularity])`
 |Arguments|||
 |---|---|---|
 |text|`string`||
@@ -316,6 +316,7 @@ No return value.
 |text_aligment|[DWRITE_TEXT_ALIGNMENT](../../flags/#dwrite_text_alignment)|Default `0`.|
 |paragraph_aligment|[DWRITE_PARAGRAPH_ALIGNMENT](../../flags/#dwrite_paragraph_alignment)|Default `0`.|
 |word_wrapping|[DWRITE_WORD_WRAPPING](../../flags/#dwrite_word_wrapping)|Default `0`.|
+|trimming_granularity|[DWRITE_TRIMMING_GRANULARITY](../../flags/#dwrite_trimming_granularity)|Default `0`.|
 
 No return value.
 
