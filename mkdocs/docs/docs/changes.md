@@ -20,6 +20,7 @@
 - `JS Smooth Browser` no longer creates playlists on selection changes. To send tracks to the `Library selection` playlist, a group has to be double clicked. The destination playlist name can be changed via the panel properties. As before, groups can be added to existing playlists using the right click>`Add to...` option.
 - The default view in `JS Smooth Browser` has been changed to `Column + Album Art` with extra group count and group length info. All previous options are still available via the right click menu.
 - The group headers in `JS Smooth Playlist` are no longer collapsable.
+- `Thumbs` now has a `circular` option available via the right click menu,
 
 ### Removed features
 
@@ -37,7 +38,8 @@ running `Windows 7/8/8.1`, you can install [this](https://storage.googleapis.com
 support. Like `Columns UI` and `Spider Monkey Panel`, using the
 `Windows Imaging Component` opens up the possibility of using more
 exotic formats like `HEIF` and `AVIF`. Extensions for these and more
-can be installed via the `Windows Store` on `Windows 10/11`.
+can be installed via the `Windows Store` on `Windows 10/11`. The
+included `Thumbs` sample will display these automatically.
 
 ### Removal of `gdi`
 
