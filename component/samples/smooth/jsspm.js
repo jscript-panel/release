@@ -189,8 +189,8 @@ function oBrowser() {
 				if (this.inputboxID == i) {
 					this.inputbox.draw(gr, ah, ay + 5);
 				} else {
-					gr.WriteText(this.rows[i].name, g_font, normal_text, ah, ay, aw - (ah * 3), ah, 0, 2, 1);
-					gr.WriteText(plman.GetPlaylistItemCount(this.rows[i].idx), g_font, fader_txt, ah, ay, aw - ah - 5, ah, 1, 2, 1);
+					gr.WriteText(this.rows[i].name, g_font, normal_text, ah, ay, aw - (ah * 3), ah, 0, 2, 1, 1);
+					gr.WriteText(plman.GetPlaylistItemCount(this.rows[i].idx), g_font, fader_txt, ah, ay, aw - ah - 5, ah, 1, 2, 1, 1);
 				}
 			}
 		}
@@ -205,7 +205,7 @@ function oBrowser() {
 			gr.FillRectangle(this.x, ppt.headerBarHeight - 2, this.w + cScrollBar.width, 1, g_color_normal_txt & 0x22ffffff);
 			var boxText = this.rows.length + " playlist";
 			if (this.rows.length > 1) boxText += "s";
-			gr.WriteText(boxText, g_font_box, blendColours(g_color_normal_txt, g_color_normal_bg, 0.3), 0, 0, ww - 5, ppt.headerBarHeight - 1, 1, 2, 1);
+			gr.WriteText(boxText, g_font_box, blendColours(g_color_normal_txt, g_color_normal_bg, 0.3), 0, 0, ww - 5, ppt.headerBarHeight - 1, 1, 2, 1, 1);
 		}
 	}
 

@@ -126,7 +126,7 @@ function on_mouse_wheel(s) {
 function on_paint(gr) {
 	gr.FillRectangle(0, 0, ww, wh, properties.background.value);
 	if (fb.IsPlaying) {
-		gr.WriteText(tfo.Eval(), font, this.properties.text.value, 5, 0, ww - 200 - utils.CalcTextWidth(right_text, "Segoe UI", 16), 21, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_NEAR, DWRITE_WORD_WRAPPING_NO_WRAP);
+		gr.WriteText(tfo.Eval(), font, this.properties.text.value, 5, 0, ww - 200 - utils.CalcTextWidth(right_text, "Segoe UI", 16), 21, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_NEAR, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 	}
 	if (plman.ActivePlaylist > -1 && plman.ActivePlaylist < plman.PlaylistCount) {
 		gr.WriteText(right_text, font, this.properties.text.value, 0, 0, ww - 130, 21, DWRITE_TEXT_ALIGNMENT_TRAILING);

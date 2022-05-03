@@ -24,7 +24,7 @@ function _list(mode, x, y, w, h) {
 	}
 
 	this.draw_line = function (gr, text, colour, x, y, w, h, text_alignment) {
-		gr.WriteText(text, JSON.stringify({Name:panel.fonts.name,Size:_scale(panel.fonts.size.value)}), colour, x, y, w, h, text_alignment || DWRITE_TEXT_ALIGNMENT_LEADING, 2, 1);
+		gr.WriteText(text, JSON.stringify({Name:panel.fonts.name,Size:_scale(panel.fonts.size.value)}), colour, x, y, w, h, text_alignment || DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 	}
 
 	this.paint = function (gr) {

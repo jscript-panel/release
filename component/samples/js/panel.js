@@ -29,7 +29,7 @@ function _panel(options) {
 	}
 
 	this.draw_header = function (gr, text) {
-		gr.WriteText(text, this.title_font, this.colours.highlight, LM, 0, panel.w - (LM * 2), TM, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP);
+		gr.WriteText(text, this.title_font, this.colours.highlight, LM, 0, panel.w - (LM * 2), TM, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 		gr.DrawLine(LM, TM + 1, panel.w - LM, TM + 1, 0.5, this.colours.highlight);
 	}
 

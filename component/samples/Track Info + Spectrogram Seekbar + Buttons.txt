@@ -152,8 +152,8 @@ function on_paint(gr) {
 			_drawImage(gr, img, 0, 0, panel.h, panel.h, image.crop_top);
 		}
 
-		gr.WriteText(tfo.title.Eval(), JSON.stringify({Size:_scale(12),Weight:DWRITE_FONT_WEIGHT_BOLD}), colours.title, panel.h + 10, 0, seekbar.x - panel.h - _scale(60), panel.h * 0.6, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP);
-		gr.WriteText(tfo.artist.Eval(), JSON.stringify({Size:_scale(12)}), colours.artist, panel.h + 10, panel.h * 0.3, seekbar.x - panel.h - _scale(60), panel.h * 0.7, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP);
+		gr.WriteText(tfo.title.Eval(), JSON.stringify({Size:_scale(12),Weight:DWRITE_FONT_WEIGHT_BOLD}), colours.title, panel.h + 10, 0, seekbar.x - panel.h - _scale(60), panel.h * 0.6, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
+		gr.WriteText(tfo.artist.Eval(), JSON.stringify({Size:_scale(12)}), colours.artist, panel.h + 10, panel.h * 0.3, seekbar.x - panel.h - _scale(60), panel.h * 0.7, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 		gr.WriteText(tfo.playback_time.Eval(), JSON.stringify({Size:_scale(12)}), colours.time, seekbar.x - _scale(51), 0, _scale(45), panel.h, DWRITE_TEXT_ALIGNMENT_TRAILING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 		gr.WriteText(tfo.length.Eval(), JSON.stringify({Size:_scale(12)}), colours.time, seekbar.x + seekbar.w + _scale(12), 0, _scale(45), panel.h, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 	}

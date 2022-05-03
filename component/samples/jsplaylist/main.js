@@ -57,9 +57,9 @@ function DrawColouredText(gr, text, font, default_colour, x, y, w, h, alignment)
 		var parsed = JSON.parse(font);
 		styles.unshift({start:0,length:text.length,Name:parsed.Name,Size:parsed.Size});
 
-		gr.WriteText(text, JSON.stringify(styles), default_colour, x, y, w, h, alignment, 2, 1);
+		gr.WriteText(text, JSON.stringify(styles), default_colour, x, y, w, h, alignment, 2, 1, 1);
 	} else {
-		gr.WriteText(text, font, default_colour, x, y, w, h, alignment, 2, 1);
+		gr.WriteText(text, font, default_colour, x, y, w, h, alignment, 2, 1, 1);
 	}
 }
 

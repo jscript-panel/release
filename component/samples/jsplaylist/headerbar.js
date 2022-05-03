@@ -179,7 +179,7 @@ function oHeaderBar() {
 							gr.FillRectangle(cx, cy, cw, this.h, g_color_normal_txt & 0x15ffffff);
 						}
 					}
-					gr.WriteText(this.columns[j].label, g_font_12_1, g_color_normal_txt, cx + (this.borderWidth * 2), cy + 1, cw - (this.borderWidth * 4) - 1, this.h, this.columns[j].align, 2, 1);
+					gr.WriteText(this.columns[j].label, g_font_12_1, g_color_normal_txt, cx + (this.borderWidth * 2), cy + 1, cw - (this.borderWidth * 4) - 1, this.h, this.columns[j].align, 2, 1, 1);
 				} else if (j == this.columnDraggedId && this.columnDragged == 2) {
 					gr.FillRectangle(cx, cy, cw, this.h, RGBA(0, 0, 0, 60));
 				}
@@ -208,7 +208,7 @@ function oHeaderBar() {
 							gr.FillRectangle(cx, cy, cw, this.h, g_color_normal_txt & 0x15ffffff);
 						}
 					}
-					gr.WriteText(this.columns[i].label, g_font_12_1, g_color_normal_txt, cx + (this.borderWidth * 2), cy + 1, cw - (this.borderWidth * 4) - 1, this.h, this.columns[i].align, 2, 1);
+					gr.WriteText(this.columns[i].label, g_font_12_1, g_color_normal_txt, cx + (this.borderWidth * 2), cy + 1, cw - (this.borderWidth * 4) - 1, this.h, this.columns[i].align, 2, 1, 1);
 				} else if (i == this.columnDraggedId && this.columnDragged == 2) {
 					gr.FillRectangle(cx, cy, cw, this.h, RGBA(0, 0, 0, 70));
 				}
@@ -229,7 +229,7 @@ function oHeaderBar() {
 			gr.DrawRectangle(cx, cy + 1, Math.floor(this.columns[this.columnDraggedId].w - 2), this.h - 2, 2, g_color_normal_txt);
 			gr.DrawRectangle(cx + 1, cy + 2, Math.floor(this.columns[this.columnDraggedId].w - 5), this.h - 5, 1, blendColours(g_color_normal_txt, g_color_normal_bg, 0.55));
 			// header text info
-			gr.WriteText(this.columns[this.columnDraggedId].label, g_font_12_1, g_color_normal_bg, cx + (this.borderWidth * 2), cy + 1, this.columns[this.columnDraggedId].w - (this.borderWidth * 4) - 2, this.h, this.columns[this.columnDraggedId].align, 2, 1);
+			gr.WriteText(this.columns[this.columnDraggedId].label, g_font_12_1, g_color_normal_bg, cx + (this.borderWidth * 2), cy + 1, this.columns[this.columnDraggedId].w - (this.borderWidth * 4) - 2, this.h, this.columns[this.columnDraggedId].align, 2, 1, 1);
 		}
 		// draw settings button
 		this.button.draw(gr, this.x + this.w, this.y);
