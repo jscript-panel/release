@@ -35,7 +35,7 @@ function _thumbs() {
 						if (this.properties.circular.enabled) {
 							temp_gr.DrawImageWithMask(this.thumbs[ci], this.circular_mask, col * this.properties.px.value, row * this.properties.px.value, this.properties.px.value, this.properties.px.value);
 						} else {
-							_drawImage(temp_gr, this.thumbs[ci], col * this.properties.px.value, row * this.properties.px.value, this.properties.px.value, this.properties.px.value, image.crop_top);
+							_drawImage(temp_gr, this.thumbs[ci], col * this.properties.px.value, row * this.properties.px.value, this.properties.px.value, this.properties.px.value);
 						}
 						ci++;
 					}
@@ -61,7 +61,7 @@ function _thumbs() {
 					if (this.properties.circular.enabled) {
 						temp_gr.DrawImageWithMask(item, this.circular_mask, 0, i * this.properties.px.value, this.properties.px.value, this.properties.px.value)
 					} else {
-						_drawImage(temp_gr, item, 0, i * this.properties.px.value, this.properties.px.value, this.properties.px.value, image.crop_top);
+						_drawImage(temp_gr, item, 0, i * this.properties.px.value, this.properties.px.value, this.properties.px.value);
 					}
 				}, this);
 				this.img.ReleaseGraphics();
@@ -85,7 +85,7 @@ function _thumbs() {
 					if (this.properties.circular.enabled) {
 						temp_gr.DrawImageWithMask(item, this.circular_mask, i * this.properties.px.value, 0, this.properties.px.value, this.properties.px.value);
 					} else {
-						_drawImage(temp_gr, item, i * this.properties.px.value, 0, this.properties.px.value, this.properties.px.value, image.crop_top);
+						_drawImage(temp_gr, item, i * this.properties.px.value, 0, this.properties.px.value, this.properties.px.value);
 					}
 				}, this);
 				this.img.ReleaseGraphics();
@@ -355,6 +355,7 @@ function _thumbs() {
 			panel.s11.CheckMenuRadioItem(_.first(this.pxs) + 1000, _.last(this.pxs) + 1000, this.properties.px.value + 1000);
 			panel.s11.AppendMenuSeparator();
 			panel.s11.AppendMenuItem(flag, 1399, 'Circular');
+			panel.s11.CheckMenuItem(1399, this.properties.circular.enabled);
 			panel.s11.AppendTo(panel.m, MF_STRING, 'Thumbs');
 			panel.m.AppendMenuSeparator();
 		}
