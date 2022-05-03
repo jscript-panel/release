@@ -320,7 +320,7 @@ No return value.
 
 No return value.
 
-The font must be in string from and this can come directly from using [window.GetFontCUI](../../namespaces/window/#windowgetfontcuitype) / [window.GetFontDUI](../../namespaces/window/#windowgetfontduitype).
+The font must be in string form and this can come directly from using [window.GetFontCUI](../../namespaces/window/#windowgetfontcuitype) / [window.GetFontDUI](../../namespaces/window/#windowgetfontduitype).
 
 If you prefer, you can create your own from scratch.
 
