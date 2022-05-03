@@ -542,12 +542,13 @@ function _thumbs() {
 			}
 		}).bind(this));
 
-		if (this.circular_mask) this.circular_mask.Dispose();
-		this.circular_mask = utils.CreateImage(512, 512);
-		temp_gr = this.circular_mask.GetGraphics();
-		temp_gr.FillEllipse(256, 256, 256, 256, RGB(0, 0, 0));
-		this.circular_mask.ReleaseGraphics();
-		temp_gr = null;
+		if (!this.circular_mask) {
+			this.circular_mask = utils.CreateImage(512, 512);
+			var temp_gr = this.circular_mask.GetGraphics();
+			temp_gr.FillEllipse(256, 256, 256, 256, RGB(0, 0, 0));
+			this.circular_mask.ReleaseGraphics();
+			temp_gr = null;
+		}
 
 		this.size(true);
 		window.Repaint();
