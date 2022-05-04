@@ -214,7 +214,7 @@ from 3rd party components if present.
 |---|---|---|
 |query|`string`|
 
-Returns an [IMetadbHandleList](../IMetadbHandlelist) instance.
+Returns an [IMetadbHandleList](../IMetadbHandleList) instance.
 
 !!! note
 	Errors will be thrown on invalid queries so if you're not

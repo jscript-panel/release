@@ -157,7 +157,7 @@ This list may be incomplete.
 
 - [fb.CreateMainMenuManager](../namespaces/fb/#fbcreatemainmenumanagerroot_name) now takes a `name` parameter for `File`, `Edit`, `View` etc
 and the returned `IMainMenuManager` object no longer has an `Init` method.
-- [IMetadbHandleList RemoveDuplicatesByFormat](../interfaces/IMetadbhandleList/#removeduplicatesbyformatpattern) and [IMetadbHandleList SortByFormat](../interfaces/IMetadbhandleList/#sortbyformatpattern-direction)
+- [IMetadbHandleList RemoveDuplicatesByFormat](../interfaces/IMetadbHandleList/#removeduplicatesbyformatpattern) and [IMetadbHandleList SortByFormat](../interfaces/IMetadbHandleList/#sortbyformatpattern-direction)
 now take a title format pattern as a `string`.
 
 ### Removals with no replacement
