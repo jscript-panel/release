@@ -24,9 +24,6 @@
 
 ### Removed features
 
-!!! note
-	`Edge Style` for `Columns UI` was removed in `Beta.1` but restored in `Beta.4`.
-
 - There is no longer a playback stats database.
 - There is no pseudo transparent option in `Columns UI`.
 - Panels cannot be added as toolbars in `Columns UI`.
