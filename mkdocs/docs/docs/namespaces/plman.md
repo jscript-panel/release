@@ -322,8 +322,8 @@ Returns a `boolean` value.
 ## `plman.IsPlaylistItemSelected(playlistIndex, playlistItemIndex)`
 |Arguments|||
 |---|---|---|
-|playlistIndex|`number`|Must be valid.|
-|playlistItemIndex|`number`|Must be valid.|
+|playlistIndex|`number`|
+|playlistItemIndex|`number`|
 
 Returns a `boolean` value.
 
