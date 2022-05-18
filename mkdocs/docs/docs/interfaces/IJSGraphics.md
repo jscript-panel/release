@@ -178,7 +178,7 @@ No return value.
 
 No return value.
 
-## `gr.FillEllipse(centreX, centreY, radiusX, radiusY, colour)`
+## `FillEllipse(centreX, centreY, radiusX, radiusY, colour)`
 |Arguments|||
 |---|---|---|
 |centreX|`number`|
