@@ -23,8 +23,8 @@ function _list(mode, x, y, w, h) {
 		this.down_btn.y = this.y + this.h - _scale(12);
 	}
 
-	this.draw_line = function (gr, text, colour, x, y, w, h, text_alignment) {
-		gr.WriteText(text, JSON.stringify({Name:panel.fonts.name,Size:_scale(panel.fonts.size.value)}), colour, x, y, w, h, text_alignment || DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
+	this.draw_row = function (gr, text, colour, x, y, w, h, text_alignment) {
+		gr.WriteText(text, panel.fonts.normal, colour, x, y, w, h, text_alignment || DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 	}
 
 	this.paint = function (gr) {
@@ -39,20 +39,20 @@ function _list(mode, x, y, w, h) {
 			var unit_width = (this.w - lastfm_charts_bar_x - _scale(50)) / this.data[0].playcount;
 			for (var i = 0; i < Math.min(this.items, this.rows); i++) {
 				var bar_width = Math.ceil(unit_width * this.data[i + this.offset].playcount);
-				this.draw_line(gr, this.data[i + this.offset].rank + '.', panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_x - 5, panel.row_height, DWRITE_TEXT_ALIGNMENT_TRAILING);
-				this.draw_line(gr, this.data[i + this.offset].name, panel.colours.text, this.x + this.text_x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
+				this.draw_row(gr, this.data[i + this.offset].rank + '.', panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_x - 5, panel.row_height, DWRITE_TEXT_ALIGNMENT_TRAILING);
+				this.draw_row(gr, this.data[i + this.offset].name, panel.colours.text, this.x + this.text_x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
 				gr.FillRectangle(lastfm_charts_bar_x, this.y + _scale(13) + (i * panel.row_height), bar_width, panel.row_height - 3, panel.colours.highlight);
-				this.draw_line(gr, _formatNumber(this.data[i + this.offset].playcount, ','), panel.colours.text, lastfm_charts_bar_x + bar_width + 5, this.y + _scale(12) + (i * panel.row_height), _scale(60), panel.row_height);
+				this.draw_row(gr, _formatNumber(this.data[i + this.offset].playcount, ','), panel.colours.text, lastfm_charts_bar_x + bar_width + 5, this.y + _scale(12) + (i * panel.row_height), _scale(60), panel.row_height);
 			}
 			break;
 		case this.mode == 'musicbrainz' && this.properties.mode.value == 0: // releases
 			this.text_width = this.w - this.spacer_w - 10;
 			for (var i = 0; i < Math.min(this.items, this.rows); i++) {
 				if (this.data[i + this.offset].url == 'SECTION_HEADER') {
-					this.draw_line(gr, this.data[i + this.offset].name, panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
+					this.draw_row(gr, this.data[i + this.offset].name, panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
 				} else {
-					this.draw_line(gr, this.data[i + this.offset].name, panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
-					this.draw_line(gr, this.data[i + this.offset].date, panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.w, panel.row_height, DWRITE_TEXT_ALIGNMENT_TRAILING);
+					this.draw_row(gr, this.data[i + this.offset].name, panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
+					this.draw_row(gr, this.data[i + this.offset].date, panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.w, panel.row_height, DWRITE_TEXT_ALIGNMENT_TRAILING);
 				}
 			}
 			break;
@@ -61,10 +61,10 @@ function _list(mode, x, y, w, h) {
 			this.text_width = this.w - this.text_x;
 			for (var i = 0; i < Math.min(this.items, this.rows); i++) {
 				if (this.data[i + this.offset].value == 'SECTION_HEADER') {
-					this.draw_line(gr, this.data[i + this.offset].name, panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_x - 10, panel.row_height);
+					this.draw_row(gr, this.data[i + this.offset].name, panel.colours.highlight, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_x - 10, panel.row_height);
 				} else {
-					this.draw_line(gr, this.data[i + this.offset].name, panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_x - 10, panel.row_height);
-					this.draw_line(gr, this.data[i + this.offset].value, panel.colours.highlight, this.x + this.text_x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
+					this.draw_row(gr, this.data[i + this.offset].name, panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_x - 10, panel.row_height);
+					this.draw_row(gr, this.data[i + this.offset].value, panel.colours.highlight, this.x + this.text_x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
 				}
 			}
 			break;
@@ -72,7 +72,7 @@ function _list(mode, x, y, w, h) {
 			this.text_x = 0;
 			this.text_width = this.w;
 			for (var i = 0; i < Math.min(this.items, this.rows); i++) {
-				this.draw_line(gr, this.data[i + this.offset].name, panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
+				this.draw_row(gr, this.data[i + this.offset].name, panel.colours.text, this.x, this.y + _scale(12) + (i * panel.row_height), this.text_width, panel.row_height);
 			}
 			break;
 		}

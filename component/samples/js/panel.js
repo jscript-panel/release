@@ -21,7 +21,8 @@ function _panel(options) {
 
 	this.font_changed = function () {
 		this.fonts.name = JSON.parse(window.IsDefaultUI ? window.GetFontDUI(0) : window.GetFontCUI(0)).Name;
-		this.title_font = JSON.stringify({Name:this.fonts.name,Size:_scale(this.fonts.size.value),Weight:DWRITE_FONT_WEIGHT_BOLD});
+		this.fonts.normal = JSON.stringify({Name:this.fonts.name,Size:_scale(this.fonts.size.value)});
+		this.fonts.title = JSON.stringify({Name:this.fonts.name,Size:_scale(this.fonts.size.value),Weight:DWRITE_FONT_WEIGHT_BOLD});
 		this.row_height = _scale(this.fonts.size.value + 4);
 		_.invoke(this.list_objects, 'size');
 		_.invoke(this.list_objects, 'update');
@@ -29,7 +30,7 @@ function _panel(options) {
 	}
 
 	this.draw_header = function (gr, text) {
-		gr.WriteText(text, this.title_font, this.colours.highlight, LM, 0, panel.w - (LM * 2), TM, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
+		gr.WriteText(text, this.fonts.title, this.colours.highlight, LM, 0, panel.w - (LM * 2), TM, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_WORD_WRAPPING_NO_WRAP, DWRITE_TRIMMING_GRANULARITY_CHARACTER);
 		gr.DrawLine(LM, TM + 1, panel.w - LM, TM + 1, 0.5, this.colours.highlight);
 	}
 
