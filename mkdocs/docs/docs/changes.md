@@ -1,3 +1,9 @@
+## v3.0.1
+
+### Bug fixes
+
+- Calling [DrawImage](../interfaces/IJSGraphics/#drawimageimage-dstx-dsty-dstw-dsth-srcx-srcy-srcw-srch-opacity-angle) with bad `srcW` or `srcH` arguments now silently fails instead of turning the whole panel black.
+
 ## v3.0.0
 
 ### New additions
