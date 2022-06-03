@@ -1,3 +1,7 @@
+.md-footer__inner:not([hidden]) {
+    display: none
+}
+
 .md-typeset .admonition.example,
 .md-typeset details.example {
   border-color: rgb(232, 32, 99);
