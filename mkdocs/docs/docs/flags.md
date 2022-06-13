@@ -234,54 +234,54 @@ var VK_SPACEBAR = 0x20;
 ## AlbumArtId
 ```js
 var AlbumArtId = {
-	front: 0,
-	back: 1,
-	disc: 2,
-	icon: 3,
-	artist: 4
+	front : 0,
+	back : 1,
+	disc : 2,
+	icon : 3,
+	artist : 4,
 };
 ```
 
 ## ColourTypeCUI
 ```js
 var ColourTypeCUI = {
-	text: 0,
-	selection_text: 1,
-	inactive_selection_text: 2,
-	background: 3,
-	selection_background: 4,
-	inactive_selection_background: 5,
-	active_item_frame: 6
+	text : 0,
+	selection_text : 1,
+	inactive_selection_text : 2,
+	background : 3,
+	selection_background : 4,
+	inactive_selection_background : 5,
+	active_item_frame : 6,
 };
 ```
 
 ## ColourTypeDUI
 ```js
 var ColourTypeDUI = {
-	text: 0,
-	background: 1,
-	highlight: 2,
-	selection: 3
+	text : 0,
+	background : 1,
+	highlight : 2,
+	selection : 3,
 };
 ```
 
 ## FontTypeCUI
 ```js
 var FontTypeCUI = {
-	items: 0,
-	labels: 1
+	items : 0,
+	labels : 1,
 };
 ```
 
 ## FontTypeDUI
 ```js
 var FontTypeDUI = {
-	defaults: 0,
-	tabs: 1,
-	lists: 2,
-	playlists: 3,
-	statusbar: 4,
-	console: 5
+	defaults : 0,
+	tabs : 1,
+	lists : 2,
+	playlists : 3,
+	statusbar : 4,
+	console : 5,
 };
 ```
 
@@ -289,12 +289,12 @@ var FontTypeDUI = {
 ```js
 var PlaylistLockFilterMask = {
 	filter_add : 1,
-	filter_remove: 2,
-	filter_reorder: 4,
-	filter_replace: 8,
-	filter_rename: 16,
-	filter_remove_playlist: 32,
-	filter_default_action: 64
+	filter_remove : 2,
+	filter_reorder : 4,
+	filter_replace : 8,
+	filter_rename : 16,
+	filter_remove_playlist : 32,
+	filter_default_action : 64,
 };
 ```
 
