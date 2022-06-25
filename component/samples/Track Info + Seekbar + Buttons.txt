@@ -106,7 +106,7 @@ function on_mouse_wheel(s) {
 function on_paint(gr) {
 	gr.FillRectangle(0, 0, panel.w, panel.h, colours.background);
 	gr.FillRectangle(seekbar.x, seekbar.y, seekbar.w + _scale(6), seekbar.h, colours.seekbar_background);
-	gr.DrawRectangle(seekbar.x, seekbar.y, seekbar.w + _scale(6), seekbar.h, 1, colours.seekbar_progress);
+	DrawRectangle(gr, seekbar.x, seekbar.y, seekbar.w + _scale(6), seekbar.h, colours.seekbar_progress);
 	buttons.paint(gr);
 
 	if (fb.IsPlaying) {

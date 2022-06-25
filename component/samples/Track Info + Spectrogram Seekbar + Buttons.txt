@@ -144,7 +144,7 @@ function on_paint(gr) {
 	gr.FillRectangle(0, 0, panel.w, panel.h, colours.background);
 	gr.FillRectangle(seekbar.x, seekbar.y, seekbar.w, seekbar.h, colours.seekbar_background);
 	seekbar.paint(gr);
-	gr.DrawRectangle(seekbar.x, seekbar.y, seekbar.w, seekbar.h, 1, seekbar.properties.marker_colour.value);
+	DrawRectangle(gr, seekbar.x, seekbar.y, seekbar.w, seekbar.h, seekbar.properties.marker_colour.value);
 	buttons.paint(gr);
 
 	if (fb.IsPlaying) {

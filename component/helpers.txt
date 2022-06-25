@@ -64,6 +64,11 @@ function vol2pos(v){
 	return Math.pow(2, fb.Volume / 10);
 }
 
+// fixed line width of 1px
+function DrawRectangle(gr, x, y, w, h, colour) {
+	gr.DrawRectangle(Math.floor(x) + 0.5, Math.floor(y) + 0.5, w, h, 1, colour);
+}
+
 var DWRITE_FONT_WEIGHT_THIN = 100;
 var DWRITE_FONT_WEIGHT_EXTRA_LIGHT = 200;
 var DWRITE_FONT_WEIGHT_ULTRA_LIGHT = 200;
