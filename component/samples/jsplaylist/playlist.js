@@ -86,7 +86,7 @@ function oItem(row_index, type, handle, track_index, group_index, track_index_in
 		if (is_item_selected) {
 			gr.FillRectangle(this.x + cover.w, this.y, this.w - cover.w, this.h, setAlpha(g_color_selected_bg, 150));
 			if (p.list.focusedTrackId == this.track_index) {
-				gr.DrawRectangle(this.x + cover.w + 1, this.y, this.w - cover.w - 2, this.h, 1, setAlpha(txt_color, 150));
+				DrawRectangle(gr, this.x + cover.w + 1, this.y, this.w - cover.w - 2, this.h, setAlpha(txt_color, 150));
 			}
 		}
 
@@ -132,7 +132,7 @@ function oItem(row_index, type, handle, track_index, group_index, track_index_in
 					} else {
 						var queue_index = get_tfo("[%queue_index%]").EvalActivePlaylistItem(this.track_index);
 						if (queue_index.length) {
-							gr.DrawRectangle(cx, this.y + 2, cRow.playlist_h - 4, cRow.playlist_h - 4, 1, txt_color);
+							DrawRectangle(gr, cx, this.y + 2, cRow.playlist_h - 4, cRow.playlist_h - 4, txt_color);
 							gr.WriteText(queue_index, g_font_15_1, txt_color, cx + 1, this.y + 3, cRow.playlist_h - 4, cRow.playlist_h - 4, 2, 2, 1, 1);
 						}
 					}

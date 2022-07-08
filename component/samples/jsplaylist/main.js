@@ -8,7 +8,7 @@ function DrawCover(gr, img, dst_x, dst_y, dst_w, dst_h) {
 		dst_h = h;
 		gr.DrawImage(img, dst_x, dst_y, dst_w, dst_h, 0, 0, img.Width, img.Height);
 	}
-	gr.DrawRectangle(dst_x, dst_y, dst_w - 1, dst_h - 1, 1, g_color_normal_txt);
+	DrawRectangle(gr, dst_x, dst_y, dst_w - 1, dst_h - 1, g_color_normal_txt);
 }
 
 function DrawWallpaper(gr) {
