@@ -1,3 +1,9 @@
+## v3.0.2
+
+### Bug fixes
+
+- Fix crash if [Configuration Window](configuration-window) `Goto` dialog was empty when clicking `OK`.
+
 ## v3.0.1
 
 ### Bug fixes
