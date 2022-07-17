@@ -4,7 +4,6 @@
 // @author "Br3tt aka Falstaff"
 // @import "%fb2k_component_path%helpers.txt"
 // @import "%fb2k_component_path%samples\smooth\common.js"
-// @import "%fb2k_component_path%samples\smooth\filterbox.js"
 // @import "%fb2k_component_path%samples\smooth\inputbox.js"
 // @import "%fb2k_component_path%samples\smooth\scrollbar.js"
 // @import "%fb2k_component_path%samples\smooth\jsspm.js"

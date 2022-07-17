@@ -154,13 +154,6 @@ function GetKeyboardMask() {
 	return KMask.none;
 }
 
-function replaceAll(str, search, repl) {
-	while (str.indexOf(search) != -1) {
-		str = str.replace(search, repl);
-	}
-	return str;
-}
-
 var ButtonStates = {
 	normal: 0,
 	hover: 1,
