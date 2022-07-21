@@ -1,5 +1,4 @@
 site_name: JScript Panel 3
-remote_branch: site
 copyright: Copyright &copy; 2022 marc2003
 theme:
   name: material
