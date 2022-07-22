@@ -43,7 +43,8 @@ can simply pick the one you want to use from the `Samples` menu in
 the [Configuration Window](configuration-window). See the
 [Gallery](../gallery) for some screenshots.
 
-Nearly all included samples require the installation of `FontAwesome` which
-you can grab here:
+!!! note
+	Most included samples require the installation of `FontAwesome` which
+	you can grab here:
 
-[https://github.com/FortAwesome/Font-Awesome/blob/4.x/fonts/fontawesome-webfont.ttf?raw=true](https://github.com/FortAwesome/Font-Awesome/blob/4.x/fonts/fontawesome-webfont.ttf?raw=true)
+	[https://github.com/FortAwesome/Font-Awesome/blob/4.x/fonts/fontawesome-webfont.ttf?raw=true](https://github.com/FortAwesome/Font-Awesome/blob/4.x/fonts/fontawesome-webfont.ttf?raw=true)
