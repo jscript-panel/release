@@ -161,7 +161,7 @@ Called when metadb contents change. This can be tag updates or database changes 
 ## `on_mouse_leave()`
 ## `on_mouse_mbtn_dblclk(x, y, mask)`
 ## `on_mouse_mbtn_down(x, y, mask)`
-## `on_mouse_mbtn_up(x, y, mask)
+## `on_mouse_mbtn_up(x, y, mask)`
 ## `on_mouse_move(x, y, mask)`
 ## `on_mouse_rbtn_dblclk(x, y, mask)`
 ## `on_mouse_rbtn_down(x, y, mask)`
