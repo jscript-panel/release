@@ -1,3 +1,9 @@
+## v3.0.3
+
+### Bug fixes
+
+- Fixes a bug with `JSPlaylist` `state` and `mood` column alignment where the `right` and `centre` options were inverted.
+
 ## v3.0.2
 
 ### Bug fixes
