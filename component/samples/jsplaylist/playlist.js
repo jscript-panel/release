@@ -113,10 +113,10 @@ function oItem(row_index, type, handle, track_index, group_index, track_index_in
 				case "State":
 					switch (p.headerBar.columns[j].align) {
 					case 1:
-						cx += (cw - cRow.playlist_h) / 2;
+						cx = cx + cw - cRow.playlist_h;
 						break;
 					case 2:
-						cx = cx + cw - cRow.playlist_h;
+						cx += (cw - cRow.playlist_h) / 2;
 						break;
 					};
 
@@ -148,10 +148,10 @@ function oItem(row_index, type, handle, track_index, group_index, track_index_in
 					p.headerBar.columns[j].minWidth = 36;
 					switch (p.headerBar.columns[j].align) {
 					case 1:
-						columns.mood_x = cx + ((cw - columns.mood_w) / 2);
+						columns.mood_x = cx + (cw - columns.mood_w);
 						break;
 					case 2:
-						columns.mood_x = cx + (cw - columns.mood_w);
+						columns.mood_x = cx + ((cw - columns.mood_w) / 2);
 						break;
 					}
 					if (this.mood != 0) {
