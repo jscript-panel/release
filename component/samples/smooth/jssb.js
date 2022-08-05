@@ -4,6 +4,7 @@ ppt.sort_album_artist_tf = window.GetProperty("SMOOTH.SORT.ALBUM.ARTIST", "%albu
 
 ppt.panelMode = window.GetProperty("SMOOTH.DISPLAY.MODE", 1); // 0 = column, 1 = column + art, 2 = album art grid, 3 - album art grid + overlay text
 ppt.sendto_playlist = window.GetProperty("SMOOTH.SENDTO.PLAYLIST", "Library selection");
+ppt.sendto_playlist_play = window.GetProperty("SMOOTH.SENDTO.PLAYLIST.PLAY", true);
 ppt.showAllItem = window.GetProperty("SMOOTH.SHOW.ALL.ITEMS", true);
 ppt.tagMode = window.GetProperty("SMOOTH.TAG.MODE", 0); // 0 = album, 1 = artist, 2 = album artist
 ppt.tagText = ["album", "artist", "album artist"];
@@ -207,7 +208,9 @@ function oBrowser() {
 		plman.ClearPlaylist(p);
 		plman.InsertPlaylistItems(p, 0, this.groups[index].handles)
 		plman.ActivePlaylist = p;
-		plman.ExecutePlaylistDefaultAction(p, 0);
+		if (ppt.sendto_playlist_play) {
+			plman.ExecutePlaylistDefaultAction(p, 0);
+		}
 	}
 
 	this.getlimits = function () {
@@ -525,6 +528,7 @@ function oBrowser() {
 	this.settings_context_menu = function (x, y) {
 		var _menu = window.CreatePopupMenu();
 		var _menu1 = window.CreatePopupMenu();
+		var _menu2 = window.CreatePopupMenu();
 
 		_menu.AppendMenuItem(MF_STRING, 1, "Header Bar");
 		_menu.CheckMenuItem(1, ppt.showHeaderBar);
@@ -538,6 +542,14 @@ function oBrowser() {
 		_menu1.AppendMenuItem(colour_flag, 4, "Background");
 		_menu1.AppendMenuItem(colour_flag, 5, "Selected background");
 		_menu1.AppendTo(_menu, MF_STRING, "Custom colours");
+		_menu.AppendMenuSeparator();
+
+		_menu2.AppendMenuItem(MF_STRING, 100, "Send to default playlist and play");
+		_menu2.AppendMenuItem(MF_STRING, 101, "Send to default playlist");
+		_menu2.CheckMenuRadioItem(100, 101, ppt.sendto_playlist_play ? 100 : 101);
+		_menu2.AppendMenuSeparator();
+		_menu2.AppendMenuItem(MF_STRING, 102, "Default playlist name")
+		_menu2.AppendTo(_menu, MF_STRING, "Double click");
 		_menu.AppendMenuSeparator();
 
 		_menu.AppendMenuItem(MF_STRING, 20, "Album");
@@ -622,7 +634,19 @@ function oBrowser() {
 		case 51:
 			window.ShowConfigure();
 			break;
+		case 100:
+		case 101:
+			ppt.sendto_playlist_play = idx == 100;
+			window.SetProperty("SMOOTH.SENDTO.PLAYLIST.PLAY", ppt.sendto_playlist_play);
+			break;
+		case 102:
+			var tmp = utils.InputBox("Enter default playlist name", window.Name, ppt.sendto_playlist);
+			if (tmp.length && tmp != ppt.sendto_playlist) {
+				ppt.sendto_playlist = tmp;
+				window.SetProperty("SMOOTH.SENDTO.PLAYLIST", ppt.sendto_playlist);
+			}
 		}
+		_menu2.Dispose();
 		_menu1.Dispose();
 		_menu.Dispose();
 		return true;
