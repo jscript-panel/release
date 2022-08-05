@@ -8,7 +8,7 @@
 
 ### Bug fixes
 
-- Fix crash if [Configuration Window](configuration-window) `Goto` dialog was empty when clicking `OK`.
+- Fix crash if [Configuration Window](../configuration-window) `Goto` dialog was empty when clicking `OK`.
 
 ## v3.0.1
 
