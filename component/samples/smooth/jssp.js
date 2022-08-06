@@ -740,7 +740,7 @@ function oBrowser() {
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 
 		_menu3.AppendMenuItem(MF_STRING, 15, "Enable");
-		_menu3.CheckMenuItem(11, ppt.showGroupHeaders);
+		_menu3.CheckMenuItem(15, ppt.showGroupHeaders);
 		_menu3.AppendMenuSeparator();
 		_menu3.AppendMenuItem(MF_GRAYED, 0, "Rows");
 		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 11, "1");
