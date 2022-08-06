@@ -54,8 +54,7 @@ No return value.
 Returns an [IJSImage](../IJSImage) instance or `null` on failure.
 
 !!! note
-	If using [foobar2000](https://foobar2000.org) `v1.6.6` or later,
-	this method can return album art from certain radio streams
+	This method can return album art from certain radio streams
 	if the requested type is `Front`. Use [on_playback_dynamic_info_track](../../callbacks/#on_playback_dynamic_info_tracktype)
 	to get notified of stream artwork changes.
 
@@ -138,7 +137,3 @@ Returns a `boolean` value.
 |want_stub|`boolean`|Default `true`.|
 
 No return value.
-
-!!! note
-	Requires [foobar2000](https://foobar2000.org) `v1.6.2` or later. Displays a
-	popup text dialog if not supported / album art not found.
