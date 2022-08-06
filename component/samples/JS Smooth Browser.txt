@@ -11,6 +11,9 @@
 
 /*
 [Features]
+ * Single click highlights the selection only.
+ * Use double click to send to playlist/send to playlist and play. Right click on the header/scrollbar to customise.
+ * Use right click>"Add to" to add selection to an existing playlist.
  * 3 column modes available: albums, artists, album artists.
  * 4 display modes avaliable: column, column + album art, grid mode + bottom labels, grid mode + overlayed text.
  * Filter box with full Media Library query support.
