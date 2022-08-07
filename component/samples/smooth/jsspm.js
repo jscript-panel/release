@@ -592,13 +592,11 @@ function oBrowser() {
 		var _menu1 = window.CreatePopupMenu();
 		var _menu2 = window.CreatePopupMenu();
 
-		_menu.AppendMenuItem(MF_STRING, 1, "Header Bar");
-		_menu.CheckMenuItem(1, ppt.showHeaderBar);
+		_menu.AppendMenuItem(CheckMenuIf(ppt.showHeaderBar), 1, "Header Bar");
 		_menu.AppendMenuSeparator();
 
 		var colour_flag = EnableMenuIf(ppt.enableCustomColours);
-		_menu1.AppendMenuItem(MF_STRING, 2, "Enable");
-		_menu1.CheckMenuItem(2, ppt.enableCustomColours);
+		_menu1.AppendMenuItem(CheckMenuIf(ppt.enableCustomColours), 2, "Enable");
 		_menu1.AppendMenuSeparator();
 		_menu1.AppendMenuItem(colour_flag, 3, "Text");
 		_menu1.AppendMenuItem(colour_flag, 4, "Background");

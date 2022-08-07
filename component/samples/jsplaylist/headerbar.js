@@ -665,8 +665,7 @@ function oHeaderBar() {
 		var _groups = window.CreatePopupMenu();
 		var _columns = window.CreatePopupMenu();
 
-		_groups.AppendMenuItem(MF_STRING, 2, "Enable Groups");
-		_groups.CheckMenuItem(2, properties.showgroupheaders);
+		_groups.AppendMenuItem(CheckMenuIf(properties.showgroupheaders), 2, "Enable Groups");
 
 		if (properties.showgroupheaders) {
 			_groups.AppendMenuSeparator();
@@ -687,18 +686,15 @@ function oHeaderBar() {
 		// Columns submenu entries
 		var columnMenuIdx = 100;
 		for (var i = 0; i < this.columns.length; i++) {
-			if (i == column_index) {
-				_columns.AppendMenuItem(MF_STRING, columnMenuIdx + i, "[" + this.columns[i].label + "]");
-			} else {
-				_columns.AppendMenuItem(MF_STRING, columnMenuIdx + i, this.columns[i].label);
-			}
-			_columns.CheckMenuItem(columnMenuIdx + i, this.columns[i].w > 0 ? 1 : 0);
+			var label = this.columns[i].label;
+			if (i == column_index) label = "[" + label + "]";
+			_columns.AppendMenuItem(CheckMenuIf(this.columns[i].w > 0), columnMenuIdx + i, label);
 		}
+
 		_columns.AppendTo(_menu, MF_STRING, "Columns");
 		_menu.AppendMenuSeparator();
 
-		_menu.AppendMenuItem(MF_STRING, 5, "Double Track Line");
-		_menu.CheckMenuItem(5, cList.enableExtraLine);
+		_menu.AppendMenuItem(CheckMenuIf(cList.enableExtraLine), 5, "Double Track Line");
 
 		var idx = _menu.TrackPopupMenu(x, y);
 		switch (true) {

@@ -715,13 +715,11 @@ function oBrowser() {
 		var _menu3 = window.CreatePopupMenu();
 		var _menu4 = window.CreatePopupMenu();
 
-		_menu.AppendMenuItem(MF_STRING, 1, "Header Bar");
-		_menu.CheckMenuItem(1, ppt.showHeaderBar);
+		_menu.AppendMenuItem(CheckMenuIf(ppt.showHeaderBar), 1, "Header Bar");
 		_menu.AppendMenuSeparator();
 
 		var colour_flag = EnableMenuIf(ppt.enableCustomColours);
-		_menu1.AppendMenuItem(MF_STRING, 2, "Enable");
-		_menu1.CheckMenuItem(2, ppt.enableCustomColours);
+		_menu1.AppendMenuItem(CheckMenuIf(ppt.enableCustomColours), 2, "Enable");
 		_menu1.AppendMenuSeparator();
 		_menu1.AppendMenuItem(colour_flag, 3, "Text");
 		_menu1.AppendMenuItem(colour_flag, 4, "Background");
@@ -739,8 +737,7 @@ function oBrowser() {
 		_menu2.CheckMenuItem(10, ppt.wallpaperblurred);
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 
-		_menu3.AppendMenuItem(MF_STRING, 15, "Enable");
-		_menu3.CheckMenuItem(15, ppt.showGroupHeaders);
+		_menu3.AppendMenuItem(CheckMenuIf(ppt.showGroupHeaders), 15, "Enable");
 		_menu3.AppendMenuSeparator();
 		_menu3.AppendMenuItem(MF_GRAYED, 0, "Rows");
 		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 11, "1");
@@ -752,13 +749,11 @@ function oBrowser() {
 		_menu3.CheckMenuItem(19, ppt.autoFill);
 		_menu3.AppendTo(_menu, MF_STRING, "Group Headers");
 
-		_menu4.AppendMenuItem(MF_STRING, 20, "Double Track Line");
-		_menu4.CheckMenuItem(20, ppt.doubleRowText);
+		_menu4.AppendMenuItem(CheckMenuIf(ppt.doubleRowText), 20, "Double Track Line");
 		_menu4.AppendMenuSeparator()
 		_menu4.AppendMenuItem(EnableMenuIf(!ppt.doubleRowText), 21, "Artist");
 		_menu4.CheckMenuItem(21, ppt.showArtistAlways);
-		_menu4.AppendMenuItem(MF_STRING, 22, "Rating");
-		_menu4.CheckMenuItem(22, ppt.showRating);
+		_menu4.AppendMenuItem(CheckMenuIf(ppt.showRating), 22, "Rating");
 		_menu4.AppendTo(_menu, MF_STRING, "Track Info");
 
 		_menu.AppendMenuSeparator();

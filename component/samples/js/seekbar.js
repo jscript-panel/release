@@ -159,8 +159,7 @@ function _seekbar(x, y, w, h, spectrogram_mode) {
 		panel.m.AppendMenuSeparator();
 		panel.m.AppendMenuItem(MF_STRING, 1001, 'Marker colour...');
 		panel.m.AppendMenuSeparator();
-		panel.m.AppendMenuItem(MF_STRING, 1002, 'Only analyse tracks in library');
-		panel.m.CheckMenuItem(1002, this.properties.library_only.enabled);
+		panel.m.AppendMenuItem(CheckMenuIf(this.properties.library_only.enabled), 1002, 'Only analyse tracks in library');
 		panel.m.AppendMenuSeparator();
 		panel.s10.AppendMenuItem(MF_STRING, 1010, 'Clear all');
 		panel.s10.AppendMenuItem(MF_STRING, 1011, 'Clear older than 1 day');

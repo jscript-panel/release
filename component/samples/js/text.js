@@ -191,8 +191,7 @@ function _text(mode, x, y, w, h) {
 				panel.m.AppendMenuItem(MF_STRING, 1221, 'Custom tag...');
 			}
 			panel.m.AppendMenuSeparator();
-			panel.m.AppendMenuItem(MF_STRING, 1230, 'Fixed width font');
-			panel.m.CheckMenuItem(1230, this.properties.fixed.enabled);
+			panel.m.AppendMenuItem(CheckMenuIf(this.properties.fixed.enabled), 1230, 'Fixed width font');
 			panel.m.AppendMenuSeparator();
 			break;
 		}

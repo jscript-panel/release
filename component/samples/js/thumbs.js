@@ -333,8 +333,7 @@ function _thumbs() {
 			panel.m.AppendMenuItem(MF_STRING, 1002, 'Set custom folder...');
 		} else { // last.fm
 			panel.m.AppendMenuItem(EnableMenuIf(panel.metadb), 1003, 'Download now');
-			panel.m.AppendMenuItem(MF_STRING, 1004, 'Automatic downloads');
-			panel.m.CheckMenuItem(1004, this.properties.auto_download.enabled);
+			panel.m.AppendMenuItem(CheckMenuIf(this.properties.auto_download.enabled), 1004, 'Automatic downloads');
 			_.forEach(this.limits, function (item) {
 				panel.s10.AppendMenuItem(MF_STRING, item + 1010, item);
 			});

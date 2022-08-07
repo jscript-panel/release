@@ -1558,8 +1558,7 @@ function oList(object_name) {
 		_menu.AppendMenuItem(MF_STRING, 1, "Panel Settings...");
 
 		var colour_flag = EnableMenuIf(properties.enableCustomColours);
-		_colours.AppendMenuItem(MF_STRING, 2, "Enable");
-		_colours.CheckMenuItem(2, properties.enableCustomColours);
+		_colours.AppendMenuItem(CheckMenuIf(properties.enableCustomColours), 2, "Enable");
 		_colours.AppendMenuSeparator();
 		_colours.AppendMenuItem(colour_flag, 3, "Text");
 		_colours.AppendMenuItem(colour_flag, 4, "Background");

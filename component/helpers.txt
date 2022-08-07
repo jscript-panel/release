@@ -73,6 +73,12 @@ function EnableMenuIf(condition) {
 	return condition ? MF_STRING : MF_GRAYED;
 }
 
+function CheckMenuIf(condition) {
+	var flags = MF_STRING;
+	if (condition) flags |= MF_CHECKED;
+	return flags;
+}
+
 var DWRITE_FONT_WEIGHT_THIN = 100;
 var DWRITE_FONT_WEIGHT_EXTRA_LIGHT = 200;
 var DWRITE_FONT_WEIGHT_ULTRA_LIGHT = 200;

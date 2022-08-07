@@ -529,13 +529,11 @@ function oBrowser() {
 		var _menu1 = window.CreatePopupMenu();
 		var _menu2 = window.CreatePopupMenu();
 
-		_menu.AppendMenuItem(MF_STRING, 1, "Header Bar");
-		_menu.CheckMenuItem(1, ppt.showHeaderBar);
+		_menu.AppendMenuItem(CheckMenuIf(ppt.showHeaderBar), 1, "Header Bar");
 		_menu.AppendMenuSeparator();
 
 		var colour_flag = EnableMenuIf(ppt.enableCustomColours);
-		_menu1.AppendMenuItem(MF_STRING, 2, "Enable");
-		_menu1.CheckMenuItem(2, ppt.enableCustomColours);
+		_menu1.AppendMenuItem(CheckMenuIf(ppt.enableCustomColours), 2, "Enable");
 		_menu1.AppendMenuSeparator();
 		_menu1.AppendMenuItem(colour_flag, 3, "Text");
 		_menu1.AppendMenuItem(colour_flag, 4, "Background");
@@ -562,8 +560,7 @@ function oBrowser() {
 		_menu.AppendMenuItem(MF_STRING, 33, "Album Art Grid (Overlayed text)");
 		_menu.CheckMenuRadioItem(30, 33, 30 + ppt.panelMode);
 		_menu.AppendMenuSeparator();
-		_menu.AppendMenuItem(MF_STRING, 40, "Show all items");
-		_menu.CheckMenuItem(40, ppt.showAllItem);
+		_menu.AppendMenuItem(CheckMenuIf(ppt.showAllItem), 40, "Show all items");
 		_menu.AppendMenuItem(EnableMenuIf(ppt.panelMode == 1 || ppt.panelMode == 2), 41, "Album Art: Auto-fill");
 		_menu.CheckMenuItem(41, ppt.autoFill);
 

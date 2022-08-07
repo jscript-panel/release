@@ -276,12 +276,9 @@ function _list(mode, x, y, w, h) {
 			}
 			break;
 		case 'properties':
-			panel.m.AppendMenuItem(MF_STRING, 1300, 'Metadata');
-			panel.m.CheckMenuItem(1300, this.properties.meta.enabled);
-			panel.m.AppendMenuItem(MF_STRING, 1301, 'Location');
-			panel.m.CheckMenuItem(1301, this.properties.location.enabled);
-			panel.m.AppendMenuItem(MF_STRING, 1302, 'Tech Info');
-			panel.m.CheckMenuItem(1302, this.properties.tech.enabled);
+			panel.m.AppendMenuItem(CheckMenuIf(this.properties.meta.enabled), 1300, 'Metadata');
+			panel.m.AppendMenuItem(CheckMenuIf(this.properties.location.enabled), 1301, 'Location');
+			panel.m.AppendMenuItem(CheckMenuIf(this.properties.tech.enabled), 1302, 'Tech Info');
 			panel.m.AppendMenuSeparator();
 			break;
 		}
@@ -643,8 +640,7 @@ function _list(mode, x, y, w, h) {
 				m.AppendMenuItem(MF_STRING, 2, 'Rename...');
 				m.AppendMenuItem(MF_STRING, 3, 'Edit query...');
 				m.AppendMenuItem(MF_STRING, 4, 'Edit sort pattern...');
-				m.AppendMenuItem(MF_STRING, 5, 'Force Sort');
-				m.CheckMenuItem(5, this.data[z].forced);
+				m.AppendMenuItem(CheckMenuIf(this.data[z].forced), 5, 'Force Sort');
 				m.AppendMenuSeparator();
 				m.AppendMenuItem(EnableMenuIf(z > 0), 6, 'Move up');
 				m.AppendMenuItem(EnableMenuIf(z < this.data.length - 1), 7, 'Move down');
