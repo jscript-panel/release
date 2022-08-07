@@ -79,6 +79,12 @@ function CheckMenuIf(condition) {
 	return flags;
 }
 
+function GetMenuFlags(enabled, checked) {
+	var flags = enabled ? MF_STRING : MF_GRAYED;
+	if (checked) flags |= MF_CHECKED;
+	return flags;
+}
+
 var DWRITE_FONT_WEIGHT_THIN = 100;
 var DWRITE_FONT_WEIGHT_EXTRA_LIGHT = 200;
 var DWRITE_FONT_WEIGHT_ULTRA_LIGHT = 200;

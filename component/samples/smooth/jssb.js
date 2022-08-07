@@ -561,8 +561,7 @@ function oBrowser() {
 		_menu.CheckMenuRadioItem(30, 33, 30 + ppt.panelMode);
 		_menu.AppendMenuSeparator();
 		_menu.AppendMenuItem(CheckMenuIf(ppt.showAllItem), 40, "Show all items");
-		_menu.AppendMenuItem(EnableMenuIf(ppt.panelMode == 1 || ppt.panelMode == 2), 41, "Album Art: Auto-fill");
-		_menu.CheckMenuItem(41, ppt.autoFill);
+		_menu.AppendMenuItem(GetMenuFlags(ppt.panelMode == 1 || ppt.panelMode == 2, ppt.autoFill), 41, "Album Art: Auto-fill");
 
 		_menu.AppendMenuSeparator();
 		_menu.AppendMenuItem(MF_STRING, 50, "Panel Properties");

@@ -733,8 +733,7 @@ function oBrowser() {
 		_menu2.AppendMenuSeparator();
 		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode == 2), 9, "Custom image path...");
 		_menu2.AppendMenuSeparator();
-		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode != 0), 10, "Blur");
-		_menu2.CheckMenuItem(10, ppt.wallpaperblurred);
+		_menu2.AppendMenuItem(GetMenuFlags(ppt.wallpapermode != 0, ppt.wallpaperblurred), 10, "Blur");
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 
 		_menu3.AppendMenuItem(CheckMenuIf(ppt.showGroupHeaders), 15, "Enable");
@@ -745,14 +744,12 @@ function oBrowser() {
 		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 13, "3");
 		_menu3.CheckMenuRadioItem(11, 13, ppt.groupHeaderRowsNumber + 10);
 		_menu3.AppendMenuSeparator();
-		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 19, "Album Art: Auto-fill");
-		_menu3.CheckMenuItem(19, ppt.autoFill);
+		_menu3.AppendMenuItem(GetMenuFlags(ppt.showGroupHeaders, ppt.autoFill), 19, "Album Art: Auto-fill");
 		_menu3.AppendTo(_menu, MF_STRING, "Group Headers");
 
 		_menu4.AppendMenuItem(CheckMenuIf(ppt.doubleRowText), 20, "Double Track Line");
 		_menu4.AppendMenuSeparator()
-		_menu4.AppendMenuItem(EnableMenuIf(!ppt.doubleRowText), 21, "Artist");
-		_menu4.CheckMenuItem(21, ppt.showArtistAlways);
+		_menu4.AppendMenuItem(GetMenuFlags(!ppt.doubleRowText, ppt.showArtistAlways), 21, "Artist");
 		_menu4.AppendMenuItem(CheckMenuIf(ppt.showRating), 22, "Rating");
 		_menu4.AppendTo(_menu, MF_STRING, "Track Info");
 

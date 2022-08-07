@@ -610,8 +610,7 @@ function oBrowser() {
 		_menu2.AppendMenuSeparator();
 		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode == 2), 9, "Custom image path...");
 		_menu2.AppendMenuSeparator();
-		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode != 0), 10, "Blur");
-		_menu2.CheckMenuItem(10, ppt.wallpaperblurred);
+		_menu2.AppendMenuItem(GetMenuFlags(ppt.wallpapermode != 0, ppt.wallpaperblurred), 10, "Blur");
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 
 		_menu.AppendMenuSeparator();

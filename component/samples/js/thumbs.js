@@ -353,8 +353,7 @@ function _thumbs() {
 			});
 			panel.s11.CheckMenuRadioItem(_.first(this.pxs) + 1000, _.last(this.pxs) + 1000, this.properties.px.value + 1000);
 			panel.s11.AppendMenuSeparator();
-			panel.s11.AppendMenuItem(flag, 1399, 'Circular');
-			panel.s11.CheckMenuItem(1399, this.properties.circular.enabled);
+			panel.s11.AppendMenuItem(GetMenuFlags(this.properties.mode.value != 5, this.properties.circular.enabled), 1399, 'Circular');
 			panel.s11.AppendTo(panel.m, MF_STRING, 'Thumbs');
 			panel.m.AppendMenuSeparator();
 		}
