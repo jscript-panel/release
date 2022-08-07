@@ -1,3 +1,11 @@
+## v3.1.0 [unreleased]
+
+### Changes
+- The minimum requirement for [foobar2000](https://foobar2000.org) is now `v1.6.6`.
+
+### Sample changes
+- The double click action for `JS Smooth Browser` can now be configured via the right click menu. Previously, you could only send to playlist and play. Now sending to playlist without playing is possible.
+
 ## v3.0.3
 
 ### Bug fixes
