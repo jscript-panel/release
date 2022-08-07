@@ -14,15 +14,6 @@ ppt.thumbnailWidthMin = ppt.default_thumbnailWidthMin;
 ppt.default_lineHeightMin = window.GetProperty("SMOOTH.LINE.MIN.HEIGHT", 120);
 ppt.lineHeightMin = ppt.default_lineHeightMin;
 
-var tfo = {
-	groupkey_album : fb.TitleFormat("$if2(%album artist%,Unknown Artist) ^^ $if2(%album%,'('Singles')')"),
-	groupkey_artist : fb.TitleFormat("$if2($meta(artist,0),Unknown Artist)"),
-	groupkey_album_artist : fb.TitleFormat("%album artist%"),
-	crc_artist : fb.TitleFormat("$crc32(artists$meta(artist,0))"),
-	crc_album_artist : fb.TitleFormat("$crc32(artists%album artist%)"),
-	crc_path : fb.TitleFormat("$crc32(%path%)"),
-};
-
 function oGroup(index, start, metadb, groupkey) {
 	this.index = index;
 	this.start = start;
@@ -109,7 +100,6 @@ function oBrowser() {
 		scroll = check_scroll(scroll);
 		scroll_ = scroll;
 
-		// scrollbar update
 		this.scrollbar.updateScrollbar();
 	}
 
@@ -175,9 +165,7 @@ function oBrowser() {
 		if (g_filter_text.length > 0) {
 			try {
 				this.list = this.list.GetQueryItems(g_filter_text);
-			} catch (e) {
-				// invalid query
-			}
+			} catch (e) {}
 		}
 
 		if (ppt.tagMode == 0) { //album
@@ -220,7 +208,6 @@ function oBrowser() {
 		} else {
 			var start_ = Math.round(scroll_ / this.rowHeight) * this.totalColumns;
 			var end_ = Math.round((scroll_ + wh + this.rowHeight) / this.rowHeight) * this.totalColumns;
-			// check values / limits
 			end_ = (this.groups.length < end_) ? this.groups.length : end_;
 			start_ = start_ > 0 ? start_ - this.totalColumns : (start_ < 0 ? 0 : start_);
 		}
@@ -264,7 +251,6 @@ function oBrowser() {
 					gr.FillRectangle(ax, ay, aw, ah, g_color_normal_txt & 0x08ffffff);
 				}
 
-				// selected?
 				if (i == this.selectedIndex) {
 					gr.FillRectangle(ax, ay, aw, ah, g_color_selected_bg & 0xb0ffffff);
 					gr.DrawRectangle(ax + 1, ay + 1, aw - 2, ah - 2, 2.0, g_color_selected_bg);
@@ -307,7 +293,6 @@ function oBrowser() {
 				var text_left = 8;
 				var cover_size = aw - (text_left * 2);
 
-				// selected?
 				if (i == this.selectedIndex) {
 					gr.FillRectangle(ax, ay, aw, ah, g_color_selected_bg & 0xb0ffffff);
 					gr.DrawRectangle(ax + 1, ay + 1, aw - 2, ah - 2, 2.0, g_color_selected_bg);
@@ -365,10 +350,8 @@ function oBrowser() {
 			}
 		}
 
-		// draw scrollbar
 		this.scrollbar.draw(gr);
 
-		// draw top header bar
 		if (ppt.showHeaderBar) {
 			gr.FillRectangle(0, 0, ww, this.y - 1, g_color_normal_bg);
 			gr.FillRectangle(this.x, 0, this.w + cScrollBar.width, ppt.headerBarHeight - 1, g_color_normal_bg & 0x20ffffff);
@@ -460,7 +443,7 @@ function oBrowser() {
 				brw.scrollbar.updateScrollbar();
 		} else {
 			if (scroll_ != scroll) {
-				scroll_ = scroll; // force to scroll_ value to fixe the 5.5 stop value for expanding album action
+				scroll_ = scroll;
 				need_repaint = true;
 			}
 			if (isScrolling) {
@@ -687,7 +670,6 @@ function on_paint(gr) {
 }
 
 function on_mouse_lbtn_down(x, y) {
-	// stop inertia
 	if (cTouch.timer) {
 		window.ClearInterval(cTouch.timer);
 		cTouch.timer = false;
@@ -735,7 +717,6 @@ function on_mouse_lbtn_up(x, y) {
 		}
 	}
 
-	// create scroll inertia on mouse lbtn up
 	if (cTouch.down) {
 		cTouch.down = false;
 		cTouch.y_end = y;
@@ -802,7 +783,7 @@ function on_mouse_wheel(step) {
 		cTouch.timer = false;
 	}
 
-	if (utils.IsKeyPressed(VK_CONTROL)) { // zoom all elements)
+	if (utils.IsKeyPressed(VK_CONTROL)) {
 		var zoomStep = 1;
 		var previous = ppt.extra_font_size;
 		if (!timers.mouseWheel) {
@@ -937,6 +918,15 @@ function g_sendResponse() {
 	}
 	brw.populate();
 }
+
+var tfo = {
+	groupkey_album : fb.TitleFormat("$if2(%album artist%,Unknown Artist) ^^ $if2(%album%,'('Singles')')"),
+	groupkey_artist : fb.TitleFormat("$if2($meta(artist,0),Unknown Artist)"),
+	groupkey_album_artist : fb.TitleFormat("%album artist%"),
+	crc_artist : fb.TitleFormat("$crc32(artists$meta(artist,0))"),
+	crc_album_artist : fb.TitleFormat("$crc32(artists%album artist%)"),
+	crc_path : fb.TitleFormat("$crc32(%path%)"),
+};
 
 var g_selHolder = fb.AcquireSelectionHolder();
 var brw = new oBrowser();

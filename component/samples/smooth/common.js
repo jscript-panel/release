@@ -154,13 +154,7 @@ function GetKeyboardMask() {
 	return KMask.none;
 }
 
-var ButtonStates = {
-	normal: 0,
-	hover: 1,
-	down: 2
-};
-
-var button = function (normal, hover, down) {
+function button(normal, hover, down) {
 	this.x = 0;
 	this.y = 0;
 	this.w = normal.Width;
@@ -341,6 +335,12 @@ function on_colours_changed() {
 	brw.scrollbar.setNewColours();
 	brw.repaint();
 }
+
+var ButtonStates = {
+	normal: 0,
+	hover: 1,
+	down: 2
+};
 
 var KMask = {
 	none: 0,

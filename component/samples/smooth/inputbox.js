@@ -39,12 +39,11 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 	this.draw = function (gr, x, y) {
 		this.x = x;
 		this.y = y;
-		// draw bg
+
 		if (this.bordercolor)
 			gr.FillRectangle(x - 2, y, (this.w + 4), this.h, this.bordercolor);
 		gr.FillRectangle(x - 1, y + 1, (this.w + 2), this.h - 2, this.backcolor);
 
-		// adjust offset to always see the cursor
 		if (!this.drag && !this.select) {
 			this.Cx = this.text.substr(this.offset, this.Cpos - this.offset).calc_width(this.font);
 			while (this.Cx >= this.w - this.right_margin) {
@@ -52,7 +51,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 				this.Cx = this.text.substr(this.offset, this.Cpos - this.offset).calc_width(this.font);
 			}
 		}
-		// draw selection
+
 		if (this.SelBegin != this.SelEnd) {
 			this.select = true;
 			this.CalcText();
@@ -85,9 +84,8 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 			this.text_selected = "";
 		}
 
-		// draw text
 		gr.WriteText(this.text.length > 0 ? this.text.substr(this.offset) : this.empty_text, this.font, blendColours(this.textcolor, (this.backcolor == 0 ? 0xff000000 : this.backcolor), 0.35), this.x, this.y, this.w, this.h, 0, 2, 1, this.edit ? 0 : 1);
-		// draw cursor
+
 		if (this.edit && !this.select)
 			this.drawcursor(gr);
 	}
@@ -141,7 +139,6 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 				this.text = this.default_text;
 			}
 			this.edit = false;
-			// clear timer
 			if (cInputbox.timer_cursor) {
 				window.ClearInterval(cInputbox.timer_cursor);
 				cInputbox.timer_cursor = false;
@@ -253,7 +250,6 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 				this.Cpos = tmp;
 				this.repaint();
 			}
-			// Set Mouse Cursor Style
 			if (this.hover || this.drag) {
 				window.SetCursor(IDC_IBEAM);
 			} else if (this.ibeam_set) {
@@ -305,7 +301,6 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 				this.SelEnd = this.SelBegin;
 				this.text = this.text.slice(0, p1) + this.text.slice(p2);
 				this.CalcText();
-
 				this.repaint();
 			}
 			break;
@@ -333,7 +328,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 					this.CalcText();
 					this.repaint();
 				} else {
-					if (this.Cpos > 0) { // cursor pos > 0
+					if (this.Cpos > 0) {
 						this.text = this.text.substring(0, this.Cpos) + cInputbox.clipboard + this.text.substring(this.Cpos, this.text.length);
 					} else {
 						this.text = cInputbox.clipboard + this.text.substring(this.Cpos, this.text.length);
@@ -354,10 +349,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 
 		if (mask == KMask.none) {
 			switch (vkey) {
-			case VK_SHIFT:
-				break;
 			case VK_BACK:
-				//save text before update
 				this.stext = this.text;
 				if (this.edit) {
 					if (this.select) {
@@ -393,7 +385,6 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 				this.repaint();
 				break;
 			case VK_DELETE:
-				//save text before update
 				this.stext = this.text;
 				if (this.edit) {
 					if (this.select) {
@@ -427,7 +418,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 			case VK_RETURN:
 				if (this.edit && this.text.length >= 0) {
 					eval(this.func);
-				} else {}
+				}
 				break;
 			case VK_ESCAPE:
 				if (this.edit) {
@@ -491,7 +482,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 		} else {
 			switch (mask) {
 			case KMask.shift:
-				if (vkey == VK_HOME) { // SHIFT + HOME
+				if (vkey == VK_HOME) {
 					if (this.edit) {
 						if (!this.select) {
 							this.anchor = this.Cpos;
@@ -519,7 +510,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 						this.repaint();
 					}
 				}
-				if (vkey == VK_END) { // SHIFT + END
+				if (vkey == VK_END) {
 					if (this.edit) {
 						if (!this.select) {
 							this.anchor = this.Cpos;
@@ -550,7 +541,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 						this.repaint();
 					}
 				}
-				if (vkey == VK_LEFT) { // SHIFT + KEY LEFT
+				if (vkey == VK_LEFT) {
 					if (this.edit) {
 						if (!this.select) {
 							this.anchor = this.Cpos;
@@ -581,7 +572,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 						this.repaint();
 					}
 				}
-				if (vkey == VK_RIGHT) { // SHIFT + KEY RIGHT
+				if (vkey == VK_RIGHT) {
 					if (this.edit) {
 						if (!this.select) {
 							this.anchor = this.Cpos;
@@ -602,9 +593,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 							}
 						}
 
-						// handle scroll text on cursor selection
-						var tmp_x = this.GetCx(this.Cpos);
-						if (tmp_x > (this.w - this.right_margin)) {
+						if (this.GetCx(this.Cpos) > this.w - this.right_margin) {
 							this.offset++;
 						}
 						this.repaint();
@@ -650,9 +639,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 				if (vkey == 86) { // CTRL+V
 					cInputbox.clipboard = utils.GetClipboardText();
 					if (this.edit && cInputbox.clipboard) {
-						//save text avant MAJ
 						this.stext = this.text;
-						//
 						if (this.select) {
 							var p1 = this.SelBegin;
 							var p2 = this.SelEnd;
@@ -669,7 +656,7 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 							this.CalcText();
 							this.repaint();
 						} else {
-							if (this.Cpos > 0) { // cursor pos > 0
+							if (this.Cpos > 0) {
 								this.text = this.text.substring(0, this.Cpos) + cInputbox.clipboard + this.text.substring(this.Cpos, this.text.length);
 							} else {
 								this.text = cInputbox.clipboard + this.text.substring(this.Cpos, this.text.length);
@@ -684,10 +671,8 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 			}
 		}
 
-		// autosearch: has text changed after on_key or on_char ?
 		if (this.autovalidation) {
 			if (this.text != this.prev_text) {
-				// launch timer to process the search
 				if (gfunc_launch_timer) window.ClearTimeout(gfunc_launch_timer);
 				gfunc_launch_timer = window.SetTimeout(function () {
 					gfunc_launch_timer = false;
@@ -706,7 +691,6 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 			this.repaint();
 		}
 		if (code > 31 && this.edit) {
-			//save text before update
 			this.stext = this.text;
 			if (this.select) {
 				var p1 = this.SelBegin;
@@ -738,10 +722,8 @@ function oInputbox(w, h, default_text, empty_text, textcolor, backcolor, borderc
 			this.repaint();
 		}
 
-		// autosearch: has text changed after on_key or on_char ?
 		if (this.autovalidation) {
 			if (this.text != this.prev_text) {
-				// launch timer to process the search
 				if (gfunc_launch_timer) window.ClearTimeout(gfunc_launch_timer);
 				gfunc_launch_timer = window.SetTimeout(function () {
 					gfunc_launch_timer = false;

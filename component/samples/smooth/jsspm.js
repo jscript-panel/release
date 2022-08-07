@@ -2,15 +2,6 @@ ppt.defaultRowHeight = window.GetProperty("SMOOTH.ROW.HEIGHT", 35);
 ppt.rowHeight = ppt.defaultRowHeight;
 ppt.autoplaylist_sort_pattern = "%album artist% | $if(%album%,%date%,9999) | %album% | %discnumber% | %tracknumber% | %title%";
 
-var cPlaylistManager = {
-	drag_clicked: false,
-	drag_droped: false,
-	drag_source_id: -1,
-	drag_target_id: -1,
-	inputbox_w: 0,
-	inputbox_h: 0
-}
-
 function oPlaylist(idx, rowId, name) {
 	this.idx = idx;
 	this.rowId = rowId;
@@ -43,7 +34,6 @@ function oBrowser() {
 		scroll = check_scroll(scroll);
 		scroll_ = scroll;
 
-		// scrollbar update
 		this.scrollbar.updateScrollbar();
 	}
 
@@ -66,7 +56,6 @@ function oBrowser() {
 				scroll_ = scroll;
 			var start_ = Math.round(scroll_ / ppt.rowHeight + 0.4);
 			var end_ = start_ + this.totalRows;
-			// check boundaries
 			start_ = start_ > 0 ? start_ - 1 : start_;
 			if (start_ < 0)
 				start_ = 0;
@@ -141,12 +130,10 @@ function oBrowser() {
 				var normal_text = g_color_normal_txt;
 				var fader_txt = blendColours(g_color_normal_txt, g_color_normal_bg, 0.25);
 
-				 // alternating row background
 				if (i % 2 != 0) {
 					gr.FillRectangle(ax, ay, aw, ah, g_color_normal_txt & 0x08ffffff);
 				}
 
-				// active?
 				if (this.rows[i].idx == plman.ActivePlaylist) {
 					gr.FillRectangle(ax, ay, aw, ah, g_color_selected_bg & 0xb0ffffff);
 					gr.DrawRectangle(ax + 1, ay + 1, aw - 2, ah - 2, 2.0, g_color_selected_bg);
@@ -157,12 +144,10 @@ function oBrowser() {
 					}
 				}
 
-				// selectedRow?
 				if (i == this.selectedRow) {
 					gr.DrawRectangle(ax + 1, ay + 1, aw - 2, ah - 2, 2.0, g_color_selected_bg & 0xd0ffffff);
-				};
+				}
 
-				// target location mark
 				if (cPlaylistManager.drag_target_id == i) {
 					if (cPlaylistManager.drag_target_id > cPlaylistManager.drag_source_id) {
 						gr.DrawRectangle(ax, ay + ppt.rowHeight - 2, aw - 1, 1, 2.0, g_color_selected_bg);
@@ -175,7 +160,6 @@ function oBrowser() {
 					gr.DrawRectangle(ax + 1, ay + 1, aw - 2, ah - 2, 2.0, g_color_normal_txt & 0xa0ffffff);
 				}
 
-				// draw blink rectangle after an external drag'n drop files
 				if (blink.counter > -1) {
 					if (i == blink.id && playlist_can_add_items(i)) {
 						if (blink.counter <= 5 && Math.floor(blink.counter / 2) == Math.ceil(blink.counter / 2)) {
@@ -195,10 +179,8 @@ function oBrowser() {
 			}
 		}
 
-		// draw scrollbar
-		if (this.scrollbar) this.scrollbar.draw(gr);
+		this.scrollbar.draw(gr);
 
-		// draw header
 		if (ppt.showHeaderBar) {
 			gr.FillRectangle(0, 0, ww, this.y - 1, g_color_normal_bg);
 			gr.FillRectangle(this.x, 0, this.w + cScrollBar.width, ppt.headerBarHeight - 1, g_color_normal_bg & 0x20ffffff);
@@ -216,7 +198,6 @@ function oBrowser() {
 	this.on_mouse = function (event, x, y) {
 		this.ishover = this._isHover(x, y);
 
-		// get hover row index (mouse cursor hover)
 		if (y > this.y && y < this.y + this.h) {
 			this.activeRow = Math.ceil((y + scroll_ - this.y) / ppt.rowHeight - 1);
 			if (this.activeRow >= this.rows.length)
@@ -235,13 +216,10 @@ function oBrowser() {
 				} else {
 					if (this.inputboxID > -1)
 						this.inputboxID = -1;
-					//if(this.selectedRow == this.rows[this.activeRow].idx) {
 					if (!this.up) {
-						// set dragged item to reorder list
 						cPlaylistManager.drag_clicked = true;
 						cPlaylistManager.drag_source_id = this.selectedRow;
 					}
-					//}
 				}
 				this.repaint();
 			} else {
@@ -255,19 +233,9 @@ function oBrowser() {
 			if (this.down) {
 				if (this.inputboxID >= 0) {
 					this.inputbox.check("lbtn_up", x, y);
-				} else {
-					// drop playlist switch
-					if (cPlaylistManager.drag_target_id > -1) {
-						if (cPlaylistManager.drag_target_id != cPlaylistManager.drag_source_id) {
-							cPlaylistManager.drag_droped = true
-								if (cPlaylistManager.drag_target_id < cPlaylistManager.drag_source_id) {
-									plman.MovePlaylist(this.rows[cPlaylistManager.drag_source_id].idx, this.rows[cPlaylistManager.drag_target_id].idx);
-								} else if (cPlaylistManager.drag_target_id > cPlaylistManager.drag_source_id) {
-								plman.MovePlaylist(this.rows[cPlaylistManager.drag_source_id].idx, this.rows[cPlaylistManager.drag_target_id].idx);
-							}
-						}
-						this.selectedRow = cPlaylistManager.drag_target_id;
-					}
+				} else if (cPlaylistManager.drag_target_id > -1 && cPlaylistManager.drag_target_id != cPlaylistManager.drag_source_id) {
+					plman.MovePlaylist(this.rows[cPlaylistManager.drag_source_id].idx, this.rows[cPlaylistManager.drag_target_id].idx);
+					this.selectedRow = cPlaylistManager.drag_target_id;
 				}
 
 				if (timers.movePlaylist) {
@@ -379,7 +347,6 @@ function oBrowser() {
 			return;
 		}
 
-		// get hover row index (mouse cursor hover)
 		if (m_y > brw.y && m_y < brw.y + brw.h) {
 			brw.activeRow = Math.ceil((m_y + scroll_ - brw.y) / ppt.rowHeight - 1);
 			if (brw.activeRow >= brw.rows.length)
@@ -393,7 +360,6 @@ function oBrowser() {
 			scroll_ += (scroll - scroll_) / ppt.scrollSmoothness;
 			need_repaint = true;
 			isScrolling = true;
-			//
 			if (scroll_prev != scroll)
 				brw.scrollbar.updateScrollbar();
 		} else {
@@ -709,11 +675,9 @@ function on_paint(gr) {
 }
 
 function on_mouse_lbtn_down(x, y) {
-	// stop inertia
 	if (cTouch.timer) {
 		window.ClearInterval(cTouch.timer);
 		cTouch.timer = false;
-		// stop scrolling but not abrupt, add a little offset for the stop
 		if (Math.abs(scroll - scroll_) > ppt.rowHeight) {
 			scroll = (scroll > scroll_ ? scroll_ + ppt.rowHeight : scroll_ - ppt.rowHeight);
 			scroll = check_scroll(scroll);
@@ -759,12 +723,10 @@ function on_mouse_lbtn_up(x, y) {
 		}
 	}
 
-	// create scroll inertia on mouse lbtn up
 	if (cTouch.down) {
 		cTouch.down = false;
 		cTouch.y_end = y;
 		cTouch.scroll_delta = scroll - scroll_;
-		//cTouch.y_delta = cTouch.y_start - cTouch.y_end;
 		if (Math.abs(cTouch.scroll_delta) > 030) {
 			cTouch.multiplier = ((1000 - cTouch.t1.Time) / 20);
 			cTouch.delta = Math.round((cTouch.scroll_delta) / 030);
@@ -1081,7 +1043,7 @@ function on_drag_leave() {
 }
 
 function on_drag_over(action, x, y, mask) {
-	if (y < brw.y) {
+	if (x > brw.scrollbar.x || y < brw.y) {
 		action.Effect = 0;
 	} else {
 		g_drag_drop_target_id = -1;
@@ -1096,13 +1058,11 @@ function on_drag_over(action, x, y, mask) {
 }
 
 function on_drag_drop(action, x, y, mask) {
-	if (y < brw.y) {
+	if (x > brw.scrollbar.x || y < brw.y) {
 		action.Effect = 0;
 	} else {
-		var drop_done = false;
 		if (g_drag_drop_target_id > -1) {
 			if (playlist_can_add_items(g_drag_drop_target_id)) {
-				drop_done = true;
 				action.Playlist = g_drag_drop_target_id;
 				action.Base = plman.GetPlaylistItemCount(g_drag_drop_target_id);
 				action.ToSelect = false;
@@ -1111,33 +1071,35 @@ function on_drag_drop(action, x, y, mask) {
 				action.Effect = 0;
 			}
 		} else {
-			// blank area, drop to new playlist
-			drop_done = true;
 			action.Playlist = plman.CreatePlaylist(plman.PlaylistCount, "Dropped Items");;
 			action.Base = 0;
 			action.ToSelect = true;
 			action.Effect = 1;
 		}
 
-		if (drop_done) {
-			if (!blink.timer) {
-				blink.id = brw.activeRow;
-				blink.counter = 0;
-				blink.timer = window.SetInterval(function () {
-					blink.counter++;
-					if (blink.counter > 5) {
-						window.ClearInterval(blink.timer);
-						blink.timer = false;
-						blink.counter = -1;
-						blink.id = null;
-					}
-					brw.repaint();
-				}, 125);
-			}
+		if (action.Effect == 1 && !blink.timer) {
+			blink.id = brw.activeRow;
+			blink.counter = 0;
+			blink.timer = window.SetInterval(function () {
+				blink.counter++;
+				if (blink.counter > 5) {
+					window.ClearInterval(blink.timer);
+					blink.timer = false;
+					blink.counter = -1;
+					blink.id = null;
+				}
+				brw.repaint();
+			}, 125);
 		}
 	}
 	g_drag_drop_active = false;
 	brw.repaint();
+}
+
+var cPlaylistManager = {
+	drag_clicked: false,
+	drag_source_id: -1,
+	drag_target_id: -1,
 }
 
 var blink = {

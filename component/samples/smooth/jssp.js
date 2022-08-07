@@ -10,16 +10,7 @@ ppt.defaultRowHeight = window.GetProperty("SMOOTH.ROW.HEIGHT", 35);
 ppt.rowHeight = ppt.defaultRowHeight;
 
 if (ppt.groupHeaderRowsNumber < 1) ppt.groupHeaderRowsNumber = 1;
-else if (ppt.groupHeaderRowsNumber > 4) ppt.groupHeaderRowsNumber = 4;
-
-var tfo = {
-	artist : fb.TitleFormat("[%artist%]"),
-	title : fb.TitleFormat("[%title%]"),
-	track : fb.TitleFormat("[%artist%] ^^ [%title%] ^^ [%tracknumber%] ^^ [%length%] ^^ $if2(%rating%,0)"),
-	time_remaining : fb.TitleFormat("$if3(-%playback_time_remaining%,%playback_time%,)"),
-	groupkey : fb.TitleFormat(ppt.groupkey_tf),
-	crc_path: fb.TitleFormat("$crc32(%path%)"),
-}
+else if (ppt.groupHeaderRowsNumber > 3) ppt.groupHeaderRowsNumber = 3;
 
 function oGroup(index, start, handle, groupkey) {
 	this.index = index;
@@ -75,7 +66,7 @@ function oBrowser() {
 				this.groups[i].rowId = r;
 				for (var k = 0; k < ppt.groupHeaderRowsNumber; k++) {
 					this.rows[r] = new Object();
-					this.rows[r].type = k + 1; // 1st line of group header
+					this.rows[r].type = k + 1;
 					this.rows[r].metadb = this.groups[i].metadb;
 					this.rows[r].albumId = i;
 					this.rows[r].albumTrackId = 0;
@@ -88,7 +79,7 @@ function oBrowser() {
 			var m = this.groups[i].count;
 			for (var j = 0; j < m; j++) {
 				this.rows[r] = new Object();
-				this.rows[r].type = 0; // track
+				this.rows[r].type = 0;
 				this.rows[r].metadb = this.list.GetItem(s + j);
 				this.rows[r].albumId = i;
 				this.rows[r].albumTrackId = j;
@@ -143,28 +134,26 @@ function oBrowser() {
 		}
 	}
 
-	this.getAlbumIdfromTrackId = function (valeur) { // fixed!
-		if (valeur < 0) {
-			return -1;
-		} else {
+	this.getAlbumIdfromTrackId = function (value) {
+		if (value >= 0) {
 			var mediane = 0;
 			var deb = 0;
 			var fin = this.groups.length - 1;
 			while (deb <= fin) {
 				mediane = Math.floor((fin + deb) / 2);
-				if (valeur >= this.groups[mediane].start && valeur < this.groups[mediane].start + this.groups[mediane].count) {
+				if (value >= this.groups[mediane].start && value < this.groups[mediane].start + this.groups[mediane].count) {
 					return mediane;
-				} else if (valeur < this.groups[mediane].start) {
+				} else if (value < this.groups[mediane].start) {
 					fin = mediane - 1;
 				} else {
 					deb = mediane + 1;
 				}
 			}
-			return -1;
 		}
+		return -1;
 	}
 
-	this.getOffsetFocusItem = function (fid) { // fixed!
+	this.getOffsetFocusItem = function (fid) {
 		var row_idx = 0;
 		if (fid > -1) {
 			if (ppt.showGroupHeaders) {
@@ -293,7 +282,7 @@ function oBrowser() {
 				var fader_txt = blendColours(g_color_normal_txt, g_color_normal_bg, 0.25);
 
 				switch (this.rows[i].type) {
-				case ppt.groupHeaderRowsNumber: // last group header row
+				case ppt.groupHeaderRowsNumber:
 					ay -= (ppt.groupHeaderRowsNumber - 1) * ah;
 
 					gr.FillRectangle(ax, ay, aw, ah * ppt.groupHeaderRowsNumber, g_color_normal_txt & 0x08ffffff);
@@ -324,13 +313,11 @@ function oBrowser() {
 						gr.WriteText(this.groups[id].bottom_right, g_font_group2, fader_txt, 0, bottom_y, aw - 5, ah, 1, 2, 1, 1);
 					}
 					break;
-				case 0: // track row
-					 // alternating row background
+				case 0:
 					if (ppt.showGroupHeaders ? this.rows[i].albumTrackId % 2 != 0 : i % 2 != 0) {
 						gr.FillRectangle(ax, ay, aw, ah, g_color_normal_txt & 0x08ffffff);
 					}
 
-					// selected?
 					if (plman.IsPlaylistItemSelected(g_active_playlist, this.rows[i].playlistTrackId)) {
 						gr.FillRectangle(ax, ay, aw, ah, g_color_selected_bg & 0xb0ffffff);
 
@@ -339,7 +326,6 @@ function oBrowser() {
 							fader_txt = blendColours(normal_text, g_color_normal_bg, 0.25);
 						}
 
-						// and focused?
 						if (this.rows[i].playlistTrackId == g_focus_id) {
 							gr.DrawRectangle(ax + 1, ay + 1, aw - 2, ah - 2, 2.0, g_color_selected_bg);
 						}
@@ -398,10 +384,8 @@ function oBrowser() {
 			}
 		}
 
-		// draw scrollbar
-		if (this.scrollbar) this.scrollbar.draw(gr);
+		this.scrollbar.draw(gr);
 
-		// draw header
 		if (ppt.showHeaderBar) {
 			gr.FillRectangle(0, 0, ww, this.y - 1, g_color_normal_bg);
 			gr.FillRectangle(this.x, 0, this.w + cScrollBar.width, ppt.headerBarHeight - 1, g_color_normal_bg & 0x20ffffff);
@@ -410,7 +394,7 @@ function oBrowser() {
 		}
 	}
 
-	this.selectGroupTracks = function (aId) { // fixed!
+	this.selectGroupTracks = function (aId) {
 		var affectedItems = [];
 		var end = this.groups[aId].start + this.groups[aId].count;
 		for (var i = this.groups[aId].start; i < end; i++) {
@@ -542,7 +526,7 @@ function oBrowser() {
 			if (y < this.y && ppt.wallpapermode == 1 && fb.IsPlaying) {
 				fb.GetNowPlaying().ShowAlbumArtViewer();
 			} else if (y > this.y && !rating_hover && this.ishover && this.activeRow > -1 && Math.abs(scroll - scroll_) < 2) {
-				if (this.rows[this.activeRow].type == 0) { // track
+				if (this.rows[this.activeRow].type == 0) {
 					play(g_active_playlist, this.rows[this.activeRow].playlistTrackId);
 				}
 				this.repaint();
@@ -589,7 +573,6 @@ function oBrowser() {
 			return;
 		}
 
-		// get hover row index (mouse cursor hover)
 		if (m_y > brw.y && m_y < brw.y + brw.h) {
 			brw.activeRow = Math.ceil((m_y + scroll_ - brw.y) / ppt.rowHeight - 1);
 			if (brw.activeRow >= brw.rows.length)
@@ -603,7 +586,6 @@ function oBrowser() {
 			scroll_ += (scroll - scroll_) / ppt.scrollSmoothness;
 			need_repaint = true;
 			isScrolling = true;
-			//
 			if (scroll_prev != scroll)
 				brw.scrollbar.updateScrollbar();
 		} else {
@@ -744,7 +726,7 @@ function oBrowser() {
 		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 13, "3");
 		_menu3.CheckMenuRadioItem(11, 13, ppt.groupHeaderRowsNumber + 10);
 		_menu3.AppendMenuSeparator();
-		_menu3.AppendMenuItem(GetMenuFlags(ppt.showGroupHeaders, ppt.autoFill), 19, "Album Art: Auto-fill");
+		_menu3.AppendMenuItem(GetMenuFlags(ppt.showGroupHeaders && ppt.groupHeaderRowsNumber > 1, ppt.autoFill), 19, "Album Art: Auto-fill");
 		_menu3.AppendTo(_menu, MF_STRING, "Group Headers");
 
 		_menu4.AppendMenuItem(CheckMenuIf(ppt.doubleRowText), 20, "Double Track Line");
@@ -891,11 +873,9 @@ function on_paint(gr) {
 }
 
 function on_mouse_lbtn_down(x, y) {
-	// stop inertia
 	if (cTouch.timer) {
 		window.ClearInterval(cTouch.timer);
 		cTouch.timer = false;
-		// stop scrolling but not abrupt, add a little offset for the stop
 		if (Math.abs(scroll - scroll_) > ppt.rowHeight) {
 			scroll = (scroll > scroll_ ? scroll_ + ppt.rowHeight : scroll_ - ppt.rowHeight);
 			scroll = check_scroll(scroll);
@@ -940,12 +920,10 @@ function on_mouse_lbtn_up(x, y) {
 		}
 	}
 
-	// create scroll inertia on mouse lbtn up
 	if (cTouch.down) {
 		cTouch.down = false;
 		cTouch.y_end = y;
 		cTouch.scroll_delta = scroll - scroll_;
-		//cTouch.y_delta = cTouch.y_start - cTouch.y_end;
 		if (Math.abs(cTouch.scroll_delta) > 030) {
 			cTouch.multiplier = ((1000 - cTouch.t1.Time) / 20);
 			cTouch.delta = Math.round((cTouch.scroll_delta) / 030);
@@ -1064,7 +1042,6 @@ function kill_scrollbar_timer() {
 }
 
 function on_key_up(vkey) {
-	// scroll keys up and down RESET (step and timers)
 	brw.keypressed = false;
 	kill_scrollbar_timer()
 	if (vkey == VK_SHIFT) {
@@ -1088,7 +1065,7 @@ function vk_up() {
 		}
 		kill_scrollbar_timer();
 	} else {
-		if (brw.rows[new_row].type != 0) { // group row
+		if (brw.rows[new_row].type != 0) {
 			new_row -= ppt.groupHeaderRowsNumber;
 		}
 	}
@@ -1112,7 +1089,7 @@ function vk_down() {
 		new_row = brw.rows.length - 1;
 		kill_scrollbar_timer();
 	} else {
-		if (brw.rows[new_row].type != 0) { // group row
+		if (brw.rows[new_row].type != 0) {
 			if (brw.rows[new_row].type <= 1) {
 				new_row += ppt.groupHeaderRowsNumber;
 			}
@@ -1138,7 +1115,7 @@ function vk_pgup() {
 		new_row = ppt.groupHeaderRowsNumber;
 		kill_scrollbar_timer();
 	} else {
-		if (brw.rows[new_row].type != 0) { // group row
+		if (brw.rows[new_row].type != 0) {
 			new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
 		}
 	}
@@ -1161,7 +1138,7 @@ function vk_pgdn() {
 	if (new_row > brw.rows.length - 1) {
 		new_row = brw.rows.length - 1;
 	} else {
-		if (brw.rows[new_row].type != 0) { // group row
+		if (brw.rows[new_row].type != 0) {
 			new_row += (ppt.groupHeaderRowsNumber - brw.rows[new_row].type + 1);
 		}
 	}
@@ -1260,10 +1237,10 @@ function on_key_down(vkey) {
 		}
 	} else if (mask == KMask.shift) {
 		switch (vkey) {
-		case VK_SHIFT: // SHIFT key alone
+		case VK_SHIFT:
 			brw.SHIFT_count = 0;
 			break;
-		case VK_UP: // SHIFT + KEY UP
+		case VK_UP:
 			if (brw.SHIFT_count == 0) {
 				if (brw.SHIFT_start_id == null) {
 					brw.SHIFT_start_id = g_focus_id;
@@ -1290,7 +1267,7 @@ function on_key_down(vkey) {
 				plman.SetPlaylistFocusItem(g_active_playlist, g_focus_id);
 			}
 			break;
-		case VK_DOWN: // SHIFT + KEY DOWN
+		case VK_DOWN:
 			if (brw.SHIFT_count == 0) {
 				if (brw.SHIFT_start_id == null) {
 					brw.SHIFT_start_id = g_focus_id;
@@ -1513,7 +1490,7 @@ function getFocusId() {
 }
 
 function on_drag_over(action, x, y, mask) {
-	if (y < brw.y) {
+	if (x > brw.scrollbar.x || y < brw.y) {
 		action.Effect = 0;
 	} else {
 		if (plman.PlaylistCount == 0 || plman.ActivePlaylist == -1 || playlist_can_add_items(plman.ActivePlaylist)) {
@@ -1525,7 +1502,7 @@ function on_drag_over(action, x, y, mask) {
 }
 
 function on_drag_drop(action, x, y, mask) {
-	if (y < brw.y) {
+	if (x > brw.scrollbar.x || y < brw.y) {
 		action.Effect = 0;
 	} else {
 		if (playlist_can_add_items(plman.ActivePlaylist)) {
@@ -1543,6 +1520,15 @@ function on_drag_drop(action, x, y, mask) {
 			action.Effect = 0;
 		}
 	}
+}
+
+var tfo = {
+	artist : fb.TitleFormat("[%artist%]"),
+	title : fb.TitleFormat("[%title%]"),
+	track : fb.TitleFormat("[%artist%] ^^ [%title%] ^^ [%tracknumber%] ^^ [%length%] ^^ $if2(%rating%,0)"),
+	time_remaining : fb.TitleFormat("$if3(-%playback_time_remaining%,%playback_time%,)"),
+	groupkey : fb.TitleFormat(ppt.groupkey_tf),
+	crc_path: fb.TitleFormat("$crc32(%path%)"),
 }
 
 var foo_playcount = utils.CheckComponent("foo_playcount");

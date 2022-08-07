@@ -25,37 +25,31 @@ function oScrollbar() {
 	this.setButtons = function () {
 		var gb;
 
-		// normal scroll_up Image
 		this.upImage_normal = utils.CreateImage(this.w, this.w);
 		gb = this.upImage_normal.GetGraphics();
 		gb.WriteText(chars.up, g_font_awesome, g_color_normal_txt & 0x55ffffff, 0, 0, this.w, this.w, 2, 2);
 		this.upImage_normal.ReleaseGraphics();
 
-		// hover scroll_up Image
 		this.upImage_hover = utils.CreateImage(this.w, this.w);
 		gb = this.upImage_hover.GetGraphics();
 		gb.WriteText(chars.up, g_font_awesome, g_color_normal_txt & 0x99ffffff, 0, 0, this.w, this.w, 2, 2);
 		this.upImage_hover.ReleaseGraphics();
 
-		// down scroll_up Image
 		this.upImage_down = utils.CreateImage(this.w, this.w);
 		gb = this.upImage_down.GetGraphics();
 		gb.WriteText(chars.up, g_font_awesome, g_color_normal_txt, 0, 0, this.w, this.w, 2, 2);
 		this.upImage_down.ReleaseGraphics();
 
-		// normal scroll_down Image
 		this.downImage_normal = utils.CreateImage(this.w, this.w);
 		gb = this.downImage_normal.GetGraphics();
 		gb.WriteText(chars.down, g_font_awesome, g_color_normal_txt & 0x55ffffff, 0, 0, this.w, this.w, 2, 2);
 		this.downImage_normal.ReleaseGraphics();
 
-		// hover scroll_down Image
 		this.downImage_hover = utils.CreateImage(this.w, this.w);
 		gb = this.downImage_hover.GetGraphics();
 		gb.WriteText(chars.down, g_font_awesome, g_color_normal_txt & 0x99ffffff, 0, 0, this.w, this.w, 2, 2);
 		this.downImage_hover.ReleaseGraphics();
 
-		// down scroll_down Image
 		this.downImage_down = utils.CreateImage(this.w, this.w);
 		gb = this.downImage_down.GetGraphics();
 		gb.WriteText(chars.down, g_font_awesome, g_color_normal_txt, 0, 0, this.w, this.w, 2, 2);
@@ -68,28 +62,24 @@ function oScrollbar() {
 	this.setCursorButton = function () {
 		var gb;
 
-		// normal cursor Image
 		this.cursorImage_normal = utils.CreateImage(this.cursorw, this.cursorh);
 		gb = this.cursorImage_normal.GetGraphics();
 		gb.FillRectangle(1, 0, this.cursorw - 2, this.cursorh, blendColours(g_color_normal_txt, g_color_normal_bg, 0.5) & 0x88ffffff);
 		gb.DrawRectangle(1, 0, this.cursorw - 2 - 1, this.cursorh - 1, 1.0, g_color_normal_txt & 0x44ffffff);
 		this.cursorImage_normal.ReleaseGraphics();
 
-		// hover cursor Image
 		this.cursorImage_hover = utils.CreateImage(this.cursorw, this.cursorh);
 		gb = this.cursorImage_hover.GetGraphics();
 		gb.FillRectangle(1, 0, this.cursorw - 2, this.cursorh, blendColours(g_color_normal_txt, g_color_normal_bg, 0.3) & 0x88ffffff);
 		gb.DrawRectangle(1, 0, this.cursorw - 2 - 1, this.cursorh - 1, 1.0, g_color_normal_txt & 0x44ffffff);
 		this.cursorImage_hover.ReleaseGraphics();
 
-		// down cursor Image
 		this.cursorImage_down = utils.CreateImage(this.cursorw, this.cursorh);
 		gb = this.cursorImage_down.GetGraphics();
 		gb.FillRectangle(1, 0, this.cursorw - 2, this.cursorh, blendColours(g_color_normal_txt, g_color_normal_bg, 0.05) & 0x88ffffff);
 		gb.DrawRectangle(1, 0, this.cursorw - 2 - 1, this.cursorh - 1, 1.0, g_color_normal_txt & 0x44ffffff);
 		this.cursorImage_down.ReleaseGraphics();
 
-		// create/refresh cursor Button in buttons array
 		this.buttons[cScrollBar.ButtonType.cursor] = new button(this.cursorImage_normal, this.cursorImage_hover, this.cursorImage_down);
 		this.buttons[cScrollBar.ButtonType.cursor].x = this.x;
 		this.buttons[cScrollBar.ButtonType.cursor].y = this.cursory;
@@ -120,7 +110,6 @@ function oScrollbar() {
 		} else {
 			this.cursorh = cScrollBar.minCursorHeight;
 		}
-		// set cursor y pos
 		this.setCursorY();
 		if (this.cursorw && this.cursorh && this.cursorh != prev_cursorh)
 			this.setCursorButton();
@@ -215,7 +204,6 @@ function oScrollbar() {
 			if ((this.isHoverCursor || this.cursorDrag) && !this.buttonClick && !this.isHoverEmptyArea) {
 				this.cursorCheck(event, x, y);
 			} else {
-				// buttons events
 				var bt_state = ButtonStates.normal;
 				for (var i = 1; i < 3; i++) {
 					switch (i) {
@@ -258,9 +246,7 @@ function oScrollbar() {
 					}
 				}
 				if (!this.buttonClick && this.isHoverEmptyArea) {
-					// check click on empty area scrollbar
 					if (y < this.cursory) {
-						// up
 						this.buttonClick = true;
 						scroll = scroll - scroll_step_page;
 						scroll = check_scroll(scroll);
@@ -275,7 +261,6 @@ function oScrollbar() {
 							}, 80);
 						}
 					} else {
-						// down
 						this.buttonClick = true;
 						scroll = scroll + scroll_step_page;
 						scroll = check_scroll(scroll);
