@@ -101,9 +101,9 @@ function _albumart(x, y, w, h) {
 		panel.m.AppendMenuItem(MF_STRING, 1023, 'Centre');
 		panel.m.CheckMenuRadioItem(1020, 1023, this.properties.aspect.value + 1020);
 		panel.m.AppendMenuSeparator();
-		panel.m.AppendMenuItem(utils.IsFile(this.path) ? MF_STRING : MF_GRAYED, 1030, 'Open containing folder');
+		panel.m.AppendMenuItem(EnableMenuIf(utils.IsFile(this.path)), 1030, 'Open containing folder');
 		panel.m.AppendMenuSeparator();
-		panel.m.AppendMenuItem(panel.metadb ? MF_STRING : MF_GRAYED, 1040, 'Google image search');
+		panel.m.AppendMenuItem(EnableMenuIf(panel.metadb), 1040, 'Google image search');
 		panel.m.AppendMenuSeparator();
 		panel.s10.AppendMenuItem(MF_STRING, 1050, 'Opens image in external viewer');
 		panel.s10.AppendMenuItem(MF_STRING, 1051, 'Opens image using fb2k viewer');

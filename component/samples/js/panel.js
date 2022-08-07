@@ -87,7 +87,7 @@ function _panel(options) {
 			this.s2.AppendMenuItem(MF_STRING, 102, 'Custom');
 			this.s2.CheckMenuRadioItem(100, 102, this.colours.mode.value + 100);
 			this.s2.AppendMenuSeparator();
-			this.s2.AppendMenuItem(this.colours.mode.value == 2 ? MF_STRING : MF_GRAYED, 103, 'Set custom colour...');
+			this.s2.AppendMenuItem(EnableMenuIf(this.colours.mode.value == 2), 103, 'Set custom colour...');
 			this.s2.AppendTo(this.m, MF_STRING, 'Background');
 			this.m.AppendMenuSeparator();
 		}

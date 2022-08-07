@@ -247,7 +247,7 @@ function _list(mode, x, y, w, h) {
 				panel.s10.AppendMenuItem(MF_STRING, 1110, 'Open Last.fm website');
 				panel.s10.AppendMenuItem(MF_STRING, 1111, 'Autoplaylist');
 				panel.s10.CheckMenuRadioItem(1110, 1111, this.properties.link.value + 1110);
-				panel.s10.AppendTo(panel.m, this.properties.mode.value == 0 || this.properties.method.value == 0 ? MF_STRING : MF_GRAYED, 'Links');
+				panel.s10.AppendTo(panel.m, EnableMenuIf(this.properties.mode.value == 0 || this.properties.method.value == 0), 'Links');
 				panel.m.AppendMenuSeparator();
 			}
 			if (this.properties.mode.value == 1) {
@@ -285,7 +285,7 @@ function _list(mode, x, y, w, h) {
 			panel.m.AppendMenuSeparator();
 			break;
 		}
-		panel.m.AppendMenuItem(utils.IsFile(this.filename) ? MF_STRING : MF_GRAYED, 1999, 'Open containing folder');
+		panel.m.AppendMenuItem(EnableMenuIf(utils.IsFile(this.filename)), 1999, 'Open containing folder');
 		panel.m.AppendMenuSeparator();
 	}
 	this.rbtn_up_done = function (idx) {
@@ -646,8 +646,8 @@ function _list(mode, x, y, w, h) {
 				m.AppendMenuItem(MF_STRING, 5, 'Force Sort');
 				m.CheckMenuItem(5, this.data[z].forced);
 				m.AppendMenuSeparator();
-				m.AppendMenuItem(z > 0 ? MF_STRING : MF_GRAYED, 6, 'Move up');
-				m.AppendMenuItem(z < this.data.length - 1 ? MF_STRING : MF_GRAYED, 7, 'Move down');
+				m.AppendMenuItem(EnableMenuIf(z > 0), 6, 'Move up');
+				m.AppendMenuItem(EnableMenuIf(z < this.data.length - 1), 7, 'Move down');
 				m.AppendMenuSeparator();
 				m.AppendMenuItem(MF_STRING, 8, 'Delete');
 				var idx = m.TrackPopupMenu(x, y);

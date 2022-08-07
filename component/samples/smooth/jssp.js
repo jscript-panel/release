@@ -628,7 +628,7 @@ function oBrowser() {
 		var _context = fb.CreateContextMenuManager();
 		var _add = window.CreatePopupMenu();
 
-		var flag = playlist_can_remove_items(g_active_playlist) ? MF_STRING : MF_GRAYED;
+		var flag = EnableMenuIf(playlist_can_remove_items(g_active_playlist));
 
 		_menu.AppendMenuItem(flag, 1, "Crop");
 		_menu.AppendMenuItem(flag, 2, "Remove");
@@ -636,7 +636,7 @@ function oBrowser() {
 		_menu.AppendMenuSeparator();
 		_menu.AppendMenuItem(flag, 4, "Cut");
 		_menu.AppendMenuItem(MF_STRING, 5, "Copy");
-		_menu.AppendMenuItem(playlist_can_add_items(g_active_playlist) && fb.CheckClipboardContents() ? MF_STRING : MF_GRAYED, 6, "Paste");
+		_menu.AppendMenuItem(EnableMenuIf(playlist_can_add_items(g_active_playlist) && fb.CheckClipboardContents()), 6, "Paste");
 		_menu.AppendMenuSeparator();
 
 		_add.AppendMenuItem(MF_STRING, 10, "New Playlist");
@@ -644,7 +644,7 @@ function oBrowser() {
 			_add.AppendMenuSeparator();
 		}
 		for (var i = 0; i < plman.PlaylistCount; i++) {
-			_add.AppendMenuItem(i != g_active_playlist && playlist_can_add_items(i) ? MF_STRING : MF_GRAYED, 100 + i, plman.GetPlaylistName(i));
+			_add.AppendMenuItem(EnableMenuIf(i != g_active_playlist && playlist_can_add_items(i)), 100 + i, plman.GetPlaylistName(i));
 		}
 		_add.AppendTo(_menu, MF_STRING, "Add to");
 		_menu.AppendMenuSeparator();
@@ -719,7 +719,7 @@ function oBrowser() {
 		_menu.CheckMenuItem(1, ppt.showHeaderBar);
 		_menu.AppendMenuSeparator();
 
-		var colour_flag = ppt.enableCustomColours ? MF_STRING : MF_GRAYED;
+		var colour_flag = EnableMenuIf(ppt.enableCustomColours);
 		_menu1.AppendMenuItem(MF_STRING, 2, "Enable");
 		_menu1.CheckMenuItem(2, ppt.enableCustomColours);
 		_menu1.AppendMenuSeparator();
@@ -733,9 +733,9 @@ function oBrowser() {
 		_menu2.AppendMenuItem(MF_STRING, 8, "Custom image");
 		_menu2.CheckMenuRadioItem(6, 8, ppt.wallpapermode + 6);
 		_menu2.AppendMenuSeparator();
-		_menu2.AppendMenuItem(ppt.wallpapermode == 2 ? MF_STRING : MF_GRAYED, 9, "Custom image path...");
+		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode == 2), 9, "Custom image path...");
 		_menu2.AppendMenuSeparator();
-		_menu2.AppendMenuItem(ppt.wallpapermode != 0 ? MF_STRING : MF_GRAYED, 10, "Blur");
+		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode != 0), 10, "Blur");
 		_menu2.CheckMenuItem(10, ppt.wallpaperblurred);
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 
@@ -743,19 +743,19 @@ function oBrowser() {
 		_menu3.CheckMenuItem(15, ppt.showGroupHeaders);
 		_menu3.AppendMenuSeparator();
 		_menu3.AppendMenuItem(MF_GRAYED, 0, "Rows");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 11, "1");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 12, "2");
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 13, "3");
+		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 11, "1");
+		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 12, "2");
+		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 13, "3");
 		_menu3.CheckMenuRadioItem(11, 13, ppt.groupHeaderRowsNumber + 10);
 		_menu3.AppendMenuSeparator();
-		_menu3.AppendMenuItem(ppt.showGroupHeaders ? MF_STRING : MF_GRAYED, 19, "Album Art: Auto-fill");
+		_menu3.AppendMenuItem(EnableMenuIf(ppt.showGroupHeaders), 19, "Album Art: Auto-fill");
 		_menu3.CheckMenuItem(19, ppt.autoFill);
 		_menu3.AppendTo(_menu, MF_STRING, "Group Headers");
 
 		_menu4.AppendMenuItem(MF_STRING, 20, "Double Track Line");
 		_menu4.CheckMenuItem(20, ppt.doubleRowText);
 		_menu4.AppendMenuSeparator()
-		_menu4.AppendMenuItem(!ppt.doubleRowText ? MF_STRING : MF_GRAYED, 21, "Artist");
+		_menu4.AppendMenuItem(EnableMenuIf(!ppt.doubleRowText), 21, "Artist");
 		_menu4.CheckMenuItem(21, ppt.showArtistAlways);
 		_menu4.AppendMenuItem(MF_STRING, 22, "Rating");
 		_menu4.CheckMenuItem(22, ppt.showRating);

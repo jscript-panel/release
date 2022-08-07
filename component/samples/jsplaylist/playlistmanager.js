@@ -476,8 +476,8 @@ function oPlaylistManager() {
 			var lock_name = plman.GetPlaylistLockName(id);
 
 			_menu.AppendMenuItem(MF_STRING, 5, "Duplicate this playlist");
-			_menu.AppendMenuItem(playlist_can_rename(id) ? MF_STRING : MF_GRAYED, 6, "Rename this playlist\tF2");
-			_menu.AppendMenuItem(playlist_can_remove(id) ? MF_STRING : MF_GRAYED, 7, "Remove this playlist\tDel");
+			_menu.AppendMenuItem(EnableMenuIf(playlist_can_rename(id)), 6, "Rename this playlist\tF2");
+			_menu.AppendMenuItem(EnableMenuIf(playlist_can_remove(id)), 7, "Remove this playlist\tDel");
 			_menu.AppendMenuSeparator();
 			if (plman.IsAutoPlaylist(id)) {
 				_menu.AppendMenuItem(MF_STRING, 8, lock_name + " properties");
@@ -486,8 +486,8 @@ function oPlaylistManager() {
 				var is_locked = plman.IsPlaylistLocked(id);
 				var is_mine = lock_name == "JScript Panel 3";
 
-				_menu.AppendMenuItem(is_mine || !is_locked ? MF_STRING : MF_GRAYED, 10, "Edit playlist lock...");
-				_menu.AppendMenuItem(is_mine ? MF_STRING : MF_GRAYED, 11, "Remove playlist lock");
+				_menu.AppendMenuItem(EnableMenuIf(is_mine || !is_locked), 10, "Edit playlist lock...");
+				_menu.AppendMenuItem(EnableMenuIf(is_mine), 11, "Remove playlist lock");
 			}
 		}
 

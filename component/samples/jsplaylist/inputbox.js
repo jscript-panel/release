@@ -296,10 +296,10 @@ function oInputbox(w, h, default_text, empty_text, func, id, font_size) {
 	this.show_context_menu = function (x, y) {
 		var _menu = window.CreatePopupMenu();
 		cInputbox.clipboard = utils.GetClipboardText();
-		_menu.AppendMenuItem(this.select ? MF_STRING : MF_GRAYED, 1, "Cut");
-		_menu.AppendMenuItem(this.select ? MF_STRING : MF_GRAYED, 2, "Copy");
+		_menu.AppendMenuItem(EnableMenuIf(this.select), 1, "Cut");
+		_menu.AppendMenuItem(EnableMenuIf(this.select), 2, "Copy");
 		_menu.AppendMenuSeparator();
-		_menu.AppendMenuItem(cInputbox.clipboard ? MF_STRING : MF_GRAYED, 3, "Paste");
+		_menu.AppendMenuItem(EnableMenuIf(cInputbox.clipboard), 3, "Paste");
 		var idx = _menu.TrackPopupMenu(x, y);
 		switch (idx) {
 		case 1:

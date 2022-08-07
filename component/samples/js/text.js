@@ -162,11 +162,11 @@ function _text(mode, x, y, w, h) {
 		switch (this.mode) {
 		case 'allmusic':
 			this.cb = utils.GetClipboardText();
-			panel.m.AppendMenuItem(panel.metadb && _.isString(this.cb) && this.cb.length > 0 && _tagged(this.artist) && _tagged(this.album) ? MF_STRING : MF_GRAYED, 1000, 'Paste text from clipboard');
+			panel.m.AppendMenuItem(EnableMenuIf(panel.metadb && _.isString(this.cb) && this.cb.length > 0 && _tagged(this.artist) && _tagged(this.album)), 1000, 'Paste text from clipboard');
 			panel.m.AppendMenuSeparator();
 			break;
 		case 'lastfm_bio':
-			panel.m.AppendMenuItem(panel.metadb ? MF_STRING : MF_GRAYED, 1100, 'Force update');
+			panel.m.AppendMenuItem(EnableMenuIf(panel.metadb), 1100, 'Force update');
 			panel.m.AppendMenuSeparator();
 			_.forEach(this.langs, function (item, i) {
 				panel.s10.AppendMenuItem(MF_STRING, i + 1110, item);
@@ -196,7 +196,7 @@ function _text(mode, x, y, w, h) {
 			panel.m.AppendMenuSeparator();
 			break;
 		}
-		panel.m.AppendMenuItem(utils.IsFile(this.filename) || utils.IsFolder(this.filename) ? MF_STRING : MF_GRAYED, 1999, 'Open containing folder');
+		panel.m.AppendMenuItem(EnableMenuIf(utils.IsFile(this.filename) || utils.IsFolder(this.filename)), 1999, 'Open containing folder');
 		panel.m.AppendMenuSeparator();
 	}
 

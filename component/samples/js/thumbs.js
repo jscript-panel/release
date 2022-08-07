@@ -332,7 +332,7 @@ function _thumbs() {
 		if (this.properties.source.value == 0) { // custom folder
 			panel.m.AppendMenuItem(MF_STRING, 1002, 'Set custom folder...');
 		} else { // last.fm
-			panel.m.AppendMenuItem(panel.metadb ? MF_STRING : MF_GRAYED, 1003, 'Download now');
+			panel.m.AppendMenuItem(EnableMenuIf(panel.metadb), 1003, 'Download now');
 			panel.m.AppendMenuItem(MF_STRING, 1004, 'Automatic downloads');
 			panel.m.CheckMenuItem(1004, this.properties.auto_download.enabled);
 			_.forEach(this.limits, function (item) {
@@ -348,7 +348,7 @@ function _thumbs() {
 			});
 			panel.s11.CheckMenuRadioItem(1050, 1055, this.properties.mode.value + 1050);
 			panel.s11.AppendMenuSeparator();
-			var flag = this.properties.mode.value != 5 ? MF_STRING : MF_GRAYED;
+			var flag = EnableMenuIf(this.properties.mode.value != 5);
 			_.forEach(this.pxs, function (item) {
 				panel.s11.AppendMenuItem(flag, item + 1000, item + 'px');
 			});
@@ -376,15 +376,15 @@ function _thumbs() {
 				panel.m.AppendMenuSeparator();
 			}
 			if (this.properties.source.value == 1 && this.images.length > 1) {
-				panel.m.AppendMenuItem(this.default_file != this.images[this.image].Path ? MF_STRING : MF_GRAYED, 1520, 'Set as default');
-				panel.m.AppendMenuItem(utils.IsFile(this.default_file) ? MF_STRING : MF_GRAYED, 1521, 'Clear default');
+				panel.m.AppendMenuItem(EnableMenuIf(this.default_file != this.images[this.image].Path), 1520, 'Set as default');
+				panel.m.AppendMenuItem(EnableMenuIf(utils.IsFile(this.default_file)), 1521, 'Clear default');
 				panel.m.AppendMenuSeparator();
 			}
 			panel.m.AppendMenuItem(MF_STRING, 1530, 'Open image');
 			panel.m.AppendMenuItem(MF_STRING, 1531, 'Delete image');
 			panel.m.AppendMenuSeparator();
 		}
-		panel.m.AppendMenuItem(utils.IsFolder(this.folder) ? MF_STRING : MF_GRAYED, 1540, 'Open containing folder');
+		panel.m.AppendMenuItem(EnableMenuIf(utils.IsFolder(this.folder)), 1540, 'Open containing folder');
 		panel.m.AppendMenuSeparator();
 	}
 

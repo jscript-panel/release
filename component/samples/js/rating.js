@@ -56,12 +56,12 @@ function _rating(x, y, h, colour) {
 
 	this.rbtn_up = function (x, y) {
 		_.forEach(this.modes, function (item, i) {
-			panel.s10.AppendMenuItem(this.foo_playcount || i != 1 ? MF_STRING : MF_GRAYED, i + 1000, item);
+			panel.s10.AppendMenuItem(EnableMenuIf(this.foo_playcount || i != 1), i + 1000, item);
 		}, this);
 		panel.s10.CheckMenuRadioItem(1000, 1002, this.properties.mode.value + 1000);
 		panel.s10.AppendTo(panel.m, MF_STRING, 'Mode');
-		panel.m.AppendMenuItem(this.properties.mode.value == 2 ? MF_STRING : MF_GRAYED, 1004, 'Tag name');
-		panel.m.AppendMenuItem(this.properties.mode.value == 2 ? MF_STRING : MF_GRAYED, 1005, 'Max value...');
+		panel.m.AppendMenuItem(EnableMenuIf(this.properties.mode.value == 2), 1004, 'Tag name');
+		panel.m.AppendMenuItem(EnableMenuIf(this.properties.mode.value == 2), 1005, 'Max value...');
 		panel.m.AppendMenuSeparator();
 	}
 

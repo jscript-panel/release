@@ -457,8 +457,8 @@ function oBrowser() {
 			var lock_name = plman.GetPlaylistLockName(id);
 
 			_menu.AppendMenuItem(MF_STRING, 3, "Duplicate this playlist");
-			_menu.AppendMenuItem(playlist_can_rename(id) ? MF_STRING : MF_GRAYED, 4, "Rename this playlist\tF2");
-			_menu.AppendMenuItem(playlist_can_remove(id) ? MF_STRING : MF_GRAYED, 5, "Remove this playlist\tDel");
+			_menu.AppendMenuItem(EnableMenuIf(playlist_can_rename(id)), 4, "Rename this playlist\tF2");
+			_menu.AppendMenuItem(EnableMenuIf(playlist_can_remove(id)), 5, "Remove this playlist\tDel");
 			_menu.AppendMenuSeparator();
 			if (plman.IsAutoPlaylist(id)) {
 				_menu.AppendMenuItem(MF_STRING, 6, lock_name + " properties");
@@ -467,8 +467,8 @@ function oBrowser() {
 				var is_locked = plman.IsPlaylistLocked(id);
 				var is_mine = lock_name == "JScript Panel 3";
 
-				_menu.AppendMenuItem(is_mine || !is_locked ? MF_STRING : MF_GRAYED, 8, "Edit playlist lock...");
-				_menu.AppendMenuItem(is_mine ? MF_STRING : MF_GRAYED, 9, "Remove playlist lock");
+				_menu.AppendMenuItem(EnableMenuIf(is_mine || !is_locked), 8, "Edit playlist lock...");
+				_menu.AppendMenuItem(EnableMenuIf(is_mine), 9, "Remove playlist lock");
 			}
 		}
 
@@ -596,7 +596,7 @@ function oBrowser() {
 		_menu.CheckMenuItem(1, ppt.showHeaderBar);
 		_menu.AppendMenuSeparator();
 
-		var colour_flag = ppt.enableCustomColours ? MF_STRING : MF_GRAYED;
+		var colour_flag = EnableMenuIf(ppt.enableCustomColours);
 		_menu1.AppendMenuItem(MF_STRING, 2, "Enable");
 		_menu1.CheckMenuItem(2, ppt.enableCustomColours);
 		_menu1.AppendMenuSeparator();
@@ -610,9 +610,9 @@ function oBrowser() {
 		_menu2.AppendMenuItem(MF_STRING, 8, "Custom image");
 		_menu2.CheckMenuRadioItem(6, 8, ppt.wallpapermode + 6);
 		_menu2.AppendMenuSeparator();
-		_menu2.AppendMenuItem(ppt.wallpapermode == 2 ? MF_STRING : MF_GRAYED, 9, "Custom image path...");
+		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode == 2), 9, "Custom image path...");
 		_menu2.AppendMenuSeparator();
-		_menu2.AppendMenuItem(ppt.wallpapermode != 0 ? MF_STRING : MF_GRAYED, 10, "Blur");
+		_menu2.AppendMenuItem(EnableMenuIf(ppt.wallpapermode != 0), 10, "Blur");
 		_menu2.CheckMenuItem(10, ppt.wallpaperblurred);
 		_menu2.AppendTo(_menu, MF_STRING, "Background Wallpaper");
 

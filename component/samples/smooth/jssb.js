@@ -490,8 +490,7 @@ function oBrowser() {
 			_add.AppendMenuSeparator();
 		}
 		for (var i = 0; i < plman.PlaylistCount; i++) {
-			_add.AppendMenuItem(playlist_can_add_items(i) ? MF_STRING : MF_GRAYED, i + 2, plman.GetPlaylistName(i));
-
+			_add.AppendMenuItem(EnableMenuIf(playlist_can_add_items(i)), i + 2, plman.GetPlaylistName(i));
 		}
 		_add.AppendTo(_menu, MF_STRING, "Add to");
 
@@ -534,7 +533,7 @@ function oBrowser() {
 		_menu.CheckMenuItem(1, ppt.showHeaderBar);
 		_menu.AppendMenuSeparator();
 
-		var colour_flag = ppt.enableCustomColours ? MF_STRING : MF_GRAYED;
+		var colour_flag = EnableMenuIf(ppt.enableCustomColours);
 		_menu1.AppendMenuItem(MF_STRING, 2, "Enable");
 		_menu1.CheckMenuItem(2, ppt.enableCustomColours);
 		_menu1.AppendMenuSeparator();
@@ -565,7 +564,7 @@ function oBrowser() {
 		_menu.AppendMenuSeparator();
 		_menu.AppendMenuItem(MF_STRING, 40, "Show all items");
 		_menu.CheckMenuItem(40, ppt.showAllItem);
-		_menu.AppendMenuItem(ppt.panelMode == 1 || ppt.panelMode == 2 ? MF_STRING : MF_GRAYED, 41, "Album Art: Auto-fill");
+		_menu.AppendMenuItem(EnableMenuIf(ppt.panelMode == 1 || ppt.panelMode == 2), 41, "Album Art: Auto-fill");
 		_menu.CheckMenuItem(41, ppt.autoFill);
 
 		_menu.AppendMenuSeparator();

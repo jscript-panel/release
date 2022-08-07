@@ -677,8 +677,8 @@ function oHeaderBar() {
 			}
 			_groups.CheckMenuRadioItem(groupByMenuIdx, groupByMenuIdx + totalGroupBy - 1, cGroup.pattern_idx + groupByMenuIdx);
 			_groups.AppendMenuSeparator();
-			_groups.AppendMenuItem(p.list.totalRows > 0 && !properties.autocollapse && cGroup.expanded_height > 0 && cGroup.collapsed_height > 0 ? MF_STRING : MF_GRAYED, 3, "Collapse All");
-			_groups.AppendMenuItem(p.list.totalRows > 0 && !properties.autocollapse && cGroup.expanded_height > 0 && cGroup.collapsed_height > 0 ? MF_STRING : MF_GRAYED, 4, "Expand All");
+			_groups.AppendMenuItem(EnableMenuIf(p.list.totalRows > 0 && !properties.autocollapse && cGroup.expanded_height > 0 && cGroup.collapsed_height > 0), 3, "Collapse All");
+			_groups.AppendMenuItem(EnableMenuIf(p.list.totalRows > 0 && !properties.autocollapse && cGroup.expanded_height > 0 && cGroup.collapsed_height > 0), 4, "Expand All");
 		}
 
 		_groups.AppendTo(_menu, MF_STRING, "Groups");
