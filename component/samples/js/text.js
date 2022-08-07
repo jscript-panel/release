@@ -162,7 +162,7 @@ function _text(mode, x, y, w, h) {
 		switch (this.mode) {
 		case 'allmusic':
 			this.cb = utils.GetClipboardText();
-			panel.m.AppendMenuItem(EnableMenuIf(panel.metadb && _.isString(this.cb) && this.cb.length > 0 && _tagged(this.artist) && _tagged(this.album)), 1000, 'Paste text from clipboard');
+			panel.m.AppendMenuItem(EnableMenuIf(panel.metadb && this.cb.length > 0 && _tagged(this.artist) && _tagged(this.album)), 1000, 'Paste text from clipboard');
 			panel.m.AppendMenuSeparator();
 			break;
 		case 'lastfm_bio':
