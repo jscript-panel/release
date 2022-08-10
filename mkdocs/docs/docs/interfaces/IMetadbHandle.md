@@ -88,14 +88,15 @@ Returns an [IJSimage](../IJSImage) instance or `null` on failure.
 |---|---|---|
 |full_info|`boolean`|Default `false`.|
 
-Returns an [IFileInfo](../IFileInfo) instance.
+Returns an [IFileInfo](../IFileInfo) instance or `null`
+on failure.
 
 If `full_info` is omitted or `false`, the return value
-is always a valid [IFileInfo](../IFileInfo) instance.
+is always valid.
 
 If `full_info` is set to `true`, the file is opened
-for reading and this may fail and return `null`. Therefore,
-you you must always check the return value before using it.
+for reading and this may fail and return `null`. Therefore
+you must always check the return value before using it.
 
 Typically you'd only use `full_info` when you wanted
 to access tags that contain large chunks of text such as
