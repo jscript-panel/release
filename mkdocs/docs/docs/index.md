@@ -14,7 +14,7 @@
 ## Minimum requirements
 
 `Windows 7` is the current minimum requirement. The minimum requirement
-for [foobar2000](https://foobar2000.org) is `v1.5`.
+for [foobar2000](https://foobar2000.org) is `v2.0.0`.
 
 Both `Default UI` and [Columns UI](https://yuo.be/columns-ui) are supported.
 
