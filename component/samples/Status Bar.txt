@@ -27,23 +27,25 @@ var font = JSON.stringify({Size:16});
 refresh();
 
 function refresh() {
-	var ap = plman.ActivePlaylist;
-	var items = plman.GetPlaylistItems(ap);
-	var count = items.Count;
 	var tmp = [];
-	if (properties.name.enabled) {
-		var str = plman.IsPlaylistLocked(ap) ? '🔒' : '';
-		str += plman.GetPlaylistName(ap);
-		tmp.push(str);
-	}
-	if (properties.count.enabled) {
-		tmp.push(count + (count == 1 ? ' track' : ' tracks'));
-	}
-	if (properties.duration.enabled) {
-		tmp.push(utils.FormatDuration(items.CalcTotalDuration()));
-	}
-	if (properties.size.enabled) {
-		tmp.push(utils.FormatFileSize(items.CalcTotalSize()));
+	var ap = plman.ActivePlaylist;
+	if (ap >= 0 && ap < plman.PlaylistCount) {
+		var items = plman.GetPlaylistItems(ap);
+		var count = items.Count;
+		if (properties.name.enabled) {
+			var str = plman.IsPlaylistLocked(ap) ? '🔒' : '';
+			str += plman.GetPlaylistName(ap);
+			tmp.push(str);
+		}
+		if (properties.count.enabled) {
+			tmp.push(count + (count == 1 ? ' track' : ' tracks'));
+		}
+		if (properties.duration.enabled) {
+			tmp.push(utils.FormatDuration(items.CalcTotalDuration()));
+		}
+		if (properties.size.enabled) {
+			tmp.push(utils.FormatFileSize(items.CalcTotalSize()));
+		}
 	}
 	right_text = tmp.join(' :: ');
 	window.Repaint();
