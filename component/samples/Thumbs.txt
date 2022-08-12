@@ -18,11 +18,6 @@ function on_colours_changed() {
 	window.Repaint();
 }
 
-function on_font_changed() {
-	panel.font_changed();
-	window.Repaint();
-}
-
 function on_http_request_done(task_id, success, content) {
 	thumbs.http_request_done(task_id, success, content);
 }
