@@ -50,10 +50,13 @@ function oItem(row_index, type, handle, track_index, group_index, track_index_in
 	this.empty_row_index = empty_row_index;
 
 	if (this.type == 1 && this.metadb) {
-		this.l1 = get_tfo(p.list.groupby[cGroup.pattern_idx].l1).EvalWithMetadb(this.metadb);
-		this.r1 = get_tfo(p.list.groupby[cGroup.pattern_idx].r1).EvalWithMetadb(this.metadb);
-		this.l2 = get_tfo(p.list.groupby[cGroup.pattern_idx].l2).EvalWithMetadb(this.metadb);
-		this.r2 = get_tfo(p.list.groupby[cGroup.pattern_idx].r2).EvalWithMetadb(this.metadb);
+		var tfo = get_tfo(p.list.groupby[cGroup.pattern_idx].l1 + "^^" + p.list.groupby[cGroup.pattern_idx].r1 + "^^" + p.list.groupby[cGroup.pattern_idx].l2 + "^^" + p.list.groupby[cGroup.pattern_idx].r2);
+		var arr = tfo.EvalWithMetadb(this.metadb).split("^^");
+
+		this.l1 = arr[0]
+		this.r1 = arr[1];
+		this.l2 = arr[2];
+		this.r2 = arr[3];
 	}
 
 	this.parseTF = function (tf, default_color) {

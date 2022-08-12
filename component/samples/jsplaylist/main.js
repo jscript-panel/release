@@ -156,10 +156,10 @@ function playlist_can_reorder(playlistIndex) {
 }
 
 function get_tfo(pattern) {
-	if (!tfo[pattern]) {
-		tfo[pattern] = fb.TitleFormat(pattern);
+	if (!tfos[pattern]) {
+		tfos[pattern] = fb.TitleFormat(pattern);
 	}
-	return tfo[pattern];
+	return tfos[pattern];
 }
 
 function renamePlaylist() {
@@ -1557,7 +1557,7 @@ var need_repaint = false;
 var foo_playcount = utils.CheckComponent("foo_playcount");
 var foo_lastfm_playcount_sync = utils.CheckComponent("foo_lastfm_playcount_sync");
 var foo_lastfm = utils.CheckComponent("foo_lastfm");
-var tfo = {};
+var tfos = {};
 var tf_group_key = null;
 
 var KMask = {
