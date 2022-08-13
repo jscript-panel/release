@@ -7,6 +7,24 @@ Right click any panel>`Configure` to open the `Configuration Window`.
 
 ![Configuration Window](../images/configuration_window.png)
 
+!!! note
+	As of `v3.1.0` there is no longer a menu. This is because I was not able
+	to make it support `Dark Mode`.
+
+Using the `Tools` button you can use the following commands which should be
+self-explanatory.
+
+- `Reset`
+- `Import`
+- `Export`
+- `Docs`
+- `Releases`
+- `About`
+
+Use the `Samples` button to quickly choose any of the included scripts.
+
+`Edge Style` is only available when using `Columns UI`.
+
 ## Keyboard shortcuts
 |||
 |---|---|
@@ -16,16 +34,6 @@ Right click any panel>`Configure` to open the `Configuration Window`.
 |++ctrl+'S'++|Apply|
 |++f3++|Find next|
 |++shift+f3++|Find previous|
-
-## Main menu
-
-You can use the `File` menu to `Import` and `Export` your scripts. The
-`Samples` menu provides quick access to all included scripts and the rest
-of the options should be self explanatory!
-
-## Reset
-
-Use this to reset back to the default script.
 
 ## Editor Properties
 
