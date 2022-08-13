@@ -3,7 +3,7 @@
 ### Changes
 - The minimum requirement for [foobar2000](https://foobar2000.org) is now `v2.0.0`.
 - `32bit` and `64bit` builds are available.
-- The `Preferences` and all dialogs have been updated to support `Dark Mode`. Requires `Windows 10` or later.
+- The `Preferences` and all popup dialogs have been updated to support `Dark Mode`. Dialogs depend on `Dark Mode` being enabled in the `Default UI` `Preferences` regardless of which user interface you use.
 - [window.IsDark](../namespaces/window/) has been updated to report `Default UI` `Dark Mode`.
 
 ### Sample changes
