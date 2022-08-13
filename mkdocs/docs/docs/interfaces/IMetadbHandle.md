@@ -83,49 +83,14 @@ Use in conjunction with [on_get_album_art_done](../../callbacks/#on_get_album_ar
 
 Returns an [IJSimage](../IJSImage) instance or `null` on failure.
 
-## `GetFileInfo([full_info])`
-|Arguments|||
-|---|---|---|
-|full_info|`boolean`|Default `false`.|
+## `GetFileInfo()`
 
-Returns an [IFileInfo](../IFileInfo) instance or `null`
-on failure.
+Returns an [IFileInfo](../IFileInfo) instance.
 
-If `full_info` is omitted or `false`, the return value
-is always valid.
-
-If `full_info` is set to `true`, the file is opened
-for reading and this may fail and return `null`. Therefore
-you must always check the return value before using it.
-
-Typically you'd only use `full_info` when you wanted
-to access tags that contain large chunks of text such as
-`LYRICS` which are usually hidden behind the period character ever
-since [foobar2000](https://foobar2000.org) `v1.3` for
-performance reasons.
-
-!!! example
-	=== "Default"
-		```js
-		var f = handle.GetFileInfo();
-
-		// No need to check f before using, we know it's valid
-		console.log(f.MetaCount);
-		```
-
-	=== "Full Info"
-		```js
-		var f = handle.GetFileInfo(true);
-		var lyrics_text = "";
-
-		// Must check.
-		if (f) {
-			var idx = f.MetaFind("LYRICS");
-			if (idx > -1) {
-				lyrics_text = f.MetaValue(idx, 0);
-			}
-		}
-		```
+!!! note
+	The previously optional `full_info` argument is no longer necessary
+	with [foobar2000](https://foobar2000.org) `v2.0.0`. Any supplied
+	value will be ignored.
 
 ## `IsInLibrary()`
 
